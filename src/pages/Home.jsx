@@ -63,6 +63,73 @@ export default function Home() {
           </Link>
         </div>
       </section>
+
+            {/* ================= BERITA TERKINI SECTION ================= */}
+      <section
+        style={{
+          padding: "60px 20px",
+          backgroundColor: "#f9fafb",
+        }}
+      >
+        <h2 style={{ textAlign: "center", marginBottom: "40px" }}>
+          Berita Terkini
+        </h2>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: "25px",
+            maxWidth: "1100px",
+            margin: "0 auto",
+          }}
+        >
+          {/* CARD BERITA */}
+          <div style={newsCard}>
+            <div style={newsImage}>📰</div>
+            <div style={newsBody}>
+              <small style={newsDate}>12 Januari 2025</small>
+              <h4>Peningkatan Layanan Administrasi Desa</h4>
+              <p>
+                Pemerintah Desa Sumbersari terus meningkatkan kualitas layanan
+                administrasi bagi masyarakat.
+              </p>
+            </div>
+          </div>
+
+          <div style={newsCard}>
+            <div style={newsImage}>🏗️</div>
+            <div style={newsBody}>
+              <small style={newsDate}>10 Januari 2025</small>
+              <h4>Pembangunan Infrastruktur Jalan Desa</h4>
+              <p>
+                Proyek perbaikan jalan desa resmi dimulai untuk mendukung
+                mobilitas warga.
+              </p>
+            </div>
+          </div>
+
+          <div style={newsCard}>
+            <div style={newsImage}>👥</div>
+            <div style={newsBody}>
+              <small style={newsDate}>8 Januari 2025</small>
+              <h4>Musyawarah Desa Tahun 2025</h4>
+              <p>
+                Musyawarah desa membahas program prioritas pembangunan tahun
+                2025.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* BUTTON BERITA LAINNYA */}
+        <div style={{ textAlign: "center", marginTop: "40px" }}>
+          <Link to="/berita" style={btnOutline}>
+            Berita Lainnya →
+          </Link>
+        </div>
+      </section>
+
     </div>
   );
 }
@@ -89,5 +156,45 @@ const btnStyle = {
   color: "#fff",
   textDecoration: "none",
   borderRadius: "6px",
+  fontWeight: "bold",
+};
+
+/* ================= BERITA STYLE ================= */
+
+const newsCard = {
+  backgroundColor: "#fff",
+  borderRadius: "8px",
+  overflow: "hidden",
+  border: "1px solid #e5e7eb",
+  display: "flex",
+  flexDirection: "column",
+};
+
+const newsImage = {
+  height: "160px",
+  backgroundColor: "#0f766e",
+  color: "#fff",
+  fontSize: "48px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
+const newsBody = {
+  padding: "16px",
+};
+
+const newsDate = {
+  color: "#6b7280",
+  fontSize: "13px",
+};
+
+const btnOutline = {
+  display: "inline-block",
+  padding: "12px 28px",
+  border: "2px solid #0f766e",
+  color: "#0f766e",
+  borderRadius: "6px",
+  textDecoration: "none",
   fontWeight: "bold",
 };
