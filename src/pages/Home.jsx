@@ -1,6 +1,25 @@
 import { Link } from "react-router-dom";
 
 export default function Home() {
+  const sideNews = [
+  {
+    title: "Musyawarah Desa Tahun 2025",
+    date: "14 Januari 2025",
+    excerpt: "Pembahasan rencana pembangunan dan anggaran desa."
+  },
+  {
+    title: "Pembangunan Infrastruktur Desa",
+    date: "13 Januari 2025",
+    excerpt: "Peningkatan akses jalan dan fasilitas umum."
+  },
+  {
+    title: "Pelayanan Administrasi Online",
+    date: "12 Januari 2025",
+    excerpt: "Kini masyarakat dapat mengurus administrasi secara digital."
+  }
+];
+
+
   return (
     <div>
       {/* ================= HERO SECTION ================= */}
@@ -64,71 +83,55 @@ export default function Home() {
         </div>
       </section>
 
-            {/* ================= BERITA TERKINI SECTION ================= */}
-      <section
-        style={{
-          padding: "60px 20px",
-          backgroundColor: "#f9fafb",
-        }}
-      >
-        <h2 style={{ textAlign: "center", marginBottom: "40px" }}>
-          Berita Terkini
-        </h2>
+      {/* ================= BERITA TERKINI SECTION ================= */}
+<section style={{ padding: "60px 20px", background: "#f9fafb" }}>
+  <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+    <h2>Berita</h2>
+    <p style={{ color: "#6b7280", marginBottom: "30px" }}>
+      Update informasi seputar Desa Sumbersari
+    </p>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "25px",
-            maxWidth: "1100px",
-            margin: "0 auto",
-          }}
-        >
-          {/* CARD BERITA */}
-          <div style={newsCard}>
-            <div style={newsImage}>📰</div>
-            <div style={newsBody}>
-              <small style={newsDate}>12 Januari 2025</small>
-              <h4>Peningkatan Layanan Administrasi Desa</h4>
-              <p>
-                Pemerintah Desa Sumbersari terus meningkatkan kualitas layanan
-                administrasi bagi masyarakat.
+    <div style={newsLayout}>
+      {/* ===== BERITA TERBARU (KIRI) ===== */}
+      <div style={mainNewsCard}>
+        <div style={mainNewsImage}>📰</div>
+        <small style={newsDate}>15 Januari 2025</small>
+        <h3>Peningkatan Pelayanan Publik Desa</h3>
+        <p style={{ textAlign: "justify" }}>
+          Pemerintah Desa Sumbersari terus berkomitmen meningkatkan kualitas
+          pelayanan publik demi kesejahteraan masyarakat.
+        </p>
+      </div>
+
+      {/* ===== BERITA LAINNYA (KANAN) ===== */}
+      <div>
+        <div style={sideNewsList}>
+          {sideNews.map((item, index) => (
+            <div key={index} style={sideNewsCard}>
+              <div style={sideNewsImage}>📰</div>
+              <div style={{ textAlign: "justify" }}>
+              <small style={newsDate}>{item.date}</small>
+              <h4 style={{ margin: "6px 0" }}>{item.title}</h4>
+              <p style={{ fontSize: "14px", color: "#555" }}>
+                {item.excerpt}
               </p>
             </div>
-          </div>
 
-          <div style={newsCard}>
-            <div style={newsImage}>🏗️</div>
-            <div style={newsBody}>
-              <small style={newsDate}>10 Januari 2025</small>
-              <h4>Pembangunan Infrastruktur Jalan Desa</h4>
-              <p>
-                Proyek perbaikan jalan desa resmi dimulai untuk mendukung
-                mobilitas warga.
-              </p>
             </div>
-          </div>
-
-          <div style={newsCard}>
-            <div style={newsImage}>👥</div>
-            <div style={newsBody}>
-              <small style={newsDate}>8 Januari 2025</small>
-              <h4>Musyawarah Desa Tahun 2025</h4>
-              <p>
-                Musyawarah desa membahas program prioritas pembangunan tahun
-                2025.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
 
-        {/* BUTTON BERITA LAINNYA */}
-        <div style={{ textAlign: "center", marginTop: "40px" }}>
+        {/* 🔗 BUTTON BERITA LAINNYA */}
+        <div style={{ marginTop: "20px", textAlign: "right" }}>
           <Link to="/berita" style={btnOutline}>
             Berita Lainnya →
           </Link>
         </div>
-      </section>
+      </div>
+    </div>
+  </div>
+</section>
+
 
     </div>
   );
@@ -159,39 +162,70 @@ const btnStyle = {
   fontWeight: "bold",
 };
 
-/* ================= BERITA STYLE ================= */
-
-const newsCard = {
-  backgroundColor: "#fff",
-  borderRadius: "8px",
-  overflow: "hidden",
-  border: "1px solid #e5e7eb",
-  display: "flex",
-  flexDirection: "column",
+/* ================= STYLE BERITA ================= */
+const newsLayout = {
+  display: "grid",
+  gridTemplateColumns: "2fr 1.2fr",
+  gap: "30px",
 };
 
-const newsImage = {
-  height: "160px",
-  backgroundColor: "#0f766e",
+const mainNewsCard = {
+  background: "#fff",
+  padding: "20px",
+  borderRadius: "8px",
+  border: "1px solid #e5e7eb",
+};
+
+const mainNewsImage = {
+  width: "100%",
+  height: "260px",
+  background: "#0f766e",
   color: "#fff",
-  fontSize: "48px",
+  fontSize: "50px",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  borderRadius: "6px",
+  marginBottom: "15px",
 };
 
-const newsBody = {
-  padding: "16px",
+const sideNewsList = {
+  display: "flex",
+  flexDirection: "column",
+  gap: "18px",
+};
+
+const sideNewsCard = {
+  display: "flex",
+  gap: "18px",
+  background: "#fff",
+  padding: "15px",
+  borderRadius: "8px",
+  border: "1px solid #e5e7eb",
+  alignItems: "flex-start", 
+};
+
+const sideNewsImage = {
+  width: "120px",
+  height: "80px",
+  background: "#0f766e",
+  color: "#fff",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  borderRadius: "6px",
+  fontSize: "24px",
+  flexShrink: 0, // 🔑 agar ukuran tidak mengecil
 };
 
 const newsDate = {
   color: "#6b7280",
-  fontSize: "13px",
+  fontSize: "12px",
 };
 
 const btnOutline = {
   display: "inline-block",
-  padding: "12px 28px",
+  padding: "10px 20px",
   border: "2px solid #0f766e",
   color: "#0f766e",
   borderRadius: "6px",
