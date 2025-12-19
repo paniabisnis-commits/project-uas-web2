@@ -22,7 +22,7 @@ export default function Navbar() {
       {" | "}
       <Link to="/profile">Profil</Link>
       {" | "}
-      <Link to="/berita">Layanan</Link>
+      <Link to="/berita">Layanan Publik</Link>
       {" | "}
       <Link to="/berita">Berita</Link>
       {" | "}
