@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Berita from "./pages/Berita";
 import Pengaduan from "./pages/Pengaduan";
 import Layanan from "./pages/Layanan";
+import "./App.css";
 
 export default function App() {
   return (

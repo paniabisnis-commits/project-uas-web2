@@ -13,8 +13,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav style={{ padding: 15, borderBottom: "1px solid #ccc" }}>
-      {/* BRAND */}
+    <nav className="navbar">
       <strong>Desa Sumbersari</strong>
 
       {" | "}
@@ -22,11 +21,11 @@ export default function Navbar() {
       {" | "}
       <Link to="/profile">Profil</Link>
       {" | "}
-      <Link to="/berita">Layanan Publik</Link>
+      <Link to="/layanan">Layanan Publik</Link>
       {" | "}
       <Link to="/berita">Berita</Link>
       {" | "}
-      <Link to="/berita">Kontak</Link>
+      <Link to="/kontak">Kontak</Link>
 
       {!token ? (
         <>
@@ -37,29 +36,16 @@ export default function Navbar() {
         <>
           {" | "}
           <Link to="/pengaduan">Pengaduan</Link>
-          {" | "}
-          <Link to="/layanan">Layanan</Link>
 
-          {/* 🔐 MENU KHUSUS ADMIN */}
           {role === "admin" && (
             <>
               {" | "}
               <Link to="/admin/berita">Kelola Berita</Link>
-              {" | "}
-              <Link to="/admin/event">Kelola Event</Link>
-              {" | "}
-              <Link to="/admin/infografis">Kelola Infografis</Link>
-              {" | "}
-              <Link to="/admin/pengaduan">Kelola Pengaduan</Link>
-              {" | "}
-              <Link to="/admin/layanan">Kelola Layanan</Link>
             </>
           )}
 
           {" | "}
-          <span>
-            👤 <b>{name}</b> ({role})
-          </span>
+          <span>👤 <b>{name}</b> ({role})</span>
 
           {" | "}
           <button onClick={logout}>Logout</button>
