@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -14,41 +14,41 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      <strong>Desa Sumbersari</strong>
+      <strong className="brand">Desa Sumbersari</strong>
 
-      {" | "}
-      <Link to="/">Beranda</Link>
-      {" | "}
-      <Link to="/profile">Profil</Link>
-      {" | "}
-      <Link to="/layanan">Layanan Publik</Link>
-      {" | "}
-      <Link to="/berita">Berita</Link>
-      {" | "}
-      <Link to="/kontak">Kontak</Link>
+      <NavLink to="/" className="nav-link">
+        Beranda
+      </NavLink>
+
+      <NavLink to="/profile" className="nav-link">
+        Profil
+      </NavLink>
+
+      <NavLink to="/layanan" className="nav-link">
+        Layanan Publik
+      </NavLink>
+
+      <NavLink to="/berita" className="nav-link">
+        Berita
+      </NavLink>
+
+      <NavLink to="/kontak" className="nav-link">
+        Kontak
+      </NavLink>
 
       {!token ? (
-        <>
-          {" | "}
-          <Link to="/login">Login</Link>
-        </>
+        <NavLink to="/login" className="nav-link login">
+          Login
+        </NavLink>
       ) : (
         <>
-          {" | "}
-          <Link to="/pengaduan">Pengaduan</Link>
+          
 
-          {role === "admin" && (
-            <>
-              {" | "}
-              <Link to="/admin/berita">Kelola Berita</Link>
-            </>
-          )}
+          <span className="user">👤 {name}</span>
 
-          {" | "}
-          <span>👤 <b>{name}</b> ({role})</span>
-
-          {" | "}
-          <button onClick={logout}>Logout</button>
+          <button className="logout" onClick={logout}>
+            Logout
+          </button>
         </>
       )}
     </nav>

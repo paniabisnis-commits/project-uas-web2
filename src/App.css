@@ -1,20 +1,56 @@
 .navbar {
-  position: sticky;   /* 🔑 KUNCI */
+  position: sticky;
   top: 0;
   background: #ffffff;
   padding: 15px 20px;
   border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  gap: 15px;
   z-index: 100;
 }
 
-.navbar a {
-  margin-left: 10px;
-  text-decoration: none;
-  color: #333;
+.brand {
+  margin-right: 20px;
+  font-weight: bold;
 }
 
-.navbar a:hover {
-  text-decoration: underline;
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  padding-bottom: 4px;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: #0d6efd; /* biru */
+  border-bottom: 2px solid #0d6efd;
+}
+
+.nav-link.active {
+  color: #0d6efd;              /* warna aktif */
+  font-weight: 600;
+}
+
+/* underline animasi */
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 2px;
+  background-color: #0d6efd;
+}
+
+.user {
+  margin-left: auto;
+  font-weight: 500;
+}
+
+.logout {
+  margin-left: 10px;
+  cursor: pointer;
 }
 
 
