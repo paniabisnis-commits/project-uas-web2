@@ -9,7 +9,7 @@ export default function Layanan() {
   fetch("http://127.0.0.1:8000/api/layanan")
     .then((res) => res.json())
     .then((data) => {
-      console.log("RESPONSE API:", data); // 🔥 PENTING
+      console.log("RESPONSE API:", data); 
       setLayanan(data.data);
       setLoading(false);
     })
