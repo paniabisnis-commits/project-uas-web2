@@ -206,9 +206,48 @@ export default function Home() {
   </div>
 </section>
 
+{/* ================= STATISTIK DESA SECTION ================= */}
+<section style={{ padding: "60px 20px", background: "#ffffff" }}>
+  <div style={{ maxWidth: "1100px", margin: "0 auto", textAlign: "center" }}>
+    <div style={statWrapper}>
+    <h2>Statistik Desa Sumbersari</h2>
+    <p style={{ color: "#6b7280", marginBottom: "40px" }}>
+      Jelajahi statistik resmi desa Sumbersari untuk memahami perkembangan dan perencanaan pembangunan
+    </p>
+
+    <div style={statGrid}>
+      <div style={statCard}>
+        <div style={statIcon}>👥</div>
+        <h3 style={statNumber}>3.250</h3>
+        <p>Jumlah Penduduk</p>
+      </div>
+
+      <div style={statCard}>
+        <div style={statIcon}>🏠</div>
+        <h3 style={statNumber}>1.020</h3>
+        <p>Kepala Keluarga</p>
+      </div>
+
+      <div style={statCard}>
+        <div style={statIcon}>📝</div>
+        <h3 style={statNumber}>12</h3>
+        <p>Layanan Publik</p>
+      </div>
+
+      <div style={statCard}>
+        <div style={statIcon}>🏫</div>
+        <h3 style={statNumber}>18</h3>
+        <p>Fasilitas Umum</p>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
     </div>
   );
 }
+
 
 /* ================= STYLE HELPER ================= */
 
@@ -359,4 +398,35 @@ const infografisImage = {
   borderRadius: "6px",
   fontSize: "30px",
   marginBottom: "8px",
+};
+/* ================= STYLE STATISTIK ================= */
+const statWrapper = {
+  background: "#f0fdfa", 
+  padding: "50px 30px",
+  borderRadius: "12px",
+};
+
+const statGrid = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+  gap: "24px",
+};
+
+const statCard = {
+  background: "#ffffff",
+  padding: "30px 20px",
+  borderRadius: "10px",
+  border: "1px solid #e5e7eb",
+};
+
+const statIcon = {
+  fontSize: "40px",
+  marginBottom: "10px",
+};
+
+const statNumber = {
+  fontSize: "28px",
+  fontWeight: "bold",
+  color: "#0f766e",
+  marginBottom: "6px",
 };
