@@ -132,6 +132,79 @@ export default function Home() {
   </div>
 </section>
 
+{/* ================= EVENT & INFOGRAFIS SECTION ================= */}
+<section style={{ padding: "60px 20px" }}>
+  <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+    <div style={eventInfoLayout}>
+
+      {/* ===== EVENT PUBLIK ===== */}
+      <div>
+        <h2>Event Publik</h2>
+        <p style={{ color: "#6b7280", marginBottom: "20px" }}>
+          Kegiatan dan agenda desa terbaru
+        </p>
+
+        <div style={eventCard}>
+          <div style={eventImage}>📅</div>
+          <small style={newsDate}>20 Januari 2025</small>
+          <h4>Festival Budaya Desa</h4>
+          <p style={{ textAlign: "justify" }}>
+            Festival budaya tahunan Desa Sumbersari yang menampilkan
+            kesenian lokal dan UMKM masyarakat.
+          </p>
+        </div>
+        <div style={{ marginTop: "20px", textAlign: "center" }}>
+          <Link to="/event" style={btnOutline}>
+            Lihat Kalender Event →
+          </Link>
+        </div>
+      </div>
+      
+
+      {/* ===== INFOGRAFIS ===== */}
+      <div>
+        <h2>Infografis</h2>
+        <p style={{ color: "#6b7280", marginBottom: "20px" }}>
+          Data dan statistik Desa Sumbersari
+        </p>
+
+        <div style={infografisList}>
+          <div style={infografisCard}>
+            <div style={infografisImage}>📊</div>
+            <h4>Data Penduduk 2025</h4>
+          </div>
+          
+          <div style={infografisCard}>
+            <div style={infografisImage}>🏗️</div>
+            <h4>Data Infrastruktur Desa</h4>
+          </div>
+
+          <div style={infografisCard}>
+            <div style={infografisImage}>📈</div>
+            <h4>APBDes Desa</h4>
+          </div>
+
+          <div style={infografisCard}>
+            <div style={infografisImage}>🫂</div>
+            <h4>Data Sosial & Kesehatan</h4>
+          </div>
+
+          <div style={infografisCard}>
+            <div style={infografisImage}>🌾</div>
+            <h4>Data Produk Unggulan</h4>
+          </div>
+
+          <div style={infografisCard}>
+            <div style={infografisImage}>🏥</div>
+            <h4>Fasilitas Umum</h4>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
 
     </div>
   );
@@ -231,4 +304,59 @@ const btnOutline = {
   borderRadius: "6px",
   textDecoration: "none",
   fontWeight: "bold",
+};
+
+/* ================= EVENT & INFOGRAFIS STYLE ================= */
+
+const eventInfoLayout = {
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr",
+  gap: "40px",
+};
+
+const eventCard = {
+  background: "#fff",
+  padding: "20px",
+  borderRadius: "8px",
+  border: "1px solid #e5e7eb",
+};
+
+const eventImage = {
+  width: "100%",
+  height: "180px",
+  background: "#0f766e",
+  color: "#fff",
+  fontSize: "40px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  borderRadius: "6px",
+  marginBottom: "12px",
+};
+
+const infografisList = {
+  display: "grid",
+  gridTemplateColumns: "repeat(3, 1fr)",
+  gap: "15px",
+};
+
+const infografisCard = {
+  background: "#fff",
+  padding: "15px",
+  borderRadius: "8px",
+  border: "1px solid #e5e7eb",
+  textAlign: "center",
+};
+
+const infografisImage = {
+  width: "100%",
+  height: "90px",
+  background: "#0f766e",
+  color: "#fff",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  borderRadius: "6px",
+  fontSize: "30px",
+  marginBottom: "8px",
 };
