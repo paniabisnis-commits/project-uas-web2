@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import PengaduanSection from "../components/PengaduanSection";
 
 export default function Home() {
   const sideNews = [
@@ -159,7 +160,6 @@ export default function Home() {
           </Link>
         </div>
       </div>
-      
 
       {/* ===== INFOGRAFIS ===== */}
       <div>
@@ -244,13 +244,20 @@ export default function Home() {
   </div>
 </section>
 
+{/* ================= PENGADUAN MASYARAKAT ================= */}
+<section>
+  <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+    <PengaduanSection /> 
+
+  </div>
+</section>
+
     </div>
   );
 }
 
 
 /* ================= STYLE HELPER ================= */
-
 const cardStyle = {
   border: "1px solid #ddd",
   borderRadius: "8px",
@@ -430,3 +437,34 @@ const statNumber = {
   color: "#0f766e",
   marginBottom: "6px",
 };
+
+const formBox = {
+  background: "#ffffff",
+  padding: "30px",
+  borderRadius: "10px",
+  border: "1px solid #e5e7eb",
+  display: "flex",
+  flexDirection: "column",
+  gap: "16px",
+};
+
+const alertBox = {
+  background: "#fff7ed",
+  border: "1px solid #fed7aa",
+  padding: "20px",
+  borderRadius: "8px",
+  textAlign: "center",
+};
+
+const btnPrimary = {
+  marginTop: "10px",
+  padding: "12px",
+  background: "#0f766e",
+  color: "#fff",
+  border: "none",
+  borderRadius: "6px",
+  textDecoration: "none",
+  cursor: "pointer",
+  fontWeight: "bold",
+};
+
