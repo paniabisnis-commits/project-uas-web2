@@ -1,137 +1,164 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import apiClient from "../api/apiClient";
-import { Link } from "react-router-dom";
 
 export default function PengaduanSection() {
   const token = localStorage.getItem("token");
-  const [loading, setLoading] = useState(false);
 
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
   const [isi, setIsi] = useState("");
 
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [listPengaduan, setListPengaduan] = useState([]);
+  const [pengaduanList, setPengaduanList] = useState([]);
 
-  const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  setSuccess(false);
+  /* ================= AMBIL USER LOGIN ================= */
+  useEffect(() => {
+    if (!token) return;
 
-  try {
-    await apiClient.post("/pengaduan", {
-      nama_pengadu: nama,
-      email,
-      isi_pengaduan: isi,
-    });
+    apiClient
+      .get("/user")
+      .then((res) => {
+        setNama(res.data.user.name);
+        setEmail(res.data.user.email);
+      })
+      .catch((err) => console.error("Gagal ambil user", err));
+  }, [token]);
 
-    setSuccess(true);
-    setNama("");
-    setEmail("");
-    setIsi("");
-  } catch {
-    alert("Gagal mengirim pengaduan");
-  } finally {
-    setLoading(false);
-  }
-};
-
-
+  /* ================= AMBIL SEMUA PENGADUAN ================= */
   const fetchPengaduan = async () => {
-    const res = await apiClient.get("/pengaduan");
-    setListPengaduan(res.data.data);
-    setShowModal(true);
+    try {
+      const res = await apiClient.get("/pengaduan");
+      setPengaduanList(res.data.data);
+    } catch (err) {
+      console.error("Gagal ambil pengaduan", err);
+    }
+  };
+
+  useEffect(() => {
+    if (showModal) fetchPengaduan();
+  }, [showModal]);
+
+  /* ================= SUBMIT ================= */
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!token) {
+      alert("Silakan login terlebih dahulu");
+      return;
+    }
+
+    setLoading(true);
+    setSuccess(false);
+
+    try {
+      await apiClient.post("/pengaduan", {
+        isi_pengaduan: isi,
+      });
+
+      setSuccess(true);
+      setIsi("");
+    } catch (err) {
+      alert("Gagal mengirim pengaduan");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <section style={{ padding: "20px 20px" }}>
-      <h2>Pengaduan Masyarakat</h2>
-      <p>Sampaikan keluhan atau aspirasi Anda kepada Pemerintah Desa Sumbersari.</p>
+    <section style={pageWrapper}>
+      <div style={formCard}>
+        <h2 style={formTitle}>Pengaduan Masyarakat</h2>
+        <p style={{ color: "#6b7280", marginBottom: "40px" }}>
+          Sampaikan aspirasi, kritik, atau laporan Anda kepada Pemerintah Desa Sumbersari.</p>
 
-      {!token ? (
-        <p style={{ color: "red" }}>
-          ⚠️ Silakan <Link to="/login">login</Link> terlebih dahulu untuk mengirim
-          pengaduan.
-        </p>
-      ) : (
-        <>
-          {/* ===== FORM CONTAINER ===== */}
-          <form onSubmit={handleSubmit} style={formWrapper}>
-            <div style={formGroup}>
-              <label><b>Nama Pengadu</b></label>
-              <input
-                type="text"
-                value={nama}
-                onChange={(e) => setNama(e.target.value)}
-                required
-              />
-            </div>
+        {!token && (
+          <p style={warningText}>
+            ⚠ Silakan login terlebih dahulu agar dapat mengirim pengaduan
+          </p>
+        )}
 
-            <div style={formGroup}>
-              <label><b>Email</b></label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
+        <form onSubmit={handleSubmit} style={formWrapper}>
+          {/* NAMA */}
+          <div style={formGroup}>
+            <label style={labelStyle}>Nama Pengadu</label>
+            <input
+              type="text"
+              value={nama}
+              readOnly
+              style={readonlyInput}
+            />
+          </div>
 
-            <div style={formGroup}>
-              <label> <b>Isi Pengaduan</b></label>
-              <textarea
-                rows="4"
-                value={isi}
-                onChange={(e) => setIsi(e.target.value)}
-                required
-              />
-            </div>
+          {/* EMAIL */}
+          <div style={formGroup}>
+            <label style={labelStyle}>Email</label>
+            <input
+              type="email"
+              value={email}
+              readOnly
+              style={readonlyInput}
+            />
+          </div>
 
-            <div style={{ width: "100%" }}>
-              <button style={submitBtn}>
-                📩 Kirim Pengaduan
-              </button>
-            </div>
+          {/* ISI */}
+          <div style={formGroup}>
+            <label style={labelStyle}>Isi Pengaduan</label>
+            <textarea
+              value={isi}
+              onChange={(e) => setIsi(e.target.value)}
+              placeholder="Jelaskan secara rinci pengaduan Anda"
+              style={textareaStyle}
+              required
+            />
+          </div>
 
-          </form>
+          <button style={submitBtn} disabled={loading || !token}>
+            📤 Kirim Pengaduan
+          </button>
 
+          {/* PROGRESS */}
           {loading && (
             <div style={progressWrapper}>
               <div style={progressBar}></div>
             </div>
           )}
 
-
-
+          {/* SUKSES */}
           {success && (
-            <div style={{ marginTop: 15, display: "flex", gap: 15 }}>
-              <span style={{ color: "green" }}>
-                ✅ Pengaduan berhasil dikirim
-              </span>
-              <button onClick={fetchPengaduan} style={linkBtn}>
-                Lihat semua pengaduan →
+            <div style={successBox}>
+              ✅ Pengaduan berhasil dikirim
+              <button
+                type="button"
+                style={linkBtn}
+                onClick={() => setShowModal(true)}
+              >
+                Lihat semua pengaduan
               </button>
             </div>
           )}
-        </>
-      )}
+        </form>
+      </div>
 
-      {/* ===== MODAL ===== */}
+      {/* ================= MODAL ================= */}
       {showModal && (
         <div style={modalOverlay}>
           <div style={modalBox}>
-            <h3>Daftar Pengaduan</h3>
+            <h4>Daftar Pengaduan</h4>
 
-            {listPengaduan.map((p) => (
+            {pengaduanList.length === 0 && <p>Belum ada pengaduan</p>}
+
+            {pengaduanList.map((p) => (
               <div key={p.id} style={modalItem}>
                 <strong>{p.nama_pengadu}</strong>
                 <p>{p.isi_pengaduan}</p>
-                <small>{p.email}</small>
               </div>
             ))}
 
-            <button onClick={() => setShowModal(false)}>Tutup</button>
+            <button style={submitBtn} onClick={() => setShowModal(false)}>
+              Tutup
+            </button>
           </div>
         </div>
       )}
@@ -142,40 +169,73 @@ export default function PengaduanSection() {
 /* ================= STYLE ================= */
 
 const pageWrapper = {
-  background: "#79bbf5ff",
-  minHeight: "100vh",
-  padding: "60px 20px",
-  display: "flex",
-  justifyContent: "center",
+  padding: "20px 20px",
+};
+
+const formCard = {
+  maxWidth: "650px",
+  margin: "0 auto",
+  background: "#fff",
+  padding: "30px",
+  borderRadius: "10px",
+  border: "1px solid #e5e7eb",
+};
+
+const formTitle = {
+  marginBottom: "20px",
+};
+
+const warningText = {
+  color: "#b91c1c",
+  marginBottom: "15px",
 };
 
 const formWrapper = {
-  maxWidth: "280px",        // 🔑 lebih lebar
-  width: "100%",            // responsif
-  margin: "20px auto 0",
+  textAlign: "left",
 };
 
 const formGroup = {
   display: "flex",
   flexDirection: "column",
-  alignItems: "flex-start", // 🔑 rata kiri
-  marginBottom: "12px",
-  width: "100%",
+  marginBottom: "14px",
+};
+
+const labelStyle = {
+  fontWeight: "600",
+  marginBottom: "6px",
+};
+
+const readonlyInput = {
+  padding: "10px",
+  borderRadius: "6px",
+  border: "1px solid #d1d5db",
+  background: "#f3f4f6",
+};
+
+const textareaStyle = {
+  padding: "10px",
+  minHeight: "120px",
+  borderRadius: "6px",
+  border: "1px solid #d1d5db",
 };
 
 const submitBtn = {
   marginTop: "10px",
-  padding: "12px 18px",
+  padding: "12px",
   backgroundColor: "#0f766e",
   color: "#fff",
   border: "none",
   borderRadius: "6px",
   cursor: "pointer",
   fontWeight: "bold",
-  fontSize: "15px",
-  display: "inline-flex",
+};
+
+const successBox = {
+  marginTop: "15px",
+  color: "#065f46",
+  display: "flex",
+  justifyContent: "space-between",
   alignItems: "center",
-  gap: "8px",               
 };
 
 const linkBtn = {
@@ -184,6 +244,21 @@ const linkBtn = {
   color: "#0f766e",
   cursor: "pointer",
   fontWeight: "bold",
+};
+
+const progressWrapper = {
+  marginTop: "12px",
+  height: "6px",
+  background: "#e5e7eb",
+  borderRadius: "6px",
+  overflow: "hidden",
+};
+
+const progressBar = {
+  width: "100%",
+  height: "100%",
+  background: "#0f766e",
+  animation: "loading 1.2s infinite",
 };
 
 const modalOverlay = {
@@ -207,20 +282,4 @@ const modalItem = {
   borderBottom: "1px solid #ddd",
   paddingBottom: "8px",
   marginBottom: "10px",
-};
-
-const progressWrapper = {
-  marginTop: "12px",
-  width: "100%",
-  height: "8px",
-  background: "#e5e7eb",
-  borderRadius: "6px",
-  overflow: "hidden",
-};
-
-const progressBar = {
-  width: "100%",
-  height: "100%",
-  background: "#0f766e",
-  animation: "loading 1.2s infinite",
 };

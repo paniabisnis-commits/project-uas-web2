@@ -19,6 +19,8 @@ export default function App() {
         <Route path="/layanan" element={<Layanan />} />
         <Route path="/pengaduan" element={<Pengaduan />} />
       </Routes>
+
+      
     </BrowserRouter>
 
     

@@ -20,9 +20,11 @@ export default function Login() {
 
       const { token, user } = response.data;
 
-      // simpan ke localStorage
+      console.log(response.data);
+
       localStorage.setItem("token", token);
       localStorage.setItem("name", user.name);
+      localStorage.setItem("email", user.email);
       localStorage.setItem("role", user.role);
 
       // redirect
