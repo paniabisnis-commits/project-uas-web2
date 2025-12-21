@@ -38,7 +38,7 @@ export default function Navbar() {
 
       {!token ? (
         <NavLink to="/login" className="nav-link login">
-          Login
+          Register/Login
         </NavLink>
       ) : (
         <>
