@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Berita from "./pages/Berita";
 import Pengaduan from "./pages/Pengaduan";
 import Layanan from "./pages/Layanan";
+import Footer from "./components/Footer";
 import "./App.css";
 
 export default function App() {
@@ -20,7 +21,7 @@ export default function App() {
         <Route path="/pengaduan" element={<Pengaduan />} />
       </Routes>
 
-      
+      <Footer />
     </BrowserRouter>
 
     
