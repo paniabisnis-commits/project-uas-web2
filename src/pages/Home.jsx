@@ -20,7 +20,6 @@ export default function Home() {
   }
 ];
 
-
   return (
     <div>
       {/* ================= HERO SECTION ================= */}
@@ -52,7 +51,7 @@ export default function Home() {
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
             gap: "20px",
-            maxWidth: "1000px",
+            maxWidth: "1400px",
             margin: "0 auto",
           }}
         >
@@ -208,7 +207,7 @@ export default function Home() {
 
 {/* ================= STATISTIK DESA SECTION ================= */}
 <section style={{ padding: "60px 20px", background: "#ffffff" }}>
-  <div style={{ maxWidth: "1100px", margin: "0 auto", textAlign: "center" }}>
+  <div style={{ maxWidth: "1400px", margin: "0 auto", textAlign: "center" }}>
     <div style={statWrapper}>
     <h2>Statistik Desa Sumbersari</h2>
     <p style={{ color: "#6b7280", marginBottom: "40px" }}>
@@ -246,7 +245,7 @@ export default function Home() {
 
 {/* ================= PENGADUAN MASYARAKAT ================= */}
 <section>
-  <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+  <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
     <PengaduanSection /> 
 
   </div>
@@ -259,11 +258,7 @@ export default function Home() {
 
 /* ================= STYLE HELPER ================= */
 const cardStyle = {
-  border: "1px solid #ddd",
-  borderRadius: "8px",
-  padding: "20px",
   textAlign: "center",
-  backgroundColor: "#fff",
 };
 
 const iconStyle = {
