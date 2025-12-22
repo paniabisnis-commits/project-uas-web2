@@ -6,6 +6,7 @@ import Berita from "./pages/Berita";
 import Pengaduan from "./pages/Pengaduan";
 import Profile from "./pages/Profile";
 import Layanan from "./pages/Layanan";
+import Kontak from "./pages/Kontak";
 import Footer from "./components/Footer";
 import "./App.css";
 
@@ -21,6 +22,8 @@ export default function App() {
         <Route path="/layanan" element={<Layanan />} />
         <Route path="/pengaduan" element={<Pengaduan />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/kontak" element={<Kontak />} />
+        
 
       </Routes>
 
