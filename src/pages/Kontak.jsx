@@ -1,48 +1,54 @@
-import { useState } from "react";
-import { kirimPengaduan } from "../api/pengaduan";
+import { useEffect, useState } from "react";
+import "./Kontak.css";
 
 export default function Kontak() {
-  const [form, setForm] = useState({
-    nama_pengadu: "",
-    email: "",
-    isi_pengaduan: "",
-  });
-
-  const submit = async (e) => {
-    e.preventDefault();
-    await kirimPengaduan(form);
-    alert("Pengaduan berhasil dikirim");
-    setForm({ nama_pengadu: "", email: "", isi_pengaduan: "" });
-  };
-
   return (
-    <section>
-      <h1>Kontak & Pengaduan</h1>
+    <section className="kontak-container">
+      {/* HEADER */}
+      <header className="kontak-header">
+        <h1>Kontak Pemerintah Desa</h1>
+        <p>
+          Informasi resmi untuk menghubungi Pemerintah Desa.
+          Silakan menghubungi kami pada jam pelayanan.
+        </p>
+      </header>
 
-      <form onSubmit={submit}>
-        <input
-          placeholder="Nama"
-          value={form.nama_pengadu}
-          onChange={(e) =>
-            setForm({ ...form, nama_pengadu: e.target.value })
-          }
-        />
-        <input
-          placeholder="Email"
-          value={form.email}
-          onChange={(e) =>
-            setForm({ ...form, email: e.target.value })
-          }
-        />
-        <textarea
-          placeholder="Isi Pengaduan"
-          value={form.isi_pengaduan}
-          onChange={(e) =>
-            setForm({ ...form, isi_pengaduan: e.target.value })
-          }
-        />
-        <button>Kirim</button>
-      </form>
+      {/* GRID INFO */}
+      <div className="kontak-grid">
+        <div className="kontak-card">
+          <h3>Alamat Kantor</h3>
+          <p>
+            Kantor Desa Contoh<br />
+            Kecamatan Contoh, Kabupaten Contoh
+          </p>
+        </div>
+
+        <div className="kontak-card">
+          <h3>Email Resmi</h3>
+          <p>desacontoh@gmail.com</p>
+        </div>
+
+        <div className="kontak-card">
+          <h3>Telepon</h3>
+          <p>08xx-xxxx-xxxx</p>
+        </div>
+
+        <div className="kontak-card">
+          <h3>Jam Pelayanan</h3>
+          <p>
+            Senin – Jumat<br />
+            08.00 – 15.00 WIB
+          </p>
+        </div>
+      </div>
+
+      {/* CATATAN */}
+      <div className="kontak-note">
+        <p>
+          📌 Masyarakat diharapkan datang langsung ke kantor desa
+          dengan membawa dokumen pendukung.
+        </p>
+      </div>
     </section>
   );
 }

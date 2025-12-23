@@ -1,3 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+  background-color: #f9fafb;
+}
+
 .navbar {
   position: sticky;
   top: 0;
@@ -46,6 +56,21 @@
 .user {
   margin-left: auto;
   font-weight: 500;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #0f766e;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  margin-left: 10px;
+  cursor: default;
 }
 
 .logout {
