@@ -21,7 +21,47 @@ export default function Home() {
   }
 }, [location]);
 
+const [isLayananVisible, setIsLayananVisible] = useState(false);
 
+useEffect(() => {
+  const section = document.getElementById("layanan-publik");
+
+  if (!section) return;
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        setIsLayananVisible(true);
+        observer.disconnect(); // animasi hanya sekali
+      }
+    },
+    { threshold: 0.3 }
+  );
+
+  observer.observe(section);
+
+  return () => observer.disconnect();
+}, []);
+
+const [isBeritaVisible, setIsBeritaVisible] = useState(false);
+
+useEffect(() => {
+  const section = document.getElementById("berita-section");
+  if (!section) return;
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        setIsBeritaVisible(true);
+        observer.disconnect(); // jalan sekali
+      }
+    },
+    { threshold: 0.3 }
+  );
+
+  observer.observe(section);
+  return () => observer.disconnect();
+}, []);
 
   const sideNews = [
   {
@@ -87,10 +127,23 @@ useEffect(() => {
 
 
       {/* ================= LAYANAN PUBLIK SECTION ================= */}
-      <section style={{ padding: "60px 20px" }}>
-        <h2 style={{ textAlign: "center", marginBottom: "40px" }}>
-          Layanan Publik
-        </h2>
+      <section
+  id="layanan-publik"
+  style={{ padding: "60px 20px" }}>
+        <h2 style={titleWrapper}>
+  {"Layanan Publik".split("").map((char, index) => (
+    <span
+      key={index}
+      className={`title-char ${isLayananVisible ? "show" : ""}`}
+      style={{ transitionDelay: `${index * 0.05}s` }}
+    >
+      {char === " " ? "\u00A0" : char}
+    </span>
+  ))}
+</h2>
+<p style={{ color: "#6b7280", marginTop: "4px", marginBottom: "24px" }}>
+      Pelayanan terbaik untuk masyarakat Desa Sumbersari
+    </p>
 
         <div
           style={{
@@ -102,44 +155,69 @@ useEffect(() => {
           }}
         >
           {/* Item layanan */}
-          <div style={cardStyle}>
-            <div style={iconStyle}>📝</div>
-            <h4>Pengaduan Masyarakat</h4>
-            <p>Sampaikan keluhan dan aspirasi Anda secara online.</p>
-          </div>
+<div style={layananCard} className="layanan-card">
+  <div style={layananIcon}>📝</div>
+  <h4 style={layananTitle}>Pengaduan Masyarakat</h4>
+  <p style={layananDesc}>
+    Sampaikan keluhan dan aspirasi Anda secara online dengan cepat dan transparan.
+  </p>
+</div>
 
-          <div style={cardStyle}>
-            <div style={iconStyle}>📄</div>
-            <h4>Layanan Administrasi</h4>
-            <p>Pengurusan surat dan administrasi desa.</p>
-          </div>
+<div style={layananCard} className="layanan-card">
+  <div style={layananIcon}>📄</div>
+  <h4 style={layananTitle}>Layanan Administrasi</h4>
+  <p style={layananDesc}>
+    Pengurusan surat dan administrasi desa secara mudah dan terintegrasi.
+  </p>
+</div>
 
-          <div style={cardStyle}>
-            <div style={iconStyle}>📊</div>
-            <h4>Informasi Publik</h4>
-            <p>Akses data dan informasi resmi desa.</p>
-          </div>
+<div style={layananCard} className="layanan-card">
+  <div style={layananIcon}>📊</div>
+  <h4 style={layananTitle}>Informasi Publik</h4>
+  <p style={layananDesc}>
+    Akses data dan informasi resmi desa secara terbuka dan terpercaya.
+  </p>
+</div>
+
         </div>
 
         {/* BUTTON LIHAT SELENGKAPNYA */}
         <div style={{ textAlign: "center", marginTop: "40px" }}>
-          <Link to="/layanan" style={btnStyle}>
+          <Link to="/layanan" className="btn-layanan">
             Lihat Selengkapnya →
           </Link>
         </div>
       </section>
 
       {/* ================= BERITA TERKINI SECTION ================= */}
-<section style={{ padding: "60px 20px", background: "#f9fafb" }}>
+<section
+  id="berita-section"
+  style={{ padding: "60px 20px", background: "#f9fafb" }}>
   <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-    <h2>Berita</h2>
+
+    {/* ===== JUDUL BERITA (ANIMASI) ===== */}
+    <h2 style={titleWrapper}>
+      {"Berita".split("").map((char, index) => (
+        <span
+          key={index}
+          className={`berita-char ${isBeritaVisible ? "show" : ""}`}
+          style={{ transitionDelay: `${index * 0.1}s` }}
+        >
+          {char}
+        </span>
+      ))}
+    </h2>
+
     <p style={{ color: "#6b7280", marginBottom: "30px" }}>
       Update informasi seputar Desa Sumbersari
     </p>
 
+
     <div style={newsLayout}>
       {/* ===== BERITA TERBARU (KIRI) ===== */}
-      <div style={mainNewsCard}>
+      <div
+  style={mainNewsCard}
+  className={`fade-card ${isBeritaVisible ? "show" : ""}`}>
         <div style={mainNewsImage}>📰</div>
         <small style={newsDate}>15 Januari 2025</small>
         <h3>Peningkatan Pelayanan Publik Desa</h3>
@@ -153,7 +231,9 @@ useEffect(() => {
       <div>
         <div style={sideNewsList}>
           {sideNews.map((item, index) => (
-            <div key={index} style={sideNewsCard}>
+            <div
+  style={sideNewsCard}
+  className={`fade-card ${isBeritaVisible ? "show" : ""}`}>
               <div style={sideNewsImage}>📰</div>
               <div style={{ textAlign: "justify" }}>
               <small style={newsDate}>{item.date}</small>
@@ -356,22 +436,38 @@ const heroSubtitle = {
 };
 
 /* ================= STYLE HELPER ================= */
-const cardStyle = {
+/* ================= STYLE LAYANAN PUBLIK ================= */
+const layananCard = {
+  background: "#ffffff",
+  border: "1px solid #e5e7eb",
+  borderRadius: "12px",
+  padding: "30px 20px",
   textAlign: "center",
+  transition: "all 0.35s ease",
+  cursor: "default",
 };
 
-const iconStyle = {
-  fontSize: "40px",
+const layananIcon = {
+  fontSize: "42px",
+  marginBottom: "14px",
+};
+
+const layananTitle = {
+  fontSize: "18px",
+  fontWeight: "bold",
   marginBottom: "10px",
 };
 
-const btnStyle = {
-  display: "inline-block",
-  padding: "12px 24px",
-  backgroundColor: "#0f766e",
-  color: "#fff",
-  textDecoration: "none",
-  borderRadius: "6px",
+const layananDesc = {
+  fontSize: "14px",
+  color: "#6b7280",
+  lineHeight: "1.6",
+};
+
+const titleWrapper = {
+  textAlign: "center",
+  marginBottom: "10px",
+  fontSize: "32px",
   fontWeight: "bold",
 };
 
@@ -445,6 +541,7 @@ const btnOutline = {
   textDecoration: "none",
   fontWeight: "bold",
 };
+
 
 /* ================= EVENT & INFOGRAFIS STYLE ================= */
 

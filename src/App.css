@@ -537,3 +537,71 @@ body.dark .avatar-tooltip {
 html {
   scroll-behavior: smooth;
 }
+
+.title-char {
+  display: inline-block;
+  transform: translateY(-40px);
+  opacity: 0;
+  transition: all 0.6s ease;
+}
+
+.title-char.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ===== JUDUL BERITA ===== */
+.berita-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.5s ease;
+}
+
+.berita-char.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ===== CARD BERITA ===== */
+.fade-card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease;
+}
+
+.fade-card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.layanan-card {
+  transition: all 0.35s ease;
+}
+
+.layanan-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.btn-layanan {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #0f766e;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-layanan:hover {
+  background-color: #115e59;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btn-layanan:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
