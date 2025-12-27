@@ -605,3 +605,78 @@ html {
   transform: translateY(0);
   box-shadow: 0 4px 10px rgba(0,0,0,0.12);
 }
+
+.layanan-card {
+  opacity: 0;
+  transform: translateY(50px);
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s ease;
+}
+
+.layanan-card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.layanan-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
+
+.btn-outline {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 2px solid #0f766e;
+  color: #0f766e;
+  background-color: transparent;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 
+    background-color 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.btn-outline:hover {
+  background-color: #0f766e;
+  color: #ffffff; /* 🔑 teks jadi putih, KONTRAS JELAS */
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(15, 118, 110, 0.35);
+}
+
+.slide-title {
+  opacity: 0;
+  transform: translateY(-30px);
+  transition: all 0.8s ease-out;
+}
+
+.slide-title.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.btn-event {
+  display: inline-block;
+  padding: 12px 26px;
+  background-color: transparent;
+  color: #0f766e;
+  border: 2px solid #0f766e;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 
+    background-color 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.btn-event:hover {
+  background-color: #0f766e;
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(15, 118, 110, 0.35);
+}

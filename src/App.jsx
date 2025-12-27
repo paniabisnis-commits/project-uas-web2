@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Berita from "./pages/Berita";
 import Pengaduan from "./pages/Pengaduan";
 import Layanan from "./pages/Layanan";
+import KalenderEvent from "./pages/KalenderEvent";
 import Kontak from "./pages/Kontak";
 import Footer from "./components/Footer";
 import "./App.css";
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/berita" element={<Berita />} />
         <Route path="/layanan" element={<Layanan />} />
         <Route path="/pengaduan" element={<Pengaduan />} />
+        <Route path="/kalender-event" element={<KalenderEvent />} />
         <Route path="/kontak" element={<Kontak />} />
       </Routes>
 

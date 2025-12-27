@@ -16,6 +16,7 @@
 .layanan-hero-overlay {
   position: absolute;
   inset: 0;
+  background: rgba(98, 203, 195, 0.55);
   display: flex;
   flex-direction: column;
   align-items: center;

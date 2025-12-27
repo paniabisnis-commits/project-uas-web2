@@ -35,11 +35,13 @@ useEffect(() => {
         observer.disconnect(); // animasi hanya sekali
       }
     },
-    { threshold: 0.3 }
+    {
+      threshold: 0.2, // lebih awal muncul
+      rootMargin: "0px 0px -100px 0px", // muncul saat agak masuk layar
+    }
   );
 
   observer.observe(section);
-
   return () => observer.disconnect();
 }, []);
 
@@ -62,6 +64,27 @@ useEffect(() => {
   observer.observe(section);
   return () => observer.disconnect();
 }, []);
+
+const [isEventVisible, setIsEventVisible] = useState(false);
+
+useEffect(() => {
+  const section = document.getElementById("event-infografis");
+  if (!section) return;
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        setIsEventVisible(true);
+        observer.disconnect(); 
+      }
+    },
+    { threshold: 0.2 }
+  );
+
+  observer.observe(section);
+  return () => observer.disconnect();
+}, []);
+
 
   const sideNews = [
   {
@@ -124,12 +147,10 @@ useEffect(() => {
     </p>
   </div>
 </section>
-
-
       {/* ================= LAYANAN PUBLIK SECTION ================= */}
       <section
   id="layanan-publik"
-  style={{ padding: "60px 20px" }}>
+  style={{ padding: "60px 20px 30px" }}>
         <h2 style={titleWrapper}>
   {"Layanan Publik".split("").map((char, index) => (
     <span
@@ -154,8 +175,13 @@ useEffect(() => {
             margin: "0 auto",
           }}
         >
-          {/* Item layanan */}
-<div style={layananCard} className="layanan-card">
+          <div
+  style={{
+    ...layananCard,
+    transitionDelay: "0s",
+  }}
+  className={`layanan-card ${isLayananVisible ? "show" : ""}`}
+>
   <div style={layananIcon}>📝</div>
   <h4 style={layananTitle}>Pengaduan Masyarakat</h4>
   <p style={layananDesc}>
@@ -163,7 +189,13 @@ useEffect(() => {
   </p>
 </div>
 
-<div style={layananCard} className="layanan-card">
+<div
+  style={{
+    ...layananCard,
+    transitionDelay: "0.2s",
+  }}
+  className={`layanan-card ${isLayananVisible ? "show" : ""}`}
+>
   <div style={layananIcon}>📄</div>
   <h4 style={layananTitle}>Layanan Administrasi</h4>
   <p style={layananDesc}>
@@ -171,28 +203,39 @@ useEffect(() => {
   </p>
 </div>
 
-<div style={layananCard} className="layanan-card">
+<div
+  style={{
+    ...layananCard,
+    transitionDelay: "0.4s",
+  }}
+  className={`layanan-card ${isLayananVisible ? "show" : ""}`}
+>
   <div style={layananIcon}>📊</div>
   <h4 style={layananTitle}>Informasi Publik</h4>
   <p style={layananDesc}>
     Akses data dan informasi resmi desa secara terbuka dan terpercaya.
   </p>
 </div>
-
         </div>
-
-        {/* BUTTON LIHAT SELENGKAPNYA */}
         <div style={{ textAlign: "center", marginTop: "40px" }}>
           <Link to="/layanan" className="btn-layanan">
             Lihat Selengkapnya →
           </Link>
         </div>
       </section>
-
       {/* ================= BERITA TERKINI SECTION ================= */}
+    <div style={{ overflow: "hidden", lineHeight: 0 }}>
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none" style={{ width: "100%", height: "30px" }}>
+    <path
+      d="M0,32L1440,0L1440,0L0,0Z"
+      fill="#f9fafb"
+    />
+  </svg>
+</div>
+
 <section
   id="berita-section"
-  style={{ padding: "60px 20px", background: "#f9fafb" }}>
+  style={{ padding: "60px 20px", background: "#f1f5f9ff" }}>
   <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
 
     {/* ===== JUDUL BERITA (ANIMASI) ===== */}
@@ -249,9 +292,10 @@ useEffect(() => {
 
         {/* 🔗 BUTTON BERITA LAINNYA */}
         <div style={{ marginTop: "20px", textAlign: "right" }}>
-          <Link to="/berita" style={btnOutline}>
-            Berita Lainnya →
-          </Link>
+          <Link to="/berita" className="btn-outline">
+  Berita Lainnya →
+</Link>
+
         </div>
       </div>
     </div>
@@ -259,13 +303,17 @@ useEffect(() => {
 </section>
 
 {/* ================= EVENT & INFOGRAFIS SECTION ================= */}
-<section style={{ padding: "60px 20px" }}>
+<section
+  id="event-infografis"
+  style={{ padding: "60px 20px", background: "#ffffff" }}>
   <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
     <div style={eventInfoLayout}>
 
       {/* ===== EVENT PUBLIK ===== */}
       <div>
-        <h2>Event Publik</h2>
+        <h2 className={`slide-title ${isEventVisible ? "show" : ""}`}>
+  Event Publik</h2>
+
         <p style={{ color: "#6b7280", marginBottom: "20px" }}>
           Kegiatan dan agenda desa terbaru
         </p>
@@ -280,15 +328,16 @@ useEffect(() => {
           </p>
         </div>
         <div style={{ marginTop: "20px", textAlign: "center" }}>
-          <Link to="/event" style={btnOutline}>
-            Lihat Kalender Event →
-          </Link>
+          <Link to="/kalender-event" className="btn-event">
+  Lihat Kalender Event →</Link>
         </div>
       </div>
 
       {/* ===== INFOGRAFIS ===== */}
       <div>
-        <h2>Infografis</h2>
+        <h2 className={`slide-title ${isEventVisible ? "show" : ""}`}>
+  Infografis</h2>
+
         <p style={{ color: "#6b7280", marginBottom: "20px" }}>
           Data dan statistik Desa Sumbersari
         </p>
@@ -435,8 +484,6 @@ const heroSubtitle = {
   lineHeight: "1.6",
 };
 
-/* ================= STYLE HELPER ================= */
-/* ================= STYLE LAYANAN PUBLIK ================= */
 const layananCard = {
   background: "#ffffff",
   border: "1px solid #e5e7eb",
@@ -524,7 +571,7 @@ const sideNewsImage = {
   justifyContent: "center",
   borderRadius: "6px",
   fontSize: "24px",
-  flexShrink: 0, // 🔑 agar ukuran tidak mengecil
+  flexShrink: 0, 
 };
 
 const newsDate = {
@@ -532,17 +579,7 @@ const newsDate = {
   fontSize: "12px",
 };
 
-const btnOutline = {
-  display: "inline-block",
-  padding: "10px 20px",
-  border: "2px solid #0f766e",
-  color: "#0f766e",
-  borderRadius: "6px",
-  textDecoration: "none",
-  fontWeight: "bold",
-};
-
-
+const btnOutline = {};
 /* ================= EVENT & INFOGRAFIS STYLE ================= */
 
 const eventInfoLayout = {
@@ -621,41 +658,3 @@ const statIcon = {
   fontSize: "40px",
   marginBottom: "10px",
 };
-
-const statNumber = {
-  fontSize: "28px",
-  fontWeight: "bold",
-  color: "#0f766e",
-  marginBottom: "6px",
-};
-
-const formBox = {
-  background: "#ffffff",
-  padding: "30px",
-  borderRadius: "10px",
-  border: "1px solid #e5e7eb",
-  display: "flex",
-  flexDirection: "column",
-  gap: "16px",
-};
-
-const alertBox = {
-  background: "#fff7ed",
-  border: "1px solid #fed7aa",
-  padding: "20px",
-  borderRadius: "8px",
-  textAlign: "center",
-};
-
-const btnPrimary = {
-  marginTop: "10px",
-  padding: "12px",
-  background: "#0f766e",
-  color: "#fff",
-  border: "none",
-  borderRadius: "6px",
-  textDecoration: "none",
-  cursor: "pointer",
-  fontWeight: "bold",
-};
-
