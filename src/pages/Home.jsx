@@ -2,23 +2,25 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import PengaduanSection from "../components/PengaduanSection";
+import CountUpNumber from "../components/CountUpNumber";
 
 export default function Home() {
     const location = useLocation();
 
   useEffect(() => {
-    if (location.hash) {
-      const element = document.querySelector(location.hash);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        }, 100);
-      }
+  if (location.hash === "#pengaduan") {
+    const element = document.getElementById("pengaduan");
+    if (element) {
+      setTimeout(() => {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 100);
     }
-  }, [location]);
+  }
+}, [location]);
+
 
 
   const sideNews = [
@@ -261,25 +263,25 @@ useEffect(() => {
     <div style={statGrid}>
       <div style={statCard}>
         <div style={statIcon}>👥</div>
-        <h3 style={statNumber}>3.250</h3>
+        <CountUpNumber target={3250} />
         <p>Jumlah Penduduk</p>
       </div>
 
       <div style={statCard}>
         <div style={statIcon}>🏠</div>
-        <h3 style={statNumber}>1.020</h3>
+        <CountUpNumber target={1020} />
         <p>Kepala Keluarga</p>
       </div>
 
       <div style={statCard}>
         <div style={statIcon}>📝</div>
-        <h3 style={statNumber}>12</h3>
+        <CountUpNumber target={7} />
         <p>Layanan Publik</p>
       </div>
 
       <div style={statCard}>
         <div style={statIcon}>🏫</div>
-        <h3 style={statNumber}>18</h3>
+        <CountUpNumber target={18} />
         <p>Fasilitas Umum</p>
       </div>
     </div>
