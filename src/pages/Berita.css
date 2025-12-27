@@ -1,50 +1,71 @@
 .berita-page {
-  padding: 40px 20px;
+  padding: 40px;
   max-width: 1200px;
   margin: auto;
 }
 
-.berita-header {
-  margin-bottom: 40px;
+/* HERO */
+.berita-hero {
+  padding-top: var(--navbar-height);
+  width: 100%;
+  height: 320px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  transition: background-image 1s ease-in-out;
 }
 
-.berita-header h1 {
-  margin-bottom: 5px;
+.berita-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 118, 110, 0.55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
 }
 
-.berita-header p {
-  color: #666;
+.berita-hero-overlay h1 {
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.berita-hero-overlay p {
+  font-size: 18px;
 }
 
 /* GRID */
 .berita-grid {
+  margin-top: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  gap: 20px;
 }
 
 /* CARD */
 .berita-card {
+  display: flex;
+  flex-direction: column;
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .berita-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 28px #88c6c1;
 }
 
 /* IMAGE */
 .berita-image {
   width: 100%;
   height: 180px;
-  background: #0f766e;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .berita-image img {
@@ -53,14 +74,12 @@
   object-fit: cover;
 }
 
-.berita-placeholder {
-  font-size: 40px;
-  color: #fff;
-}
-
 /* CONTENT */
 .berita-content {
+  flex: 1;
   padding: 16px;
+  display: flex;
+  flex-direction: column;
 }
 
 .berita-date {
@@ -71,10 +90,28 @@
 .berita-title {
   margin: 10px 0;
   font-size: 18px;
+  font-weight: 600;
+  color: #111827;
 }
 
 .berita-excerpt {
   font-size: 14px;
-  color: #555;
-  text-align: justify;
+  color: #374151;
+  line-height: 1.6;
+}
+
+/* READ MORE */
+.berita-readmore {
+  margin-top: auto;
+  padding-top: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f766e;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.berita-readmore:hover {
+  color: #115e59;
+  text-decoration: underline;
 }

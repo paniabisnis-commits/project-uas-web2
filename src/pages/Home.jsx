@@ -1,7 +1,26 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import PengaduanSection from "../components/PengaduanSection";
 
 export default function Home() {
+    const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }, 100);
+      }
+    }
+  }, [location]);
+
+
   const sideNews = [
   {
     title: "Musyawarah Desa Tahun 2025",
@@ -20,25 +39,50 @@ export default function Home() {
   }
 ];
 
+const heroImages = [
+  "/images/desa1.jpg",
+  "/images/desa2.jpg",
+  "/images/desa3.jpg",
+];
+
+const [activeIndex, setActiveIndex] = useState(0);
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    setActiveIndex((prev) => (prev + 1) % heroImages.length);
+  }, 5000); 
+
+  return () => clearInterval(interval);
+}, []);
+
   return (
     <div>
       {/* ================= HERO SECTION ================= */}
-      <section
-        style={{
-          padding: "80px 20px",
-          textAlign: "center",
-          backgroundColor: "#0f766e",
-          color: "white",
-        }}
-      >
-        <h1 style={{ fontSize: "36px", marginBottom: "15px" }}>
-          Website Resmi Desa Sumbersari
-        </h1>
-        <p style={{ fontSize: "18px", maxWidth: "700px", margin: "0 auto" }}>
-          Portal informasi dan layanan publik Pemerintah Desa Sumbersari untuk
-          masyarakat yang transparan, cepat, dan terpercaya.
-        </p>
-      </section>
+      <section style={heroSection}>
+  {heroImages.map((img, index) => (
+    <div
+      key={index}
+      style={{
+        ...heroSlide,
+        backgroundImage: `url(${img})`,
+        opacity: index === activeIndex ? 1 : 0,
+      }}
+    />
+  ))}
+
+  {/* Overlay gelap */}
+  <div style={heroOverlay} />
+
+  {/* Konten */}
+  <div style={heroContent}>
+    <h1 style={heroTitle}>Website Resmi Desa Sumbersari</h1>
+    <p style={heroSubtitle}>
+      Portal informasi dan layanan publik Pemerintah Desa Sumbersari untuk
+      masyarakat yang transparan, cepat, dan terpercaya.
+    </p>
+  </div>
+</section>
+
 
       {/* ================= LAYANAN PUBLIK SECTION ================= */}
       <section style={{ padding: "60px 20px" }}>
@@ -244,8 +288,8 @@ export default function Home() {
 </section>
 
 {/* ================= PENGADUAN MASYARAKAT ================= */}
-<section>
-  <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+<section id="pengaduan">
+  <div style={{ margin: "0 auto" }}>
     <PengaduanSection /> 
 
   </div>
@@ -255,6 +299,59 @@ export default function Home() {
   );
 }
 
+
+const heroSection = {
+  position: "relative",
+  width: "100%",
+  height: "90vh",
+  overflow: "hidden",
+};
+
+const heroSlide = {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  transition: "opacity 1.5s ease-in-out",
+};
+
+const heroOverlay = {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  backgroundColor: "rgba(0,0,0,0.45)",
+  zIndex: 1,
+};
+
+const heroContent = {
+  position: "relative",
+  zIndex: 2,
+  height: "100%",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  textAlign: "center",
+  color: "#fff",
+  padding: "0 20px",
+};
+
+const heroTitle = {
+  fontSize: "42px",
+  fontWeight: "bold",
+  marginBottom: "16px",
+};
+
+const heroSubtitle = {
+  fontSize: "18px",
+  maxWidth: "700px",
+  lineHeight: "1.6",
+};
 
 /* ================= STYLE HELPER ================= */
 const cardStyle = {

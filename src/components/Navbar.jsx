@@ -51,54 +51,62 @@ export default function Navbar() {
   return (
     <>
       <nav className="navbar">
-        <strong className="brand">Desa Sumbersari</strong>
+  {/* KIRI */}
+  <div className="nav-left">
+    <strong className="brand">Desa Sumbersari</strong>
+  </div>
 
-        <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
-          ☰
-        </button>
+  {/* TENGAH */}
+  <div className={`nav-center ${menuOpen ? "open" : ""}`}>
+    <NavLink to="/" className="nav-link">Beranda</NavLink>
+    <NavLink to="/profile" className="nav-link">Profil</NavLink>
+    <NavLink to="/layanan" className="nav-link">Layanan Publik</NavLink>
+    <NavLink to="/berita" className="nav-link">Berita</NavLink>
+    <NavLink to="/kontak" className="nav-link">Kontak</NavLink>
+  </div>
 
-        <div className={`nav-menu ${menuOpen ? "open" : ""}`}>
-          <NavLink to="/" className="nav-link">Beranda</NavLink>
-          <NavLink to="/profile" className="nav-link">Profil</NavLink>
-          <NavLink to="/layanan" className="nav-link">Layanan Publik</NavLink>
-          <NavLink to="/berita" className="nav-link">Berita</NavLink>
-          <NavLink to="/kontak" className="nav-link">Kontak</NavLink>
+  {/* KANAN */}
+  <div className="nav-right">
+    <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+      ☰
+    </button>
+
+    {!token ? (
+      <NavLink to="/login" className="nav-link">
+        Login
+      </NavLink>
+    ) : (
+      <div className="user-area" ref={dropdownRef}>
+        <div className="avatar-wrapper" onClick={() => setOpen(!open)}>
+          {avatar ? (
+            <img src={avatar} className="avatar-img" />
+          ) : (
+            <div className="user-avatar">{initials}</div>
+          )}
+          <div className="avatar-tooltip">{name}</div>
         </div>
 
-        {!token ? (
-          <NavLink to="/login" className="nav-link">
-            Login
-          </NavLink>
-        ) : (
-          <div className="user-area" ref={dropdownRef}>
-            <div className="avatar-wrapper" onClick={() => setOpen(!open)}>
-              {avatar ? (
-                <img src={avatar} className="avatar-img" />
-              ) : (
-                <div className="user-avatar">{initials}</div>
-              )}
-              <div className="avatar-tooltip">{name}</div>
-            </div>
-
-            {open && (
-              <div className="dropdown">
-                <button
-                  className="dropdown-item"
-                  onClick={() => {
-                    setShowProfile(true);
-                    setOpen(false);
-                  }}
-                >
-                  Profil Saya
-                </button>
-                <button className="dropdown-item logout" onClick={logout}>
-                  Logout
-                </button>
-              </div>
-            )}
+        {open && (
+          <div className="dropdown">
+            <button
+              className="dropdown-item"
+              onClick={() => {
+                setShowProfile(true);
+                setOpen(false);
+              }}
+            >
+              Profil Saya
+            </button>
+            <button className="dropdown-item logout" onClick={logout}>
+              Logout
+            </button>
           </div>
         )}
-      </nav>
+      </div>
+    )}
+  </div>
+</nav>
+
 
       {/* ===== MODAL PROFILE ===== */}
       {showProfile && (

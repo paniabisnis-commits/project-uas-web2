@@ -15,21 +15,85 @@ body {
   background-color: #f9fafb;
 }
 
+:root {
+  --navbar-height: 64px;
+}
+
 .navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
-  background: #fff;
-  padding: 15px 20px;
-  border-bottom: 1px solid #ddd;
+  left: 0;
+  width: 100%;
+  height: var(--navbar-height);
+  z-index: 1000;
+
   display: flex;
   align-items: center;
-  gap: 15px;
-  z-index: 100;
+  height: 64px;
+  padding: 0 24px;
+
+  background-color: white; /* wajib */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* KIRI */
+.nav-left {
+  flex: 1;
+}
+
+/* TENGAH */
+.nav-center {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex: 1;
+}
+
+/* KANAN */
+.nav-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
 }
 
 .brand {
+  font-size: 18px;
   font-weight: bold;
 }
+
+.hamburger {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .nav-center {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: white;
+    flex-direction: column;
+    align-items: center;
+    display: none;
+  }
+
+  .nav-center.open {
+    display: flex;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --navbar-height: 72px;
+  }
+}
+
 
 /* ===== NAV MENU ===== */
 .nav-menu {
@@ -468,4 +532,8 @@ body.dark .avatar-tooltip {
   100% {
     transform: translateX(100%);
   }
+}
+
+html {
+  scroll-behavior: smooth;
 }
