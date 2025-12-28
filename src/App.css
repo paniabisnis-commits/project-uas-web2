@@ -58,6 +58,34 @@ body {
   gap: 16px;
 }
 
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.brand-text strong {
+  font-size: 16px;
+  color: #0f766e;
+}
+
+.brand-text span {
+  font-size: 12px;
+  color: #6b7280;
+}
+
 .brand {
   font-size: 18px;
   font-weight: bold;
@@ -658,25 +686,22 @@ html {
   transform: translateY(0);
 }
 
-.btn-event {
+.btn-outline {
   display: inline-block;
-  padding: 12px 26px;
-  background-color: transparent;
-  color: #0f766e;
+  padding: 10px 20px;
   border: 2px solid #0f766e;
-  border-radius: 999px;
+  color: #0f766e;
+  border-radius: 6px;
   font-weight: 600;
   text-decoration: none;
-  transition: 
-    background-color 0.35s ease,
-    color 0.35s ease,
-    transform 0.35s ease,
-    box-shadow 0.35s ease;
+  background: transparent;
+  transition: all 0.35s ease;
 }
 
-.btn-event:hover {
-  background-color: #0f766e;
+.btn-outline:hover {
+  background: #0f766e;
   color: #ffffff;
   transform: translateY(-3px);
   box-shadow: 0 10px 25px rgba(15, 118, 110, 0.35);
 }
+

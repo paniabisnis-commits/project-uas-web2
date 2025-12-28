@@ -58,8 +58,8 @@ export default function Layanan() {
                 <h3>{layanan[0].nama_layanan}</h3>
                 <p>{layanan[0].deskripsi}</p>
                 <Link to="/#pengaduan" className="layanan-btn">
-  Detail Layanan
-</Link>
+                  Detail Layanan
+                </Link>
 
               </div>
             </div>
@@ -67,29 +67,33 @@ export default function Layanan() {
         )}
 
         {/* === DAFTAR LAYANAN === */}
-        <section className="layanan-daftar">
-          <h2 className="section-title">Daftar Layanan yang Bisa Diakses</h2>
+        {layanan.length > 1 && (
+  <section className="layanan-daftar">
+    <h2 className="section-title">Daftar Layanan yang Bisa Diakses</h2>
 
-          <div className="layanan-grid">
-            {layanan.slice(1).map((l) => (
-              <div key={l.id} className="layanan-card">
-                <div className="layanan-image">
-                  <img
-                    src={`http://127.0.0.1:8000/storage/${l.gambar}`}
-                    alt={l.nama_layanan}
-                  />
-                </div>
-
-                <div className="layanan-card-content">
-                  <h3>{l.nama_layanan}</h3>
-                  <p>{l.deskripsi}</p>
-                </div>
-
-                <button className="layanan-btn">Detail Layanan</button>
-              </div>
-            ))}
+    <div className="layanan-grid">
+      {layanan.map((l) => (
+        <div key={l.id} className="layanan-card">
+          <div className="layanan-image">
+            <img
+              src={`http://127.0.0.1:8000/storage/${l.gambar}`}
+              alt={l.nama_layanan}
+            />
           </div>
-        </section>
+
+          <div className="layanan-card-content">
+            <h3>{l.nama_layanan}</h3>
+            <p>{l.deskripsi}</p>
+          </div>
+
+          <Link to="/#pengaduan" className="layanan-btn">
+            Detail Layanan
+          </Link>
+        </div>
+      ))}
+    </div>
+  </section>
+)}
       </section>
     </>
   );

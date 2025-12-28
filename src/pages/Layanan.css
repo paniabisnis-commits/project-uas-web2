@@ -32,10 +32,6 @@
   margin: 30px 0 16px;
   text-align: left;
 }
-
-/* ===============================
-   LAYANAN TERBARU
-================================ */
 .layanan-terbaru {
   margin-bottom: 40px;
 }
@@ -106,9 +102,6 @@
   margin-bottom: 12px;
 }
 
-/* ===============================
-   DAFTAR LAYANAN
-================================ */
 .layanan-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

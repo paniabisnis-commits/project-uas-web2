@@ -328,8 +328,10 @@ useEffect(() => {
           </p>
         </div>
         <div style={{ marginTop: "20px", textAlign: "center" }}>
-          <Link to="/kalender-event" className="btn-event">
-  Lihat Kalender Event →</Link>
+          <Link to="/kalender-event" className="btn-outline">
+  Lihat Kalender Event →
+</Link>
+
         </div>
       </div>
 
