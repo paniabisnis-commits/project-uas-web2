@@ -8,7 +8,6 @@ export default function KalenderEvent() {
   const [events, setEvents] = useState([]);
   const [search, setSearch] = useState("");
 
-  // SORT AMAN (event tanpa tanggal di bawah)
   const sortByDateAsc = (data) => {
     return [...data].sort((a, b) => {
       if (!a.event_date) return 1;
@@ -57,6 +56,13 @@ export default function KalenderEvent() {
         });
   };
 
+  const getMonthClass = (dateString) => {
+  if (!dateString) return "month-default";
+  const month = new Date(dateString).getMonth() + 1; // 1–12
+  return `month-${month}`;
+};
+
+
   return (
     <div className="kalender-page">
       <header className="kalender-header">
@@ -79,33 +85,34 @@ export default function KalenderEvent() {
     <Search className="search-icon" size={20} />
   </div>
 </div>
-
-
-
       <div className="kalender-list">
-        {events.length ? (
-          events.map((ev) => (
-            <div key={ev.id} className="event-card">
-              {ev.image && (
-                <img
-                  src={`http://127.0.0.1:8000/storage/${ev.image}`}
-                  alt={ev.title}
-                  className="event-image"
-                />
-              )}
-
-              <div className="event-date">
-                {formatTanggal(ev.event_date)}
-              </div>
-
-              <h3 className="event-title">{ev.title}</h3>
-              <p className="event-desc">{ev.description}</p>
-            </div>
-          ))
-        ) : (
-          <p className="no-events">Tidak ada event.</p>
+  {events.length ? (
+    events.map((ev) => (
+      <div
+        key={ev.id}
+        className={`event-card ${getMonthClass(ev.event_date)}`}
+      >
+        {ev.image && (
+          <img
+            src={`http://127.0.0.1:8000/storage/${ev.image}`}
+            alt={ev.title}
+            className="event-image"
+          />
         )}
+
+        <div className="event-date">
+          {formatTanggal(ev.event_date)}
+        </div>
+
+        <h3 className="event-title">{ev.title}</h3>
+        <p className="event-desc">{ev.description}</p>
       </div>
+    ))
+  ) : (
+    <p className="no-events">Tidak ada event.</p>
+  )}
+</div>
+
     </div>
   );
 }

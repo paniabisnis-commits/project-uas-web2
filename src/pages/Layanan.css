@@ -1,16 +1,22 @@
+body {
+  overflow-y: auto;
+}
+
 .layanan-page {
   padding: 40px 20px;
   max-width: 1100px;
   margin: auto;
+  position: relative;
+  z-index: 2;
 }
 
-/* HERO */
 .layanan-hero {
   height: 300px;
   background-size: cover;
   background-position: center;
   position: relative;
-  padding-top: var(--navbar-height);
+  z-index: 1;
+  min-height: calc(300px + var(--navbar-height));
 }
 
 .layanan-hero-overlay {
@@ -80,8 +86,6 @@
 .layanan-terbaru-content {
   flex: 1;
   text-align: left;
-
-  /* IKUT HALUS */
   transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -106,6 +110,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
+  position: relative;
+
 }
 
 .layanan-card {
@@ -165,7 +171,6 @@
   align-self: center;
 }
 
-/* BUTTON */
 .layanan-btn {
   align-self: flex-start;
   padding: 8px 16px;
@@ -182,4 +187,12 @@
 .layanan-btn:hover {
   background-color: #115e59;
   transform: translateY(-2px);
+}
+
+
+.layanan-card {
+  opacity: 1 !important;
+  visibility: visible !important;
+  position: relative !important;
+  z-index: 9999 !important;
 }
