@@ -1,5 +1,20 @@
 import { useState } from "react";
 
+const FooterIcon = ({ children }) => (
+  <span
+    style={{
+      width: "18px",
+      height: "18px",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      marginRight: "8px",
+      flexShrink: 0,
+    }}
+  >
+    {children}
+  </span>
+);
 
 export default function Footer() {
 
@@ -13,25 +28,54 @@ const [surveyValue, setSurveyValue] = useState("");
         <div>
           <h3 style={footerTitle}>PEMERINTAH DESA SUMBERSARI</h3>
 
-          <p style={footerItem}>
-            📍 Jalan Raya Desa Sumbersari, Kecamatan XXX,<br />
-                Kabupaten XXX, Provinsi XXX<br />
-                Kode Pos XXXXX
-          </p>
+          <p style={{ ...footerItem, display: "flex", alignItems: "flex-start" }}>
+  <FooterIcon>
+    {/* Location Icon */}
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9.5A2.5 2.5 0 1112 6a2.5 2.5 0 010 5.5z"/>
+    </svg>
+  </FooterIcon>
+  <span>
+    Jalan Raya Desa Sumbersari, Kecamatan Sumbersuko,<br />
+    Kabupaten Sumberan. Kode Pos 000000
+  </span>
+</p>
 
-          <p style={footerItem}>📞 (0274) 8xxxxxx</p>
-          <p style={footerItem}>✉️ desasumbersari@email.com</p>
+<p style={{ ...footerItem, display: "flex", alignItems: "center" }}>
+  <FooterIcon>
+    {/* Phone Icon */}
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1v3.5a1 1 0 01-1 1C10.07 21 3 13.93 3 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.59a1 1 0 01-.25 1.01l-2.2 2.19z"/>
+    </svg>
+  </FooterIcon>
+  (0274) 8xxxxxx
+</p>
 
-          <p style={footerItem}>
-            🌐 <a href="#" style={footerLink}>www.desasumbersari.go.id</a>
-          </p>
+<p style={{ ...footerItem, display: "flex", alignItems: "center" }}>
+  <FooterIcon>
+    {/* Email Icon */}
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+    </svg>
+  </FooterIcon>
+  desasumbersari@email.com
+</p>
+
+<p style={{ ...footerItem, display: "flex", alignItems: "center" }}>
+  <FooterIcon>
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm7.93 9h-3.95a15.65 15.65 0 00-1.43-6.04A8.02 8.02 0 0119.93 11zM12 4.07A13.66 13.66 0 0113.98 11h-3.96A13.66 13.66 0 0112 4.07zM4.07 13h3.95a15.65 15.65 0 001.43 6.04A8.02 8.02 0 014.07 13zm3.95-2H4.07a8.02 8.02 0 015.41-6.04A15.65 15.65 0 008.02 11zm3.98 8.93A13.66 13.66 0 0110.02 13h3.96A13.66 13.66 0 0112 19.93zm2.57-.89A15.65 15.65 0 0015.98 13h3.95a8.02 8.02 0 01-5.41 6.04z"/>
+    </svg>
+  </FooterIcon>
+  <a href="#" style={footerLink}>www.desasumbersari.go.id</a>
+</p>
+
 
           <div style={{ marginTop: "15px" }}>
             <br />
   <strong>FOLLOW US :</strong>
 
   <div style={socialRow}>
-    {/* INSTAGRAM */}
 <a
   href="https://www.instagram.com/desasumbersari"
   target="_blank"
@@ -54,8 +98,6 @@ const [surveyValue, setSurveyValue] = useState("");
   </svg>
 </a>
 
-
-    {/* FACEBOOK */}
     <a
       href="https://www.facebook.com/desasumbersari"
       target="_blank"
@@ -74,7 +116,6 @@ const [surveyValue, setSurveyValue] = useState("");
       </svg>
     </a>
 
-    {/* YOUTUBE */}
     <a
         href="https://www.youtube.com/@desasumbersari"
         target="_blank"
@@ -103,7 +144,6 @@ const [surveyValue, setSurveyValue] = useState("");
 
         </div>
 
-        {/* ================= KOLOM TENGAH ================= */}
         <div>
           <h4 style={footerSubtitle}>Statistik Pengunjung</h4>
 
@@ -175,9 +215,6 @@ const [surveyValue, setSurveyValue] = useState("");
 
         </div>
       </div>
-
-
-      {/* ================= COPYRIGHT ================= */}
       <div style={footerBottom}>
         © {new Date().getFullYear()}. PEMERINTAH DESA SUMBERSARI. ALL RIGHTS RESERVED
       </div>
@@ -232,9 +269,6 @@ const [surveyValue, setSurveyValue] = useState("");
     </footer>
   );
 }
-
-/* ================= STYLE ================= */
-
 const footerWrapper = {
   backgroundColor: "#0f766e",
   color: "#ffffff",

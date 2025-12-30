@@ -5,6 +5,29 @@ import PengaduanSection from "../components/PengaduanSection";
 import CountUpNumber from "../components/CountUpNumber";
 
 export default function Home() {
+  const [berita, setBerita] = useState([]);
+  const [loadingBerita, setLoadingBerita] = useState(true);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/berita", {
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setBerita(res.data || []);
+        setLoadingBerita(false);
+      })
+      .catch((err) => {
+        console.error("Gagal fetch berita:", err);
+        setLoadingBerita(false);
+      });
+  }, []);
+
+  const beritaUtama = berita[0];
+  const beritaLainnya = berita.slice(1, 4);
+
     const location = useLocation();
 
   useEffect(() => {
@@ -85,25 +108,6 @@ useEffect(() => {
   return () => observer.disconnect();
 }, []);
 
-
-  const sideNews = [
-  {
-    title: "Musyawarah Desa Tahun 2025",
-    date: "14 Januari 2025",
-    excerpt: "Pembahasan rencana pembangunan dan anggaran desa."
-  },
-  {
-    title: "Pembangunan Infrastruktur Desa",
-    date: "13 Januari 2025",
-    excerpt: "Peningkatan akses jalan dan fasilitas umum."
-  },
-  {
-    title: "Pelayanan Administrasi Online",
-    date: "12 Januari 2025",
-    excerpt: "Kini masyarakat dapat mengurus administrasi secara digital."
-  }
-];
-
 const heroImages = [
   "/images/desa1.jpg",
   "/images/desa2.jpg",
@@ -119,6 +123,7 @@ useEffect(() => {
 
   return () => clearInterval(interval);
 }, []);
+
 
   return (
     <div>
@@ -150,7 +155,12 @@ useEffect(() => {
       {/* ================= LAYANAN PUBLIK SECTION ================= */}
       <section
   id="layanan-publik"
-  style={{ padding: "60px 20px 30px" }}>
+  style={{
+    paddingTop: "calc(var(--navbar-height) + 40px)",
+    paddingBottom: "40px",
+  }}
+>
+
         <h2 style={titleWrapper}>
   {"Layanan Publik".split("").map((char, index) => (
     <span
@@ -223,22 +233,13 @@ useEffect(() => {
           </Link>
         </div>
       </section>
-      {/* ================= BERITA TERKINI SECTION ================= */}
-    <div style={{ overflow: "hidden", lineHeight: 0 }}>
-  <svg viewBox="0 0 1440 80" preserveAspectRatio="none" style={{ width: "100%", height: "30px" }}>
-    <path
-      d="M0,32L1440,0L1440,0L0,0Z"
-      fill="#f9fafb"
-    />
-  </svg>
-</div>
+    
 
 <section
   id="berita-section"
-  style={{ padding: "60px 20px", background: "#f1f5f9ff" }}>
+  style={{ padding: "60px 20px", background: "#f1f5f9" }}
+>
   <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-
-    {/* ===== JUDUL BERITA (ANIMASI) ===== */}
     <h2 style={titleWrapper}>
       {"Berita".split("").map((char, index) => (
         <span
@@ -255,52 +256,62 @@ useEffect(() => {
       Update informasi seputar Desa Sumbersari
     </p>
 
+    {/* ===== LOADING ===== */}
+    {loadingBerita && <p>Memuat berita...</p>}
 
-    <div style={newsLayout}>
-      {/* ===== BERITA TERBARU (KIRI) ===== */}
-      <div
-  style={mainNewsCard}
-  className={`fade-card ${isBeritaVisible ? "show" : ""}`}>
-        <div style={mainNewsImage}>📰</div>
-        <small style={newsDate}>15 Januari 2025</small>
-        <h3>Peningkatan Pelayanan Publik Desa</h3>
-        <p style={{ textAlign: "justify" }}>
-          Pemerintah Desa Sumbersari terus berkomitmen meningkatkan kualitas
-          pelayanan publik demi kesejahteraan masyarakat.
-        </p>
+    {/* ===== TIDAK ADA DATA ===== */}
+    {!loadingBerita && berita.length === 0 && (
+      <p>Belum ada berita.</p>
+    )}
+
+    {/* ===== ADA DATA ===== */}
+    {!loadingBerita && berita.length > 0 && (
+  <div style={newsLayout}>
+    {beritaUtama && (
+      <div style={mainNewsCard}>
+        <img
+  src={`http://127.0.0.1:8000/storage/${beritaUtama.image}`}
+  alt={beritaUtama.title}
+  style={mainNewsImage}
+/>
+
+        <small>
+          {new Date(beritaUtama.created_at).toLocaleDateString("id-ID")}
+        </small>
+        <h3>{beritaUtama.title}</h3> <br />
+<p style={mainNewsContent}>{beritaUtama.content}</p>
       </div>
+    )}
 
-      {/* ===== BERITA LAINNYA (KANAN) ===== */}
-      <div>
-        <div style={sideNewsList}>
-          {sideNews.map((item, index) => (
-            <div
-  style={sideNewsCard}
-  className={`fade-card ${isBeritaVisible ? "show" : ""}`}>
-              <div style={sideNewsImage}>📰</div>
-              <div style={{ textAlign: "justify" }}>
-              <small style={newsDate}>{item.date}</small>
-              <h4 style={{ margin: "6px 0" }}>{item.title}</h4>
-              <p style={{ fontSize: "14px", color: "#555" }}>
-                {item.excerpt}
-              </p>
-            </div>
-
-            </div>
-          ))}
+    <div style={sideNewsList}>
+      {beritaLainnya.map((item) => (
+        <div key={item.id} style={sideNewsCard}>
+          <img
+  src={`http://127.0.0.1:8000/storage/${item.image}`}
+  alt={item.title}
+  style={sideNewsImage}
+/>
+          <div>
+            <small>
+              {new Date(item.created_at).toLocaleDateString("id-ID")}
+            </small>
+            <h4>{item.title}</h4> <br />
+<p style={sideNewsExcerpt}>{item.content}</p>
+          </div>
         </div>
+      ))}
 
-        {/* 🔗 BUTTON BERITA LAINNYA */}
-        <div style={{ marginTop: "20px", textAlign: "right" }}>
-          <Link to="/berita" className="btn-outline">
-  Berita Lainnya →
-</Link>
-
+          <div style={{ textAlign: "right", marginTop: "20px" }}>
+            <Link to="/berita" className="btn-outline">
+              Berita Lainnya →
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    )}
   </div>
 </section>
+
 
 {/* ================= EVENT & INFOGRAFIS SECTION ================= */}
 <section
@@ -523,28 +534,39 @@ const titleWrapper = {
 /* ================= STYLE BERITA ================= */
 const newsLayout = {
   display: "grid",
-  gridTemplateColumns: "2fr 1.2fr",
+  gridTemplateColumns: "2fr 1.3fr",
   gap: "30px",
+  alignItems: "start",
 };
 
 const mainNewsCard = {
   background: "#fff",
   padding: "20px",
-  borderRadius: "8px",
+  borderRadius: "10px",
   border: "1px solid #e5e7eb",
+  display: "flex",
+  flexDirection: "column",
+  height: "100%",
+  alignSelf: "flex-start",
 };
 
 const mainNewsImage = {
   width: "100%",
   height: "260px",
-  background: "#0f766e",
-  color: "#fff",
-  fontSize: "50px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  borderRadius: "6px",
-  marginBottom: "15px",
+  objectFit: "cover",
+  borderRadius: "8px",
+  marginBottom: "12px",
+  backgroundColor: "#f1f5f9",
+};
+
+const mainNewsContent = {
+  flexGrow: 1,
+  display: "-webkit-box",
+  WebkitLineClamp: 5,
+  WebkitBoxOrient: "vertical",
+  overflow: "hidden",
+  textAlign: "justify",
+  lineHeight: "1.6",
 };
 
 const sideNewsList = {
@@ -555,34 +577,49 @@ const sideNewsList = {
 
 const sideNewsCard = {
   display: "flex",
-  gap: "18px",
+  gap: "14px",
   background: "#fff",
-  padding: "15px",
-  borderRadius: "8px",
+  padding: "14px",
+  borderRadius: "10px",
   border: "1px solid #e5e7eb",
-  alignItems: "flex-start", 
+  alignItems: "flex-start",
 };
 
 const sideNewsImage = {
   width: "120px",
   height: "80px",
-  background: "#0f766e",
-  color: "#fff",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  objectFit: "cover",
   borderRadius: "6px",
-  fontSize: "24px",
-  flexShrink: 0, 
+  backgroundColor: "#f1f5f9",
+  flexShrink: 0,
 };
 
 const newsDate = {
-  color: "#6b7280",
+  color: "#4f5d78ff",
   fontSize: "12px",
 };
 
-const btnOutline = {};
-/* ================= EVENT & INFOGRAFIS STYLE ================= */
+const sideNewsExcerpt = {
+  fontSize: "14px",
+  color: "#555",
+  textAlign: "justify",
+  display: "-webkit-box",
+  WebkitLineClamp: 3,
+  WebkitBoxOrient: "vertical",
+  overflow: "hidden",
+};
+
+const btnOutline = {
+  display: "inline-block",
+  padding: "8px 14px",
+  borderRadius: "6px",
+  border: "1px solid #0f766e",
+  color: "#0f766e",
+  fontSize: "14px",
+  textDecoration: "none",
+  transition: "all 0.2s ease",
+};
+
 
 const eventInfoLayout = {
   display: "grid",

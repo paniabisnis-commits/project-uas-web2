@@ -706,3 +706,6 @@ html {
   box-shadow: 0 10px 25px rgba(15, 118, 110, 0.35);
 }
 
+#layanan-publik {
+  scroll-margin-top: var(--navbar-height);
+}

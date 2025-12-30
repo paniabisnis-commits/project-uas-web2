@@ -189,10 +189,20 @@ body {
   transform: translateY(-2px);
 }
 
-
 .layanan-card {
   opacity: 1 !important;
   visibility: visible !important;
   position: relative !important;
-  z-index: 9999 !important;
+  
+}
+
+.layanan-card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease;
+}
+
+.layanan-card.show {
+  opacity: 1;
+  transform: translateY(0);
 }
