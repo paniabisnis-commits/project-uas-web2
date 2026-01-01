@@ -49,8 +49,7 @@ export default function ProfileDesa() {
           <div className="card">
             <h3>Visi</h3>
             <p>
-              Terwujudnya Desa Sumbersari yang maju, mandiri, sejahtera,
-              berlandaskan nilai gotong royong dan pelayanan publik yang prima.
+              Terwujudnya Desa Sumbersari sebagai desa yang maju melalui transformasi tata kelola dan optimalisasi potensi lokal yang inovatif. Kemajuan ini dicapai dengan penguatan infrastruktur desa yang merata serta pemanfaatan teknologi informasi untuk mendukung konektivitas dan kecerdasan desa, sehingga Desa Sumbersari mampu sejajar dengan perkembangan zaman tanpa meninggalkan akar budaya lokal.
             </p>
           </div>
 
@@ -66,7 +65,6 @@ export default function ProfileDesa() {
         </div>
       </section>
 
-      {/* ================= STRUKTUR ================= */}
      <section className="profile-section alt">
   <h2>Struktur Pemerintahan Desa</h2>
 

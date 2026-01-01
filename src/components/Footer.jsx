@@ -24,13 +24,11 @@ const [surveyValue, setSurveyValue] = useState("");
   return (
     <footer style={footerWrapper}>
       <div style={footerTop}>
-        {/* ================= KOLOM KIRI ================= */}
         <div>
           <h3 style={footerTitle}>PEMERINTAH DESA SUMBERSARI</h3>
 
           <p style={{ ...footerItem, display: "flex", alignItems: "flex-start" }}>
   <FooterIcon>
-    {/* Location Icon */}
     <svg viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9.5A2.5 2.5 0 1112 6a2.5 2.5 0 010 5.5z"/>
     </svg>
@@ -43,7 +41,6 @@ const [surveyValue, setSurveyValue] = useState("");
 
 <p style={{ ...footerItem, display: "flex", alignItems: "center" }}>
   <FooterIcon>
-    {/* Phone Icon */}
     <svg viewBox="0 0 24 24" fill="currentColor">
       <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1v3.5a1 1 0 01-1 1C10.07 21 3 13.93 3 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.59a1 1 0 01-.25 1.01l-2.2 2.19z"/>
     </svg>
@@ -53,7 +50,6 @@ const [surveyValue, setSurveyValue] = useState("");
 
 <p style={{ ...footerItem, display: "flex", alignItems: "center" }}>
   <FooterIcon>
-    {/* Email Icon */}
     <svg viewBox="0 0 24 24" fill="currentColor">
       <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
     </svg>
@@ -141,10 +137,9 @@ const [surveyValue, setSurveyValue] = useState("");
         </a>
   </div>
 </div>
-
         </div>
 
-        <div>
+        <div style={statistikWrapper}>
           <h4 style={footerSubtitle}>Statistik Pengunjung</h4>
 
           <p style={footerItem}>Online Visitors : 1</p>
@@ -154,7 +149,7 @@ const [surveyValue, setSurveyValue] = useState("");
           <p style={footerItem}>Total Page Views : 28,746</p>
         </div>
 
-        {/* ================= KOLOM KANAN ================= */}
+
         <div>
           <h4 style={footerSubtitle}>
             Bagaimana Penilaian Anda Terhadap <br />
@@ -335,6 +330,11 @@ const hoverIn = (e, color) => {
 const hoverOut = (e) => {
   e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.15)";
   e.currentTarget.style.transform = "scale(1)";
+};
+
+const statistikWrapper = {
+  marginLeft: "40px",
+  paddingLeft: "20px",
 };
 
 const surveyGroup = {

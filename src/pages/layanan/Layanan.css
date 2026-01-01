@@ -114,20 +114,24 @@ body {
 
 }
 
-.layanan-card {
+.layanan-item {
   background: #ecfdf5;
   border-radius: 12px;
   padding: 14px;
   text-align: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
   display: flex;
   flex-direction: column;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
-.layanan-card:hover {
+.layanan-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(15, 118, 110, 0.35);
+  box-shadow: 0 12px 28px rgba(15, 118, 110, 0.35);
 }
 
 .layanan-image {
@@ -161,7 +165,7 @@ body {
 
 .layanan-card p {
   font-size: 13px;
-  color: #065f46;
+  color: #064e3b;
   line-height: 1.5;
   margin-bottom: 12px;
 }
@@ -172,7 +176,7 @@ body {
 }
 
 .layanan-btn {
-  align-self: flex-start;
+  margin: 0 auto;  
   padding: 8px 16px;
   background-color: #0f766e;
   color: #fff;
@@ -189,20 +193,3 @@ body {
   transform: translateY(-2px);
 }
 
-.layanan-card {
-  opacity: 1 !important;
-  visibility: visible !important;
-  position: relative !important;
-  
-}
-
-.layanan-card {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.6s ease;
-}
-
-.layanan-card.show {
-  opacity: 1;
-  transform: translateY(0);
-}

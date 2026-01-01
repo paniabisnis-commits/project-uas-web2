@@ -102,6 +102,31 @@
   box-shadow: 0 10px 20px rgba(0,0,0,0.08);
 }
 
+.visi-misi .card p {
+  text-align: justify;
+  text-justify: inter-word;
+  line-height: 1.8;
+  color: #374151;
+}
+
+.visi-misi .card ul {
+  padding-left: 18px;
+}
+
+.visi-misi .card ul li {
+  text-align: justify;
+  text-justify: inter-word;
+  line-height: 1.7;
+  margin-bottom: 8px;
+  color: #374151;
+}
+.visi-misi .card h3 {
+  color: #0f766e;
+  margin-bottom: 12px;
+  font-size: 18px;
+  text-align: center;
+}
+
 .struktur-wrapper {
   display: flex;
   flex-direction: column;
@@ -123,7 +148,6 @@
   text-align: center;
   box-shadow: 0 6px 16px rgba(0,0,0,0.06);
 
-  /* 🔑 Smooth animation */
   transition: 
     transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
     box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
@@ -141,7 +165,6 @@
   box-shadow: 0 14px 36px rgba(0, 0, 0, 0.14);
   border-color: #0f766e;
 }
-
 
 .struktur-card h4 {
   margin: 10px 0 4px;
