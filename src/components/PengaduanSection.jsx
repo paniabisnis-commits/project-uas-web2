@@ -169,12 +169,12 @@ export default function PengaduanSection() {
 /* ================= STYLE ================= */
 
 const pageWrapper = {
-  padding: "20px 20px",
+  padding: "60px 20px 40px",
 };
 
 const formCard = {
   maxWidth: "650px",
-  margin: "0 auto",
+  margin: "40px auto 0",
   background: "#fff",
   padding: "30px",
   borderRadius: "10px",
@@ -268,6 +268,7 @@ const modalOverlay = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  zIndex: 9999,
 };
 
 const modalBox = {

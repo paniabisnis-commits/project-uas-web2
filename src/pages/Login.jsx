@@ -25,23 +25,32 @@ export default function Login() {
 
   /* ================= LOGIN ================= */
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setError("");
+  e.preventDefault();
+  setError("");
 
-    try {
-      const res = await apiClient.post("/login", { email, password });
-      const { token, user } = res.data;
+  try {
+    const res = await apiClient.post("/login", { email, password });
+    const { token, user } = res.data;
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("name", user.name);
-      localStorage.setItem("email", user.email);
-      localStorage.setItem("role", user.role);
+    // Simpan ke localStorage
+    localStorage.setItem("token", token);
+    localStorage.setItem("name", user.name);
+    localStorage.setItem("email", user.email);
+    localStorage.setItem("role", user.role);
 
+    // 🔥 REDIRECT BERDASARKAN ROLE
+    if (user.role === "admin") {
+      // langsung ke dashboard admin
+      window.location.href = "http://127.0.0.1:8000/admin";
+    } else {
+      // user biasa
       navigate("/");
-    } catch {
-      setError("Email atau password salah");
     }
-  };
+  } catch {
+    setError("Email atau password salah");
+  }
+};
+
 
   /* ================= REGISTER ================= */
   const handleRegister = async (e) => {
@@ -235,7 +244,9 @@ const pageWrapper = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  paddingTop: "20px",
+  paddingTop: "calc(var(--navbar-height) + 40px)",
+  paddingBottom: "40px",
+  boxSizing: "border-box",
 };
 
 const card = {

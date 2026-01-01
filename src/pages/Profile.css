@@ -1,0 +1,258 @@
+.profile-container {
+  font-family: system-ui, sans-serif;
+  color: #064e3b;
+}
+
+/* ================= HERO ================= */
+.profile-hero {
+  text-align: center;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #0f766e, #22c55e);
+  color: #fff;
+}
+
+.profile-hero img {
+  width: 140px;
+  margin-bottom: 15px;
+}
+
+.profile-hero h1 {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.profile-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+.profile-section .profile-text {
+  text-align: justify;
+  text-justify: inter-word;
+  line-height: 1.8;
+}
+
+.profile-section.alt {
+  background: #f0fdf4;
+}
+
+.profile-section h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 26px;
+}
+
+.logo-philosophy {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  margin-top: 24px;
+}
+
+.logo-philosophy img {
+  max-width: 260px;
+  width: 100%;
+  height: auto;
+}
+
+.logo-philosophy ul {
+  flex: 1;
+  padding-left: 18px;
+}
+
+.logo-philosophy li {
+  margin-bottom: 10px;
+  line-height: 1.7;
+  text-align: justify;
+  text-justify: inter-word;
+  color: #374151;
+}
+
+.logo-philosophy li strong {
+  color: #065f46;
+}
+
+@media (max-width: 768px) {
+  .logo-philosophy {
+    flex-direction: column;
+    align-items: center;
+    text-align: justify;
+  }
+
+  .logo-philosophy ul {
+    padding-left: 16px;
+  }
+
+  .logo-philosophy img {
+    max-width: 200px;
+  }
+}
+
+.visi-misi {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.struktur-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.struktur-level {
+  display: flex;
+  justify-content: center;
+}
+
+.struktur-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  width: 220px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+
+  /* 🔑 Smooth animation */
+  transition: 
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.35s ease;
+
+  will-change: transform, box-shadow;
+}
+
+.struktur-card.utama {
+  border: 2px solid #0f766e;
+}
+
+.struktur-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.14);
+  border-color: #0f766e;
+}
+
+
+.struktur-card h4 {
+  margin: 10px 0 4px;
+  font-size: 15px;
+  color: #0f766e;
+}
+
+.struktur-card p {
+  font-size: 14px;
+  color: #374151;
+}
+
+.struktur-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 20px;
+  max-width: 800px;
+}
+
+.struktur-line {
+  width: 2px;
+  height: 30px;
+  background: #0f766e;
+  margin: 12px 0;
+}
+
+.icon.male {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background-color: #0f766e;
+  position: relative;
+}
+
+.icon.male::before {
+  content: "";
+  width: 26px;
+  height: 26px;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.icon.male::after {
+  content: "";
+  width: 36px;
+  height: 22px;
+  background: #fff;
+  border-radius: 0 0 18px 18px;
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.icon.female {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background-color: #ec4899;
+  position: relative;
+}
+
+.icon.female::before {
+  content: "";
+  width: 26px;
+  height: 26px;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.icon.female::after {
+  content: "";
+  width: 40px;
+  height: 24px;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 640px) {
+  .struktur-card {
+    width: 100%;
+  }
+
+  .struktur-line {
+    height: 20px;
+  }
+}
+
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .logo-philosophy {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .logo-philosophy ul {
+    text-align: left;
+  }
+}

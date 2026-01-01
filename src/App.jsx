@@ -7,6 +7,7 @@ import Pengaduan from "./pages/Pengaduan";
 import Layanan from "./pages/Layanan";
 import KalenderEvent from "./pages/KalenderEvent";
 import Kontak from "./pages/Kontak";
+import Profile from "./pages/Profile";
 import Footer from "./components/Footer";
 import "./App.css";
 
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/pengaduan" element={<Pengaduan />} />
         <Route path="/kalender-event" element={<KalenderEvent />} />
         <Route path="/kontak" element={<Kontak />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
 
       <Footer />
