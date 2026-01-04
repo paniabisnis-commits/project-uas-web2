@@ -6,51 +6,42 @@ export default function Login() {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
 
-  // LOGIN
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // REGISTER
   const [name, setName] = useState("");
   const [regEmail, setRegEmail] = useState("");
   const [regPassword, setRegPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // VISIBILITY
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  /* ================= LOGIN ================= */
   const handleLogin = async (e) => {
-  e.preventDefault();
-  setError("");
+    e.preventDefault();
+    setError("");
 
-  try {
-    const res = await apiClient.post("/login", { email, password });
-    const { token, user } = res.data;
+    try {
+      const res = await apiClient.post("/login", { email, password });
+      const { token, user } = res.data;
 
-    // Simpan ke localStorage
-    localStorage.setItem("token", token);
-    localStorage.setItem("name", user.name);
-    localStorage.setItem("email", user.email);
-    localStorage.setItem("role", user.role);
+      localStorage.setItem("token", token);
+      localStorage.setItem("name", user.name);
+      localStorage.setItem("email", user.email);
+      localStorage.setItem("role", user.role);
 
-    // 🔥 REDIRECT BERDASARKAN ROLE
-    if (user.role === "admin") {
-      // langsung ke dashboard admin
-      window.location.href = "http://127.0.0.1:8000/admin";
-    } else {
-      // user biasa
-      navigate("/");
+      if (user.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/");
+      }
+    } catch (err) {
+      setError("Email atau password salah");
     }
-  } catch {
-    setError("Email atau password salah");
-  }
-};
-
+  };
 
   /* ================= REGISTER ================= */
   const handleRegister = async (e) => {
@@ -78,6 +69,7 @@ export default function Login() {
     }
   };
 
+
   return (
     <div style={pageWrapper}>
       <div style={card}>
@@ -87,7 +79,6 @@ export default function Login() {
         {success && <p style={successText}>{success}</p>}
 
         {isLogin ? (
-          /* ================= LOGIN ================= */
           <form onSubmit={handleLogin}>
             <div style={formGroup}>
               <label style={label}>Email</label>
@@ -129,7 +120,6 @@ export default function Login() {
             </p>
           </form>
         ) : (
-          /* ================= REGISTER ================= */
           <form onSubmit={handleRegister}>
             <div style={formGroup}>
               <label style={label}>Nama Lengkap</label>
