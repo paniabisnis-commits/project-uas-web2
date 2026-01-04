@@ -193,3 +193,11 @@ body {
   transform: translateY(-2px);
 }
 
+.layanan-card {
+  cursor: pointer;
+}
+
+.layanan-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}

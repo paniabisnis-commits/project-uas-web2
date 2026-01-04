@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PengaduanSection from "../components/PengaduanSection";
 import CountUpNumber from "../components/CountUpNumber";
 
 export default function Home() {
   const [berita, setBerita] = useState([]);
-  
+  const navigate = useNavigate();
 
 useEffect(() => {
   fetch("http://127.0.0.1:8000/api/berita", {
@@ -179,6 +180,21 @@ useEffect(() => {
   return () => clearInterval(interval);
 }, []);
 
+const slugMap = {
+  "Layanan Administrasi": "layanan-administrasi",
+  "Informasi Publik": "informasi-publik",
+};
+
+
+const scrollToPengaduan = () => {
+  const target = document.getElementById("pengaduan");
+  if (target) {
+    target.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+};
 
   return (
     <div>
@@ -232,63 +248,43 @@ useEffect(() => {
       Pelayanan terbaik untuk masyarakat Desa Sumbersari
     </p>
 
-        <div
-  style={{
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-    gap: "28px", 
-    maxWidth: "1400px",
-    margin: "40px auto 0", 
-  }}
->
-          <div
-  style={{
-    ...layananCard,
-    transitionDelay: "0s",
-  }}
-  className={`layanan-card ${isLayananVisible ? "show" : ""}`}
->
-  <div style={layananIcon}>📝</div>
-  <h4 style={layananTitle}>Pengaduan Masyarakat</h4>
-  <p style={layananDesc}>
-    Sampaikan keluhan dan aspirasi Anda secara online dengan cepat dan transparan.
-  </p>
-</div>
+       
+  <div style={grid}>
+        <LayananCard
+          icon="📝"
+          title="Pengaduan Masyarakat"
+          desc="Sampaikan keluhan dan aspirasi Anda secara online dengan cepat dan transparan."
+          delay="0s"
+          onClick={scrollToPengaduan}
+        />
 
-<div
-  style={{
-    ...layananCard,
-    transitionDelay: "0.2s",
-  }}
-  className={`layanan-card ${isLayananVisible ? "show" : ""}`}
->
-  <div style={layananIcon}>📄</div>
-  <h4 style={layananTitle}>Layanan Administrasi</h4>
-  <p style={layananDesc}>
-    Pengurusan surat dan administrasi desa secara mudah dan terintegrasi.
-  </p>
-</div>
+        <LayananCard
+          icon="📄"
+          title="Layanan Administrasi"
+          desc="Pengurusan surat dan administrasi desa secara mudah dan terintegrasi."
+          delay="0.2s"
+          onClick={() =>
+      navigate(`/layanan/${slugMap["Layanan Administrasi"]}`)
+    }
+        />
 
-<div
-  style={{
-    ...layananCard,
-    transitionDelay: "0.4s",
-  }}
-  className={`layanan-card ${isLayananVisible ? "show" : ""}`}
->
-  <div style={layananIcon}>📊</div>
-  <h4 style={layananTitle}>Informasi Publik</h4>
-  <p style={layananDesc}>
-    Akses data dan informasi resmi desa secara terbuka dan terpercaya.
-  </p>
-</div>
-        </div>
+        <LayananCard
+          icon="📊"
+          title="Informasi Publik"
+          desc="Akses data dan informasi resmi desa secara terbuka dan terpercaya."
+          delay="0.4s"
+          onClick={() =>
+      navigate(`/layanan/${slugMap["Informasi Publik"]}`)
+    }
+        />
+      </div>
         <div style={{ textAlign: "center", marginTop: "40px" }}>
           <Link to="/layanan" className="btn-layanan">
             Lihat Selengkapnya →
           </Link>
         </div>
       </section>
+      
     
 
 <section
@@ -538,7 +534,23 @@ useEffect(() => {
   );
 }
 
-
+function LayananCard({ icon, title, desc, onClick, delay }) {
+  return (
+    <div
+      onClick={onClick}
+      style={{
+        ...layananCard,
+        transitionDelay: delay,
+        cursor: onClick ? "pointer" : "default",
+      }}
+      className="layanan-card show"
+    >
+      <div style={layananIcon}>{icon}</div>
+      <h4 style={layananTitle}>{title}</h4>
+      <p style={layananDesc}>{desc}</p>
+    </div>
+  );
+}
 const heroSection = {
   position: "relative",
   width: "100%",
@@ -592,15 +604,23 @@ const heroSubtitle = {
   lineHeight: "1.6",
 };
 
+const grid = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+  gap: "28px",
+};
+
 const layananCard = {
-  background: "#ffffff",
+  background: "#fff",
   border: "1px solid #e5e7eb",
   borderRadius: "12px",
   padding: "32px 24px",
   textAlign: "center",
+  minHeight: "260px",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
   transition: "all 0.35s ease",
-  cursor: "default",
-  marginBottom: "10px",
 };
 
 const layananIcon = {
@@ -611,13 +631,11 @@ const layananIcon = {
 const layananTitle = {
   fontSize: "18px",
   fontWeight: "bold",
-  marginBottom: "10px",
 };
 
 const layananDesc = {
   fontSize: "14px",
   color: "#6b7280",
-  lineHeight: "1.6",
 };
 
 const titleWrapper = {

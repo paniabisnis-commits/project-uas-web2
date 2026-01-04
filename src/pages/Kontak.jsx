@@ -54,7 +54,6 @@ export default function Kontak() {
       <section className="kontak-bar">
   <div className="kontak-bar-grid">
 
-    {/* OFFICE 1 */}
     <div className="kontak-bar-item">
       <h3>
         <svg
@@ -81,7 +80,6 @@ export default function Kontak() {
       </p>
     </div>
 
-    {/* OFFICE 2 */}
     <div className="kontak-bar-item">
       <h3>
         <svg
@@ -107,7 +105,6 @@ export default function Kontak() {
       </p>
     </div>
 
-    {/* CONTACT */}
     <div className="kontak-bar-item">
       <h3>
         <svg
@@ -127,7 +124,7 @@ export default function Kontak() {
         Contact
       </h3>
       <p>
-        08xx-xxxx-xxxx <br />
+        (0274) 8xxxxxx <br />
         desasumbersari@gmail.com
       </p>
     </div>

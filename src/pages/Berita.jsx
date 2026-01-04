@@ -13,7 +13,6 @@ export default function Berita() {
   const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // FETCH BERITA
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/berita")
       .then((res) => res.json())
@@ -22,7 +21,6 @@ export default function Berita() {
       .finally(() => setLoading(false));
   }, []);
 
-  // SLIDER OTOMATIS
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
@@ -46,7 +44,6 @@ export default function Berita() {
         </div>
       </header>
 
-      {/* CONTENT */}
       <section className="berita-page">
         {loading && <p>Memuat berita...</p>}
 
@@ -54,7 +51,6 @@ export default function Berita() {
 {Array.isArray(berita) && berita.map((item) => (
 
     <article className="berita-card" key={item.id}>
-      {/* IMAGE */}
       <div className="berita-image">
         {item.image ? (
           <img
@@ -69,8 +65,6 @@ export default function Berita() {
           <span className="berita-placeholder">📰</span>
         )}
       </div>
-
-      {/* CONTENT */}
       <div className="berita-content">
         <small className="berita-date">
           {item.created_at
@@ -85,8 +79,6 @@ export default function Berita() {
             ? item.content.replace(/<[^>]+>/g, "").slice(0, 140) + "..."
             : ""}
         </p>
-
-        {/* READ MORE */}
         <Link to={`/berita/${item.id}`} className="berita-readmore">
           Baca selengkapnya →
         </Link>

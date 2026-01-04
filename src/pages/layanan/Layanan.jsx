@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Layanan.css";
 
-const heroImages = [
+const sliderImages = [
   "/images/desa1.jpg",
   "/images/desa2.jpg",
   "/images/desa3.jpg",
@@ -10,7 +10,8 @@ const heroImages = [
 
 export default function Layanan() {
   const [layanan, setLayanan] = useState([]);
-  const [heroIndex, setHeroIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/layanan")
@@ -22,10 +23,10 @@ export default function Layanan() {
       })
       .catch((err) => console.error("ERROR FETCH:", err));
   }, []);
-
+  
   useEffect(() => {
     const interval = setInterval(() => {
-      setHeroIndex((prev) => (prev + 1) % heroImages.length);
+      setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
     }, 4000);
 
     return () => clearInterval(interval);
@@ -45,23 +46,24 @@ const getSlug = (nama) => {
     .replace(/[^\w-]+/g, "");
 };
 
+
   return (
     <>
-      {/* HERO */}
-      <section
-        className="layanan-hero"
-        style={{ backgroundImage: `url(${heroImages[heroIndex]})` }}
+    <header
+        className="berita-hero"
+        style={{
+          backgroundImage: `url(${sliderImages[currentSlide]})`,
+        }}
       >
-        <div className="layanan-hero-overlay">
+        <div className="berita-hero-overlay">
           <h1>Layanan Publik</h1>
           <p>Pelayanan terbaik untuk masyarakat Desa Sumbersari</p>
         </div>
-      </section>
+      </header>
 
-      {/* CONTENT */}
+      
+  
       <div className="layanan-page">
-
-        {/* LAYANAN TERBARU */}
         {layanan.length > 0 && (
           <section className="layanan-terbaru">
             <h2 className="section-title">Layanan Terbaru Bulan Ini</h2>

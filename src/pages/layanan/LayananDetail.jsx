@@ -98,7 +98,6 @@ export default function LayananDetail() {
 
   return (
     <div className="layanan-detail-page">
-      {/* HEADER */}
       <div className="detail-header">
          <img
     src={`${BASE_IMAGE_URL}${layanan.gambar}`}
@@ -112,7 +111,6 @@ export default function LayananDetail() {
         </div>
       </div>
 
-      {/* PERSYARATAN & ALUR */}
 <div className="detail-grid">
   <section className="detail-section">
     <h3>Persyaratan</h3>
