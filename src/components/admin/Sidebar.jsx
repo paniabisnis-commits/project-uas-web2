@@ -176,7 +176,7 @@ const logoutItem = {
   margin: "15px",
   border: "none",
   cursor: "pointer",
-  background: "#3e7258ff", // hijau army
+  background: "#3e7258ff", 
   color: "#ecfdf5",
   fontWeight: "600",
 };
