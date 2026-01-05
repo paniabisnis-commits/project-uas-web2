@@ -6,6 +6,7 @@ import Berita from "./pages/Berita";
 import Pengaduan from "./pages/Pengaduan";
 import Layanan from "./pages/layanan/Layanan";
 import LayananDetail from "./pages/layanan/LayananDetail";
+import BeritaDetail from "./pages/berita/BeritaDetail";
 import KalenderEvent from "./pages/KalenderEvent";
 import Kontak from "./pages/Kontak";
 import Profile from "./pages/Profile";
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
         <Route path="/berita" element={<Berita />} />
+        <Route path="/berita/:slug" element={<BeritaDetail />} />
         <Route path="/layanan" element={<Layanan />} />
         <Route path="/layanan/:slug" element={<LayananDetail />} />
         <Route path="/pengaduan" element={<Pengaduan />} />

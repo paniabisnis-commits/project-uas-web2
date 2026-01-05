@@ -12,4 +12,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+export const getBeritaDetail = (slug) =>
+  fetch(`${API_URL}/berita/${slug}`).then(res => res.json());
 export default api;

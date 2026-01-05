@@ -79,7 +79,7 @@ export default function Berita() {
             ? item.content.replace(/<[^>]+>/g, "").slice(0, 140) + "..."
             : ""}
         </p>
-        <Link to={`/berita/${item.id}`} className="berita-readmore">
+        <Link to={`/berita/${item.slug}`} className="berita-readmore">
           Baca selengkapnya →
         </Link>
       </div>

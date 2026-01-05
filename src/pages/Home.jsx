@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import PengaduanSection from "../components/PengaduanSection";
@@ -67,6 +67,24 @@ useEffect(() => {
 }, []);
 
 
+const [showTitle, setShowTitle] = useState(false);
+const titleRef = useRef(null);
+
+useEffect(() => {
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        setShowTitle(true);
+        observer.disconnect();
+      }
+    },
+    { threshold: 0.3 }
+  );
+
+  if (titleRef.current) observer.observe(titleRef.current);
+
+  return () => observer.disconnect();
+}, []);
 
 const [isEventVisible, setIsEventVisible] = useState(false);
 
@@ -291,8 +309,19 @@ const scrollToPengaduan = () => {
   id="berita-section"
   style={{ padding: "60px 20px", background: "#f1f5f9" }}
 >
-  <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-    <h2 style={titleWrapper}>Berita</h2>
+  <div style={{ width: "100%", maxWidth: "1440px", margin: "0 auto" }}>
+    <h2
+  ref={titleRef}
+  style={{
+    ...titleWrapper,
+    opacity: showTitle ? 1 : 0,
+    transform: showTitle ? "translateY(0)" : "translateY(20px)",
+    transition: "all 0.6s ease-out",
+  }}
+>
+  Berita
+</h2>
+
 
     <p style={{ color: "#6b7280", marginBottom: "30px" }}>
       Update informasi seputar Desa Sumbersari
