@@ -20,10 +20,27 @@ export default function PengaduanSection() {
     apiClient
       .get("/user")
       .then((res) => {
-        setNama(res.data.user.name);
-        setEmail(res.data.user.email);
+        setNama(res.data.name);
+        setEmail(res.data.email);
+
       })
       .catch((err) => console.error("Gagal ambil user", err));
+  }, [token]);
+  useEffect(() => {
+    console.log("TOKEN:", token);
+
+    if (!token) return;
+
+    apiClient
+      .get("/user")
+      .then((res) => {
+        console.log("USER:", res.data);
+        setNama(res.data.name);
+        setEmail(res.data.email);
+      })
+      .catch((err) => {
+        console.error("401 DETAIL:", err.response?.data);
+      });
   }, [token]);
 
   /* ================= AMBIL SEMUA PENGADUAN ================= */

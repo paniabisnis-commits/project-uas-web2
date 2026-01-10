@@ -33,7 +33,7 @@ export default function Login() {
     const { token, user } = res.data;
 
     // Simpan ke localStorage
-    localStorage.setItem("token", token);
+    localStorage.setItem("token", res.data.access_token);
     localStorage.setItem("name", user.name);
     localStorage.setItem("email", user.email);
     localStorage.setItem("role", user.role);

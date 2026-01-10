@@ -45,16 +45,23 @@ export default function KalenderEvent() {
   }, [search, allEvents]);
 
   const formatTanggal = (dateString) => {
-    if (!dateString) return "Tanggal belum ditentukan";
-    const date = new Date(dateString);
-    return isNaN(date)
-      ? "Format tanggal tidak valid"
-      : date.toLocaleDateString("id-ID", {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        });
-  };
+  if (!dateString || dateString === "0000-00-00") {
+    return "Tanggal belum ditentukan";
+  }
+
+  const date = new Date(dateString);
+
+  if (isNaN(date.getTime())) {
+    return "Tanggal belum ditentukan";
+  }
+
+  return date.toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+};
+
 
   const getMonthClass = (dateString) => {
   if (!dateString) return "month-default";
