@@ -10,7 +10,6 @@ const sliderImages = [
 
 export default function Layanan() {
   const [layanan, setLayanan] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
@@ -80,7 +79,7 @@ const getSlug = (nama) => {
                 <h3>{layanan[0].nama_layanan}</h3>
                 <p>{layanan[0].deskripsi}</p>
 
-                <Link to="/#pengaduan" className="layanan-btn">
+                <Link to="/layanan/permohonan-surat" className="layanan-btn">
                   Detail Layanan
                 </Link>
               </div>

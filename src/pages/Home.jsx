@@ -6,6 +6,11 @@ import PengaduanSection from "../components/PengaduanSection";
 import CountUpNumber from "../components/CountUpNumber";
 
 export default function Home() {
+  
+  const [showHeroText, setShowHeroText] = useState(false);
+  const [heroTextIndex, setHeroTextIndex] = useState(0);
+  const heroSubtitleText = "Portal informasi dan layanan publik Pemerintah Desa Sumbersari untuk masyarakat yang transparan, cepat, dan terpercaya.";
+
   const [berita, setBerita] = useState([]);
   const navigate = useNavigate();
 
@@ -22,6 +27,21 @@ useEffect(() => {
     });
 }, []);
 
+  useEffect(() => {
+  const timeout = setTimeout(() => setShowHeroText(true), 300); // delay muncul
+  return () => clearTimeout(timeout);
+}, []);
+
+  useEffect(() => {
+  const interval = setInterval(() => {
+    setHeroTextIndex((prev) => {
+      if (prev < heroSubtitleText.length) return prev + 1;
+      clearInterval(interval);
+      return prev;
+    });
+  }, 30); // 30ms per huruf → stabil
+  return () => clearInterval(interval);
+}, []);
 
   const beritaUtama = berita[0];
   const beritaLainnya = berita.slice(1, 4);
@@ -234,12 +254,37 @@ const scrollToPengaduan = () => {
 
   {/* Konten */}
   <div style={heroContent}>
-    <h1 style={heroTitle}>Website Resmi Desa Sumbersari</h1>
-    <p style={heroSubtitle}>
-      Portal informasi dan layanan publik Pemerintah Desa Sumbersari untuk
-      masyarakat yang transparan, cepat, dan terpercaya.
-    </p>
-  </div>
+  <h1
+    style={{
+      ...heroTitle,
+      opacity: showHeroText ? 1 : 0,
+      transform: showHeroText ? "translateY(0)" : "translateY(20px)",
+      transition: "all 0.8s ease-out",
+    }}
+  >
+    Website Resmi Desa Sumbersari
+  </h1>
+  <p
+  style={{
+    ...heroSubtitle,
+    whiteSpace: "pre-wrap", // supaya enter/spasi tetap
+  }}
+>
+  {heroSubtitleText.slice(0, heroTextIndex).split("").map((char, i) => (
+    <span
+      key={i}
+      style={{
+        opacity: 1,
+        transition: "opacity 0.2s",
+      }}
+    >
+      {char}
+    </span>
+  ))}
+</p>
+
+</div>
+
 </section>
       {/* ================= LAYANAN PUBLIK SECTION ================= */}
       <section

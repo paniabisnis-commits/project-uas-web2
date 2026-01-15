@@ -43,7 +43,6 @@ export default function PengaduanSection() {
       });
   }, [token]);
 
-  /* ================= AMBIL SEMUA PENGADUAN ================= */
   const fetchPengaduan = async () => {
     try {
       const res = await apiClient.get("/pengaduan");
@@ -57,7 +56,6 @@ export default function PengaduanSection() {
     if (showModal) fetchPengaduan();
   }, [showModal]);
 
-  /* ================= SUBMIT ================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -132,8 +130,24 @@ export default function PengaduanSection() {
           </div>
 
           <button style={submitBtn} disabled={loading || !token}>
-            📤 Kirim Pengaduan
-          </button>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ marginRight: "8px", verticalAlign: "middle" }}
+    viewBox="0 0 24 24"
+  >
+    <line x1="22" y1="2" x2="11" y2="13"></line>
+    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+  </svg>
+  Kirim Pengaduan
+</button>
+
 
           {/* PROGRESS */}
           {loading && (
