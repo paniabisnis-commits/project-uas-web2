@@ -9,10 +9,9 @@ export default function AdminEvent() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [eventDate, setEventDate] = useState("");
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
-  
-
-  // MODAL STATE
   const [editingId, setEditingId] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
@@ -91,21 +90,19 @@ setShowModal(false);
 resetForm();
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm("Yakin ingin menghapus event ini?")) return;
-    await apiClient.delete(`/events/${id}`);
+ const handleDeleteClick = (id) => {
+  setDeleteId(id);
+  setShowConfirm(true);
+};
 
-setSuccessMsg("Event berhasil dihapus");
-fetchEvents();
+const confirmDelete = async () => {
+  await apiClient.delete(`/events/${deleteId}`);
+  setSuccessMsg("Event berhasil dihapus");
+  fetchEvents();
+  setShowConfirm(false);
+  setDeleteId(null);
+};
 
-  };
-
-  const resetForm = () => {
-    setTitle("");
-    setDescription("");
-    setEventDate("");
-    setEditingId(null);
-  };
 
   return (
     <div className="admin-container admin-event">
@@ -120,9 +117,32 @@ fetchEvents();
     ✅ {successMsg}
   </div>
 )}
+{showConfirm && (
+  <div className="alert alert-confirm slide-down">
+    <div className="alert-confirm-inner">
+      <div className="alert-text">
+        <strong>Hapus data ini?</strong>
+        <small>Data yang dihapus tidak dapat dikembalikan</small>
+      </div>
+
+      <div className="alert-actions">
+        <button className="btn btn-confirm" onClick={confirmDelete}>
+          OK
+        </button>
+        <button
+          className="btn btn-cancel"
+          onClick={() => setShowConfirm(false)}
+        >
+          Batal
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
       <h2 className="admin-title">Manajemen Event <br /> Desa Sumbersari</h2>
        <div className="form-card full-width">
-        <h4>Tambah Event</h4>
+        <h4>Tambah Event Baru</h4>
 
         <div className="form-grid">
           <input
@@ -189,7 +209,7 @@ fetchEvents();
                   {/* DELETE */}
                   <button
                     className="icon-btn delete"
-                    onClick={() => handleDelete(e.id)}
+                    onClick={() => handleDeleteClick(e.id)}
                     title="Hapus Event"
                   >
                     <svg viewBox="0 0 24 24">

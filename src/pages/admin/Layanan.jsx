@@ -134,7 +134,6 @@ const cancelDelete = () => {
 {showDeleteConfirm && (
   <div className="alert alert-confirm slide-down">
     <div className="alert-confirm-inner">
-      <span className="alert-icon">🗑️</span>
       <div className="alert-text">
         <strong>Hapus layanan ini?</strong>
         <small>Data yang dihapus tidak dapat dikembalikan</small>
@@ -156,7 +155,7 @@ const cancelDelete = () => {
         <br />Desa Sumbersari</h2>
 
       <div className="form-card full-width">
-        <h4>Tambah Layanan</h4>
+        <h4>Tambah Layanan Baru</h4>
 
         <div className="form-grid">
           <input

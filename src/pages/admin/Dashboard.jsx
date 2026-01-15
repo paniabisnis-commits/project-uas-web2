@@ -67,7 +67,7 @@ export default function AdminDashboard() {
 
 const fetchActivities = async () => {
   try {
-    const res = await apiClient.get("/api/admin/activities");
+    const res = await apiClient.get("/admin/activities");
 
     console.log("RESPON ACTIVITIES:", res.data); // 🔍 DEBUG
 
@@ -242,23 +242,48 @@ if (screenWidth < 480) statsColumns = "repeat(1, 1fr)";
   />
 </div>
 
-      <div style={widget}>
-  <h3>Aktivitas Terbaru</h3>
+     <div style={widget}>
+  <h3 style={{ marginBottom: "16px" }}>Aktivitas Terbaru</h3>
 
   {activities.length === 0 ? (
-  <p>Belum ada aktivitas terbaru</p>
-) : (
-  <ul>
-    {activities.map((item, index) => (
-      <li key={index}>
-        <strong>{item.type.toUpperCase()}</strong> — {item.title}
-        <br />
-        <small>{item.created_at}</small>
-      </li>
-    ))}
-  </ul>
+    <p>Belum ada aktivitas terbaru</p>
+  ) : (
+    <div style={{ overflowX: "auto" }}>
+      <table style={activityTable}>
+        <thead>
+          <tr>
+            <th style={{ width: "40px" }}>No</th>
+            <th style={{ width: "150px" }}>Tipe Aktivitas</th>
+            <th>Judul</th>
+            <th style={{ width: "180px" }}>Waktu</th>
+          </tr>
+        </thead>
+        <tbody>
+          {activities.map((item, index) => (
+            <tr key={index} style={index % 2 === 0 ? { background: "#f9fafb" } : {}}>
+              <td style={activityTd}>{index + 1}</td>
+              <td style={{ ...activityTd, textTransform: "capitalize", fontWeight: 600 }}>
+                {item.type}
+              </td>
+              <td style={activityTd}>{item.title}</td>
+              <td style={{ ...activityTd, fontSize: "12px", color: "#6b7280", whiteSpace: "nowrap" }}>
+                {new Date(item.created_at).toLocaleString("id-ID", {
+                  weekday: "short",
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )}
 </div>
+
 
     </div>
   );
@@ -296,6 +321,7 @@ const StatCard = ({ title, value, icon }) => {
 
 const page = {
   padding: "10px 20px 20px",
+  marginLeft: "240px",
 };
 
 const header = {
@@ -393,6 +419,19 @@ const widget = {
   borderRadius: "14px",
   border: "1px solid #e5e7eb",
   boxShadow: "0 10px 20px rgba(0,0,0,0.06)",
+};
+
+const activityTable = {
+  width: "100%",
+  borderCollapse: "collapse",
+  minWidth: "600px",
+};
+
+const activityTd = {
+  padding: "10px 12px",
+  borderBottom: "1px solid #e5e7eb",
+  fontSize: "14px",
+  color: "#374151",
 };
 
 statCard.transition = "all 0.2s ease";

@@ -1,37 +1,36 @@
 import { useEffect, useState } from "react";
 import apiClient from "../../api/apiClient";
-import "./AdminBerita.css"; 
+import "../../styles/admin.css";
 
 export default function AdminBerita() {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+
   const [berita, setBerita] = useState([]);
-  const [judul, setJudul] = useState("");
-  const [isi, setIsi] = useState("");
-  const [gambar, setGambar] = useState(null);
-  const [gambarPreview, setGambarPreview] = useState(null);
-  const [editingId, setEditingId] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [formLoading, setFormLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("terbaru");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [notification, setNotification] = useState({ show: false, message: "", type: "" });
 
-  // Fetch berita dari API
+  // Modal Edit
+  const [showModal, setShowModal] = useState(false);
+  const [editData, setEditData] = useState({
+    id: null,
+    title: "",
+    content: "",
+    image: null,
+    imagePreview: null,
+  });
+
+  // Fetch semua berita
   const fetchBerita = async () => {
-    setIsLoading(true);
     try {
       const res = await apiClient.get("/admin/berita");
-      if (res.data && res.data.data) {
-        setBerita(res.data.data);
-      } else {
-        setBerita([]);
-        showNotification("Data berita tidak ditemukan", "warning");
-      }
-    } catch (error) {
-      console.error("Error fetching berita:", error);
-      showNotification("Gagal mengambil data berita", "error");
-      setBerita([]);
-    } finally {
-      setIsLoading(false);
+      setBerita(res.data.data || []);
+    } catch (err) {
+      console.error(err);
+      showNotification("Gagal memuat berita", "error");
     }
   };
 
@@ -39,330 +38,232 @@ export default function AdminBerita() {
     fetchBerita();
   }, []);
 
-  // Menampilkan notifikasi
+  // Notification
   const showNotification = (message, type) => {
     setNotification({ show: true, message, type });
-    setTimeout(() => {
-      setNotification({ show: false, message: "", type: "" });
-    }, 4000);
+    setTimeout(() => setNotification({ show: false, message: "", type: "" }), 4000);
   };
 
-  // Handle submit form
+  // Handle image preview tambah berita
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+    setImagePreview(file ? URL.createObjectURL(file) : null);
+  };
+
+  const resetForm = () => {
+    setTitle("");
+    setContent("");
+    setImage(null);
+    setImagePreview(null);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setFormLoading(true);
+    if (!title || !content || !image) {
+      showNotification("Semua field wajib diisi", "error");
+      return;
+    }
 
     const formData = new FormData();
-    formData.append("judul", judul.trim());
-    formData.append("isi", isi.trim());
-    if (gambar) formData.append("gambar", gambar);
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("image", image);
 
     try {
-      if (editingId) {
-        await apiClient.post(`/admin/berita/${editingId}?_method=PUT`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        showNotification("Berita berhasil diperbarui", "success");
-      } else {
-        await apiClient.post("/admin/berita", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        showNotification("Berita berhasil ditambahkan", "success");
-      }
-
+      await apiClient.post("/berita", formData, { headers: { "Content-Type": "multipart/form-data" } });
+      showNotification("Berita berhasil ditambahkan", "success");
       resetForm();
       fetchBerita();
-    } catch (error) {
-      console.error("Error saving berita:", error);
-      showNotification(
-        editingId ? "Gagal memperbarui berita" : "Gagal menambahkan berita",
-        "error"
-      );
-    } finally {
-      setFormLoading(false);
+    } catch (err) {
+      console.error(err);
+      showNotification("Gagal menambahkan berita", "error");
     }
   };
 
-  // Handle edit berita
-  const handleEdit = (b) => {
-    setEditingId(b.id);
-    setJudul(b.judul);
-    setIsi(b.isi);
-    setGambarPreview(b.gambar_url || null);
-    setGambar(null);
-    
-    // Scroll ke form
-    document.getElementById("form-berita").scrollIntoView({ behavior: "smooth" });
-  };
-
-  // Handle delete berita
-  const handleDelete = async (id) => {
-    if (!confirm("Apakah Anda yakin ingin menghapus berita ini?")) return;
-    
-    try {
-      await apiClient.delete(`/admin/berita/${id}`);
-      showNotification("Berita berhasil dihapus", "success");
-      fetchBerita();
-    } catch (error) {
-      console.error("Error deleting berita:", error);
-      showNotification("Gagal menghapus berita", "error");
-    }
-  };
-
-  // Handle gambar preview
-  const handleGambarChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setGambar(file);
-      const previewUrl = URL.createObjectURL(file);
-      setGambarPreview(previewUrl);
-    }
-  };
-
-  // Reset form
-  const resetForm = () => {
-    setJudul("");
-    setIsi("");
-    setGambar(null);
-    setGambarPreview(null);
-    setEditingId(null);
-    
-    // Reset file input
-    const fileInput = document.querySelector('input[type="file"]');
-    if (fileInput) fileInput.value = "";
-  };
-
-  // Filter dan sort berita
-  const filteredBerita = berita
-    .filter((b) => 
-      b.judul.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      b.isi.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .sort((a, b) => {
-      if (sortBy === "terbaru") {
-        return new Date(b.created_at || 0) - new Date(a.created_at || 0);
-      } else if (sortBy === "terlama") {
-        return new Date(a.created_at || 0) - new Date(b.created_at || 0);
-      } else {
-        return a.judul.localeCompare(b.judul);
-      }
+  // Open modal edit
+  const openEditModal = (b) => {
+    setEditData({
+      id: b.id,
+      title: b.title,
+      content: b.content,
+      image: null,
+      imagePreview: b.image ? `http://127.0.0.1:8000/storage/${b.image}` : null,
     });
-
-  // Format tanggal
-  const formatDate = (dateString) => {
-    if (!dateString) return "Tanggal tidak tersedia";
-    
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat("id-ID", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(date);
+    setShowModal(true);
   };
+
+  const handleEditImageChange = (e) => {
+    const file = e.target.files[0];
+    setEditData((prev) => ({
+      ...prev,
+      image: file,
+      imagePreview: file ? URL.createObjectURL(file) : prev.imagePreview,
+    }));
+  };
+
+  const handleUpdate = async () => {
+    if (!editData.title || !editData.content) {
+      showNotification("Judul dan isi wajib diisi", "error");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("title", editData.title);
+    formData.append("content", editData.content);
+    if (editData.image) formData.append("image", editData.image);
+
+    try {
+      await apiClient.post(`/berita/${editData.id}?_method=PUT`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      showNotification("Berita berhasil diperbarui", "success");
+      setShowModal(false);
+      fetchBerita();
+    } catch (err) {
+      console.error(err);
+      showNotification("Gagal memperbarui berita", "error");
+    }
+  };
+
+  const handleDeleteClick = (id) => {
+  setNotification({ show: false, message: "", type: "" });
+  setDeleteId(id);
+  setShowConfirm(true);
+};
+
+
+const confirmDelete = async () => {
+  try {
+    await apiClient.delete(`/berita/${deleteId}`);
+    showNotification("Berita berhasil dihapus", "success");
+    fetchBerita();
+  } catch {
+    showNotification("Gagal menghapus berita", "error");
+  } finally {
+    setShowConfirm(false);
+    setDeleteId(null);
+  }
+};
+
+
+  const truncateContent = (text, len = 100) =>
+    text.length > len ? text.substring(0, len) + "..." : text;
 
   return (
-    <div className="admin-berita-container">
-      {/* Notifikasi */}
+    <div className="admin-container">
       {notification.show && (
-        <div className={`notification notification-${notification.type}`}>
-          {notification.message}
-          <button className="notification-close" onClick={() => setNotification({ show: false, message: "", type: "" })}>
-            &times;
-          </button>
+        <div className={`alert alert-${notification.type}`}>{notification.message}</div>
+      )}
+{showConfirm && (
+  <div className="alert alert-confirm slide-down">
+    <div className="alert-confirm-inner">
+
+      <div className="alert-text">
+        <strong>Hapus data ini?</strong>
+        <small>Data yang dihapus tidak dapat dikembalikan</small>
+      </div>
+
+      <div className="alert-actions">
+        <button className="btn btn-confirm" onClick={confirmDelete}>
+          OK
+        </button>
+        <button
+          className="btn btn-cancel"
+          onClick={() => setShowConfirm(false)}
+        >
+          Batal
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+      <h2 className="admin-title">Manajemen Berita <br />Desa Sumbersari</h2>
+
+      {/* Form Tambah Berita */}
+<div className="form-card full-width">
+  <h4>Tambah Berita Baru</h4>
+  <div className="form-add-berita">
+    <input
+      type="text"
+      placeholder="Judul Berita"
+      value={title}
+      onChange={(e) => setTitle(e.target.value)}
+      className="field-judul"
+    />
+    <textarea
+      placeholder="Isi Berita"
+      value={content}
+      onChange={(e) => setContent(e.target.value)}
+    />
+    <input type="file" onChange={handleImageChange} className="field-gambar" />
+    {imagePreview && <img src={imagePreview} className="thumb-preview" alt="Preview" />}
+    <button className="btn btn-submit btn-full" onClick={handleSubmit}>
+      Tambah Berita
+    </button>
+  </div>
+</div>
+
+        
+
+      {/* Table Berita */}
+      <table className="admin-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Gambar</th>
+            <th>Judul</th>
+            <th>Isi Berita</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {berita.map((b, i) => (
+            <tr key={b.id}>
+              <td>{i + 1}</td>
+              <td>{b.image ? <img src={`http://127.0.0.1:8000/storage/${b.image}`} className="thumb" /> : "–"}</td>
+              <td>{b.title}</td>
+              <td>{truncateContent(b.content, 80)}</td>
+              <td className="aksi">
+                <div className="action-group">
+                  <button className="icon-btn edit" onClick={() => openEditModal(b)} title="Edit Berita">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25z"/>
+                      <path d="M20.7 7.04a1 1 0 000-1.41L18.37 3.3a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.82-1.84z"/>
+                    </svg>
+                  </button>
+                  <button className="icon-btn delete" onClick={() => handleDeleteClick(b.id)}
+                      title="Hapus Berita">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M6 7h12M9 7v10m6-10v10M4 7h16l-1 14H5L4 7z"/>
+                      <path d="M9 4h6l1 2H8l1-2z"/>
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Modal Edit Berita */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <button className="modal-close" onClick={() => setShowModal(false)}>✖</button>
+            <h3>Edit Berita</h3>
+            <input type="text" placeholder="Judul Berita" value={editData.title} onChange={(e) => setEditData({ ...editData, title: e.target.value })} />
+            <textarea placeholder="Isi Berita" value={editData.content} onChange={(e) => setEditData({ ...editData, content: e.target.value })} />
+            <input type="file" onChange={handleEditImageChange} />
+            {editData.imagePreview && <img src={editData.imagePreview} className="thumb-preview" alt="Preview" />}
+            <div className="btn-group right">
+              <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Batal</button>
+              <button className="btn btn-success" onClick={handleUpdate}>Simpan</button>
+            </div>
+          </div>
         </div>
       )}
-
-      <div className="admin-header">
-        <h1 className="page-title">Manajemen Berita</h1>
-        <p className="page-subtitle">Kelola berita website Anda di sini</p>
-      </div>
-
-      {/* Form untuk tambah/edit berita */}
-      <div className="form-section" id="form-berita">
-        <div className="section-header">
-          <h2>{editingId ? "Edit Berita" : "Tambah Berita Baru"}</h2>
-          {editingId && (
-            <button className="btn-secondary" onClick={resetForm}>
-              Batalkan Edit
-            </button>
-          )}
-        </div>
-
-        <form onSubmit={handleSubmit} className="berita-form">
-          <div className="form-group">
-            <label htmlFor="judul">Judul Berita *</label>
-            <input
-              id="judul"
-              type="text"
-              placeholder="Masukkan judul berita"
-              value={judul}
-              onChange={(e) => setJudul(e.target.value)}
-              required
-              maxLength={200}
-            />
-            <div className="char-count">{judul.length}/200 karakter</div>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="isi">Isi Berita *</label>
-            <textarea
-              id="isi"
-              placeholder="Masukkan isi berita"
-              value={isi}
-              onChange={(e) => setIsi(e.target.value)}
-              rows={8}
-              required
-            />
-            <div className="char-count">{isi.length} karakter</div>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="gambar">Gambar Berita {!editingId && "*"}</label>
-            <input
-              id="gambar"
-              type="file"
-              accept="image/*"
-              onChange={handleGambarChange}
-              required={!editingId && !gambarPreview}
-            />
-            <p className="file-info">Format yang didukung: JPG, PNG, GIF. Maksimum 5MB.</p>
-            
-            {gambarPreview && (
-              <div className="image-preview">
-                <p>Preview:</p>
-                <img src={gambarPreview} alt="Preview" />
-              </div>
-            )}
-          </div>
-
-          <div className="form-actions">
-            <button 
-              type="submit" 
-              className="btn-primary"
-              disabled={formLoading}
-            >
-              {formLoading ? (
-                <span className="loading-spinner"></span>
-              ) : editingId ? (
-                "Perbarui Berita"
-              ) : (
-                "Simpan Berita"
-              )}
-            </button>
-            
-            <button 
-              type="button" 
-              className="btn-outline" 
-              onClick={resetForm}
-              disabled={formLoading}
-            >
-              Reset Form
-            </button>
-          </div>
-        </form>
-      </div>
-
-      {/* Daftar berita */}
-      <div className="berita-list-section">
-        <div className="section-header">
-          <h2>Daftar Berita ({filteredBerita.length})</h2>
-          
-          <div className="list-controls">
-            <div className="search-box">
-              <input
-                type="text"
-                placeholder="Cari berita..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <span className="search-icon">🔍</span>
-            </div>
-            
-            <div className="sort-control">
-              <label htmlFor="sort">Urutkan:</label>
-              <select 
-                id="sort" 
-                value={sortBy} 
-                onChange={(e) => setSortBy(e.target.value)}
-              >
-                <option value="terbaru">Terbaru</option>
-                <option value="terlama">Terlama</option>
-                <option value="judul">Judul (A-Z)</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        {isLoading ? (
-          <div className="loading-container">
-            <div className="loading-spinner-large"></div>
-            <p>Memuat data berita...</p>
-          </div>
-        ) : filteredBerita.length === 0 ? (
-          <div className="empty-state">
-            <div className="empty-icon">📰</div>
-            <h3>Tidak ada berita ditemukan</h3>
-            <p>{searchTerm ? "Coba dengan kata kunci lain" : "Mulai dengan menambahkan berita pertama Anda"}</p>
-          </div>
-        ) : (
-          <div className="berita-grid">
-            {filteredBerita.map((b) => (
-              <div className="berita-card" key={b.id}>
-                <div className="berita-card-header">
-                  {b.gambar_url && (
-                    <div className="berita-image">
-                      <img src={b.gambar_url} alt={b.judul} />
-                    </div>
-                  )}
-                  <div className="berita-meta">
-                    <span className="berita-date">{formatDate(b.created_at)}</span>
-                    {b.updated_at && b.updated_at !== b.created_at && (
-                      <span className="berita-updated">(diedit)</span>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="berita-card-body">
-                  <h3 className="berita-title">{b.judul}</h3>
-                  <p className="berita-excerpt">
-                    {b.isi.length > 150 ? `${b.isi.substring(0, 150)}...` : b.isi}
-                  </p>
-                </div>
-                
-                <div className="berita-card-footer">
-                  <button 
-                    className="btn-action edit"
-                    onClick={() => handleEdit(b)}
-                  >
-                    ✏️ Edit
-                  </button>
-                  <button 
-                    className="btn-action delete"
-                    onClick={() => handleDelete(b.id)}
-                  >
-                    🗑️ Hapus
-                  </button>
-                  <div className="berita-id">ID: {b.id}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Footer info */}
-      <div className="admin-footer">
-        <p>
-          <strong>Total Berita:</strong> {berita.length} | 
-          <strong> Sedang diedit:</strong> {editingId ? "Ya" : "Tidak"} | 
-          <strong> Ditampilkan:</strong> {filteredBerita.length}
-        </p>
-        <p className="footer-note">
-          ⓘ Semua perubahan yang dilakukan akan langsung tersimpan di database.
-        </p>
-      </div>
     </div>
   );
 }
