@@ -631,3 +631,89 @@
 .admin-container .btn-success:hover {
   background-color: #15803d;
 }
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 14px 16px;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 14px;
+}
+/* Status badge */
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: capitalize;
+}
+.status-badge.baru {
+  background-color: #2563eb; /* biru */
+}
+.status-badge.diproses {
+  background-color: #f59e0b; /* oranye */
+}
+.status-badge.selesai {
+  background-color: #16a34a; /* hijau */
+}
+
+/* Action group */
+.action-group {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.status-select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  cursor: pointer;
+}
+
+/* Icon button */
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.icon-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+/* Delete button */
+.icon-btn.delete {
+  color: #b91c1c;
+  border-color: #fecaca;
+  background-color: #fef2f2;
+}
+.icon-btn.delete:hover {
+  background-color: #fee2e2;
+}
+
+.loading-text {
+  color: #0f766e;
+  font-weight: 600;
+  text-align: center;
+  padding: 20px;
+}
+.error-text {
+  color: #b91c1c;
+  font-weight: 600;
+  text-align: center;
+  padding: 20px;
+}

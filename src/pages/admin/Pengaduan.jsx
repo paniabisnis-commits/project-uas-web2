@@ -1,22 +1,17 @@
 import { useEffect, useState } from "react";
 import apiClient from "../../api/apiClient";
+import "../../styles/admin.css"; 
 
 export default function Pengaduan() {
   const [complaints, setComplaints] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // ===============================
-  // Ambil data pengaduan
-  // ===============================
   const fetchComplaints = async () => {
     try {
       const res = await apiClient.get("/admin/pengaduan");
-      setComplaints(res.data.data);
+      setComplaints(res.data.data || []);
     } catch (err) {
       setError("Gagal mengambil data pengaduan");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -24,130 +19,110 @@ export default function Pengaduan() {
     fetchComplaints();
   }, []);
 
-  // ===============================
   // Update status pengaduan
-  // ===============================
   const updateStatus = async (id, status) => {
     try {
-      await apiClient.put(`/admin/pengaduan/${id}/status`, {
-        status,
-      });
-
-      // update state tanpa reload
+      await apiClient.put(`/admin/pengaduan/${id}/status`, { status });
       setComplaints((prev) =>
-        prev.map((item) =>
-          item.id === id ? { ...item, status } : item
-        )
+        prev.map((item) => (item.id === id ? { ...item, status } : item))
       );
     } catch (err) {
       alert("Gagal memperbarui status");
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  // Hapus pengaduan
+  const handleDelete = async (id, status) => {
+    if (status === "selesai") return; // tidak bisa hapus jika sudah selesai
+    if (!confirm("Yakin ingin menghapus pengaduan ini?")) return;
+    try {
+      await apiClient.delete(`/admin/pengaduan/${id}`);
+      setComplaints((prev) => prev.filter((item) => item.id !== id));
+    } catch (err) {
+      alert("Gagal menghapus pengaduan");
+    }
+  };
 
   return (
-    <div style={wrapper}>
-      <h2 style={title}>📩 Daftar Pengaduan Masyarakat</h2>
+    <div className="admin-container">
+      <h2 className="admin-title">Manajemen Pengaduan Masyarakat <br />Desa Sumbersari</h2>
 
-      <div style={tableWrapper}>
-        <table style={table}>
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>Nama</th>
-              <th>Email</th>
-              <th>Isi Pengaduan</th>
-              <th>Status</th>
-              <th>Tanggal</th>
-              <th>Aksi</th>
-            </tr>
-          </thead>
+      {error && <p className="error-text">{error}</p>}
 
-          <tbody>
-            {complaints.length === 0 ? (
+      <div className="form-card full-width">
+        <div className="table-wrapper">
+          <table className="admin-table">
+            <thead>
               <tr>
-                <td colSpan="7" style={{ textAlign: "center" }}>
-                  Tidak ada pengaduan
-                </td>
+                <th>No</th>
+                <th>Nama</th>
+                <th>Email</th>
+                <th>Isi Pengaduan</th>
+                <th>Status</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
               </tr>
-            ) : (
-              complaints.map((item, index) => (
-                <tr key={item.id}>
-                  <td>{index + 1}</td>
-                  <td>{item.nama_pengadu}</td>
-                  <td>{item.email}</td>
-                  <td>{item.isi_pengaduan}</td>
-                  <td>
-                    <span style={statusBadge(item.status)}>
-                      {item.status}
-                    </span>
-                  </td>
-                  <td>
-                    {new Date(item.created_at).toLocaleDateString("id-ID")}
-                  </td>
-                  <td>
-                    <select
-                      value={item.status}
-                      onChange={(e) =>
-                        updateStatus(item.id, e.target.value)
-                      }
-                      style={select}
-                    >
-                      <option value="baru">Baru</option>
-                      <option value="diproses">Diproses</option>
-                      <option value="selesai">Selesai</option>
-                    </select>
+            </thead>
+            <tbody>
+              {complaints.length === 0 ? (
+                <tr>
+                  <td colSpan="7" style={{ textAlign: "center" }}>
+                    Tidak ada pengaduan
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                complaints.map((item, index) => {
+                  const isFinished = item.status === "selesai";
+                  return (
+                    <tr key={item.id}>
+                      <td>{index + 1}</td>
+                      <td>{item.nama_pengadu}</td>
+                      <td>{item.email}</td>
+                      <td>{item.isi_pengaduan}</td>
+                      <td>
+                        <span className={`status-badge ${item.status}`}>
+                          {item.status}
+                        </span>
+                      </td>
+                      <td>
+                        {new Date(item.created_at).toLocaleDateString("id-ID")}
+                      </td>
+                      <td>
+                        <div className="action-group">
+                          <select
+                            className="status-select"
+                            value={item.status}
+                            onChange={(e) =>
+                              updateStatus(item.id, e.target.value)
+                            }
+                            disabled={isFinished} // dinonaktifkan jika sudah selesai
+                          >
+                            <option value="baru">Baru</option>
+                            <option value="diproses">Diproses</option>
+                            <option value="selesai">Selesai</option>
+                          </select>
+
+                          <button
+                            className="icon-btn delete"
+                            onClick={() => handleDelete(item.id, item.status)}
+                            title="Hapus Pengaduan"
+                            disabled={isFinished} // dinonaktifkan jika sudah selesai
+                          >
+                            <svg viewBox="0 0 24 24">
+                              <path d="M6 7h12M9 7v10m6-10v10M4 7h16l-1 14H5L4 7z" />
+                              <path d="M9 4h6l1 2H8l1-2z" />
+                            </svg>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
 }
-
-const wrapper = {
-  padding: "20px",
-};
-
-const title = {
-  marginBottom: "20px",
-  color: "#064e3b",
-};
-
-const tableWrapper = {
-  overflowX: "auto",
-  background: "#fff",
-  borderRadius: "10px",
-  boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
-};
-
-const table = {
-  width: "100%",
-  borderCollapse: "collapse",
-};
-
-const select = {
-  padding: "6px",
-  borderRadius: "6px",
-  border: "1px solid #ccc",
-  cursor: "pointer",
-};
-
-const statusBadge = (status) => ({
-  padding: "4px 10px",
-  borderRadius: "20px",
-  fontSize: "12px",
-  fontWeight: "600",
-  color: "#fff",
-  background:
-    status === "baru"
-      ? "#2563eb"
-      : status === "diproses"
-      ? "#f59e0b"
-      : "#16a34a",
-});
