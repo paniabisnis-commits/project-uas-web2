@@ -21,38 +21,39 @@ export default function Login() {
   const [success, setSuccess] = useState("");
 
   const handleLogin = async (e) => {
-  e.preventDefault();
-  setError("");
+    e.preventDefault();
+    setError("");
 
-  try {
-    // 🔑 1. Ambil CSRF cookie dulu (WAJIB untuk Sanctum SPA)
-    await apiClient.get("/sanctum/csrf-cookie");
+    try {
+      const res = await apiClient.post("/login", {
+        email,
+        password,
+      });
 
-    // 🔑 2. Login
-    const res = await apiClient.post("/login", {
-      email,
-      password,
-    });
+      const { user, token } = res.data;
 
-    const { user } = res.data;
+      // 🔑 SIMPAN TOKEN (WAJIB UNTUK API LOGIN)
+      localStorage.setItem("token", token);
+      localStorage.setItem("name", user.name);
+      localStorage.setItem("email", user.email);
+      localStorage.setItem("role", user.role);
 
-    // ❌ JANGAN simpan token lagi (Sanctum pakai cookie)
-    localStorage.setItem("name", user.name);
-    localStorage.setItem("email", user.email);
-    localStorage.setItem("role", user.role);
+      // 🔀 Redirect berdasarkan role
+      if (user.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/");
+      }
+    } catch (err) {
+      console.error(err);
 
-    // 🔀 Redirect berdasarkan role
-    if (user.role === "admin") {
-      navigate("/admin/dashboard");
-    } else {
-      navigate("/");
+      if (err.response?.status === 401) {
+        setError("Email atau password salah");
+      } else {
+        setError("Login gagal. Periksa server.");
+      }
     }
-  } catch (err) {
-    console.error(err);
-    setError("Email atau password salah");
-  }
-};
-
+  };
 
   /* ================= REGISTER ================= */
   const handleRegister = async (e) => {

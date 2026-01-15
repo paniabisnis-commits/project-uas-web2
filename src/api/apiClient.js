@@ -1,14 +1,13 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://127.0.0.1:8000",
-  withCredentials: true,
+  baseURL: "http://127.0.0.1:8000/api",
   headers: {
     Accept: "application/json",
   },
 });
 
-// 🔑 INTERCEPTOR TOKEN (INI WAJIB)
+// 🔑 Bearer Token (BENAR untuk API login)
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
 
