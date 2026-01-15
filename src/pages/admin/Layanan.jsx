@@ -1,216 +1,309 @@
 import { useEffect, useState } from "react";
 import apiClient from "../../api/apiClient";
+import "../../styles/admin.css";
+
 
 export default function AdminLayanan() {
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
   const [layanan, setLayanan] = useState([]);
+
+  // CREATE
+  const [kategori, setKategori] = useState("");
   const [nama, setNama] = useState("");
+  const [deskripsi, setDeskripsi] = useState("");
+  const [gambar, setGambar] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  // MODAL EDIT
+  const [showModal, setShowModal] = useState(false);
   const [editId, setEditId] = useState(null);
-  const [editNama, setEditNama] = useState("");
+  const [editData, setEditData] = useState({
+    kategori: "",
+    nama_layanan: "",
+    deskripsi: "",
+    gambar: null,
+  });
 
   const fetchData = async () => {
-    const res = await apiClient.get("/admin/layanan");
+    const res = await apiClient.get("/layanan");
     setLayanan(res.data.data);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+  useEffect(() => {
+  if (errorMsg || successMsg) {
+    const timer = setTimeout(() => {
+      setErrorMsg("");
+      setSuccessMsg("");
+    }, 5000);
 
+    return () => clearTimeout(timer);
+  }
+}, [errorMsg, successMsg]);
+
+
+  // CREATE
   const handleCreate = async () => {
-    if (!nama.trim()) return alert("Nama layanan tidak boleh kosong");
-    await apiClient.post("/admin/layanan", { nama_layanan: nama });
-    setNama("");
-    fetchData();
+    if (!kategori || !nama || !deskripsi || !gambar) {
+  setErrorMsg("Semua field wajib diisi");
+
+  return;
+}
+    const formData = new FormData();
+    formData.append("kategori", kategori);
+    formData.append("nama_layanan", nama);
+    formData.append("deskripsi", deskripsi);
+    formData.append("gambar", gambar);
+
+    await apiClient.post("/layanan", formData);
+      setSuccessMsg("Layanan berhasil ditambahkan");
+      setKategori("");
+      setNama("");
+      setDeskripsi("");
+      setGambar(null);
+      setErrorMsg("");
+
+      fetchData();
+        };
+
+  // OPEN MODAL
+  const openEditModal = (l) => {
+    setEditId(l.id);
+    setEditData({
+      kategori: l.kategori,
+      nama_layanan: l.nama_layanan,
+      deskripsi: l.deskripsi,
+      gambar: null,
+    });
+    setShowModal(true);
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm("Hapus layanan ini?")) return;
-    await apiClient.delete(`/admin/layanan/${id}`);
-    fetchData();
-  };
-
-  const handleEdit = (id, nama) => {
-    setEditId(id);
-    setEditNama(nama);
-  };
-
+  // UPDATE
   const handleUpdate = async () => {
-    if (!editNama.trim()) return alert("Nama layanan tidak boleh kosong");
-    await apiClient.put(`/admin/layanan/${editId}`, { nama_layanan: editNama });
-    setEditId(null);
-    setEditNama("");
+    const formData = new FormData();
+    formData.append("kategori", editData.kategori);
+    formData.append("nama_layanan", editData.nama_layanan);
+    formData.append("deskripsi", editData.deskripsi);
+
+    if (editData.gambar) {
+      formData.append("gambar", editData.gambar);
+    }
+
+    await apiClient.post(`/layanan/${editId}?_method=PUT`, formData);
+    setSuccessMsg("Layanan berhasil diperbarui");
+    setShowModal(false);
     fetchData();
   };
 
-  const handleCancelEdit = () => {
-    setEditId(null);
-    setEditNama("");
-  };
+  const handleDelete = (id) => {
+  setDeleteId(id);
+  setShowDeleteConfirm(true);
+};
+const confirmDelete = async () => {
+  await apiClient.delete(`/layanan/${deleteId}`);
+
+  setSuccessMsg("Layanan berhasil dihapus");
+
+  setShowDeleteConfirm(false);
+  setDeleteId(null);
+  fetchData();
+};
+
+const cancelDelete = () => {
+  setShowDeleteConfirm(false);
+  setDeleteId(null);
+};
+
 
   return (
-    <div style={container}>
-      <h2 style={title}>Manajemen Layanan</h2>
-
-      {/* CREATE */}
-      <div style={createWrapper}>
-        <input
-          value={nama}
-          onChange={(e) => setNama(e.target.value)}
-          placeholder="Nama layanan baru"
-          style={input}
-        />
-        <button onClick={handleCreate} style={addButton}>Tambah Layanan</button>
+    <div className="admin-container">
+        {errorMsg && (
+  <div className="alert alert-error slide-down">
+    ⚠️ {errorMsg}
+  </div>
+)}
+{successMsg && (
+  <div className="alert alert-success slide-down fade-out">
+    ✅ {successMsg}
+  </div>
+)}
+{showDeleteConfirm && (
+  <div className="alert alert-confirm slide-down">
+    <div className="alert-confirm-inner">
+      <span className="alert-icon">🗑️</span>
+      <div className="alert-text">
+        <strong>Hapus layanan ini?</strong>
+        <small>Data yang dihapus tidak dapat dikembalikan</small>
       </div>
 
-      {/* LIST */}
-      <table style={table}>
+      <div className="alert-actions">
+        <button className="btn btn-confirm" onClick={confirmDelete}>
+          OK
+        </button>
+        <button className="btn btn-cancel" onClick={cancelDelete}>
+          Batal
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+      <h2 className="admin-title">Manajemen Layanan 
+        <br />Desa Sumbersari</h2>
+
+      <div className="form-card full-width">
+        <h4>Tambah Layanan</h4>
+
+        <div className="form-grid">
+          <input
+            value={kategori}
+            onChange={(e) => setKategori(e.target.value)}
+            placeholder="Kategori"
+          />
+          <input
+            value={nama}
+            onChange={(e) => setNama(e.target.value)}
+            placeholder="Nama Layanan"
+          />
+        </div>
+
+        <textarea
+          value={deskripsi}
+          onChange={(e) => setDeskripsi(e.target.value)}
+          placeholder="Deskripsi Layanan"
+        />
+
+        <input type="file" onChange={(e) => setGambar(e.target.files[0])} />
+
+        <div className="btn-center">
+        <button className="btn btn-submit" onClick={handleCreate}>
+          Tambah Layanan
+        </button>
+
+</div>
+
+      </div>
+
+      {/* ===== TABLE ===== */}
+      <table className="admin-table">
         <thead>
           <tr>
-            <th style={th}>#</th>
-            <th style={th}>Nama Layanan</th>
-            <th style={th}>Aksi</th>
+            <th>#</th>
+            <th>Gambar</th>
+            <th>Kategori</th>
+            <th>Nama</th>
+            <th>Deskripsi</th>
+            <th>Aksi</th>
           </tr>
         </thead>
         <tbody>
-          {layanan.map((l, idx) => (
-            <tr key={l.id} style={tr}>
-              <td style={td}>{idx + 1}</td>
-              <td style={td}>
-                {editId === l.id ? (
-                  <input
-                    value={editNama}
-                    onChange={(e) => setEditNama(e.target.value)}
-                    style={inputEdit}
-                  />
-                ) : (
-                  l.nama_layanan
-                )}
+          {layanan.map((l, i) => (
+            <tr key={l.id}>
+              <td>{i + 1}</td>
+              <td>
+                <img
+                  src={`http://127.0.0.1:8000/storage/${l.gambar}`}
+                  className="thumb"
+                />
               </td>
-              <td style={td}>
-                {editId === l.id ? (
-                  <>
-                    <button onClick={handleUpdate} style={saveButton}>Simpan</button>
-                    <button onClick={handleCancelEdit} style={cancelButton}>Batal</button>
-                  </>
-                ) : (
-                  <>
-                    <button onClick={() => handleEdit(l.id, l.nama_layanan)} style={editButton}>Edit</button>
-                    <button onClick={() => handleDelete(l.id)} style={deleteButton}>Hapus</button>
-                  </>
-                )}
+              <td>{l.kategori}</td>
+              <td>{l.nama_layanan}</td>
+              <td>{l.deskripsi}</td>
+              <td className="aksi">
+                <div className="action-group">
+    <button
+  className="icon-btn edit"
+  onClick={() => openEditModal(l)}
+  title="Edit Layanan"
+>
+      {/* ICON EDIT */}
+      <svg viewBox="0 0 24 24">
+        <path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25z"/>
+        <path d="M20.7 7.04a1 1 0 000-1.41L18.37 3.3a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.82-1.84z"/>
+      </svg>
+    </button>
+
+    <button
+      className="icon-btn delete"
+      onClick={() => handleDelete(l.id)}
+      title="Hapus Layanan"
+    >
+      {/* ICON HAPUS */}
+      <svg viewBox="0 0 24 24">
+        <path d="M6 7h12M9 7v10m6-10v10M4 7h16l-1 14H5L4 7z"/>
+        <path d="M9 4h6l1 2H8l1-2z"/>
+      </svg>
+    </button>
+  </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/* ===== MODAL EDIT ===== */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <button className="modal-close" onClick={() => setShowModal(false)}>
+              {/* SVG CLOSE */}
+              <svg width="20" height="20" viewBox="0 0 24 24">
+                <path
+                  fill="currentColor"
+                  d="M18.3 5.71L12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.3 1.41 1.41 6.3-6.3 6.3 6.3 1.41-1.41-6.3-6.3 6.3-6.3z"
+                />
+              </svg>
+            </button>
+
+            <h3>Edit Layanan</h3>
+
+            <input
+              value={editData.kategori}
+              onChange={(e) =>
+                setEditData({ ...editData, kategori: e.target.value })
+              }
+              placeholder="Kategori"
+            />
+
+            <input
+              value={editData.nama_layanan}
+              onChange={(e) =>
+                setEditData({ ...editData, nama_layanan: e.target.value })
+              }
+              placeholder="Nama Layanan"
+            />
+
+            <textarea
+              value={editData.deskripsi}
+              onChange={(e) =>
+                setEditData({ ...editData, deskripsi: e.target.value })
+              }
+              placeholder="Deskripsi"
+            />
+
+            <input
+              type="file"
+              onChange={(e) =>
+                setEditData({ ...editData, gambar: e.target.files[0] })
+              }
+            />
+
+            <div className="btn-group right">
+              <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
+                Batal
+              </button>
+              <button className="btn btn-success" onClick={handleUpdate}>
+                Simpan
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
-// ===== STYLING =====
-const container = {
-  padding: "30px",
-  fontFamily: "Inter, sans-serif",
-};
-
-const title = {
-  fontSize: "24px",
-  fontWeight: "600",
-  marginBottom: "20px",
-  color: "#064e3b",
-};
-
-const createWrapper = {
-  display: "flex",
-  gap: "10px",
-  marginBottom: "20px",
-};
-
-const input = {
-  padding: "10px 15px",
-  borderRadius: "8px",
-  border: "1px solid #d1d5db",
-  flex: 1,
-};
-
-const addButton = {
-  padding: "10px 20px",
-  backgroundColor: "#10b981",
-  color: "#fff",
-  border: "none",
-  borderRadius: "8px",
-  cursor: "pointer",
-  fontWeight: "600",
-  transition: "background 0.3s",
-};
-
-const table = {
-  width: "100%",
-  borderCollapse: "collapse",
-  boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
-};
-
-const th = {
-  textAlign: "left",
-  padding: "12px",
-  borderBottom: "2px solid #d1d5db",
-  backgroundColor: "#f0fdf4",
-  color: "#065f46",
-};
-
-const tr = {
-  borderBottom: "1px solid #e5e7eb",
-};
-
-const td = {
-  padding: "12px",
-};
-
-const editButton = {
-  padding: "6px 12px",
-  marginRight: "5px",
-  backgroundColor: "#3b82f6",
-  color: "#fff",
-  border: "none",
-  borderRadius: "6px",
-  cursor: "pointer",
-  fontWeight: "500",
-};
-
-const deleteButton = {
-  padding: "6px 12px",
-  backgroundColor: "#ef4444",
-  color: "#fff",
-  border: "none",
-  borderRadius: "6px",
-  cursor: "pointer",
-  fontWeight: "500",
-};
-
-const saveButton = {
-  padding: "6px 12px",
-  marginRight: "5px",
-  backgroundColor: "#10b981",
-  color: "#fff",
-  border: "none",
-  borderRadius: "6px",
-  cursor: "pointer",
-  fontWeight: "500",
-};
-
-const cancelButton = {
-  padding: "6px 12px",
-  backgroundColor: "#9ca3af",
-  color: "#fff",
-  border: "none",
-  borderRadius: "6px",
-  cursor: "pointer",
-  fontWeight: "500",
-};
-
-const inputEdit = {
-  padding: "6px 10px",
-  borderRadius: "6px",
-  border: "1px solid #d1d5db",
-  width: "100%",
-};

@@ -126,7 +126,6 @@ if (screenWidth < 480) statsColumns = "repeat(1, 1fr)";
         </div>
       </div>
 
-      {/* STATISTIK */}
       <div
   style={{
     ...statsGrid,
@@ -243,8 +242,6 @@ if (screenWidth < 480) statsColumns = "repeat(1, 1fr)";
   />
 </div>
 
-
-      {/* WIDGET */}
       <div style={widget}>
   <h3>Aktivitas Terbaru</h3>
 
@@ -298,7 +295,7 @@ const StatCard = ({ title, value, icon }) => {
 
 
 const page = {
-  padding: "30px",
+  padding: "10px 20px 20px",
 };
 
 const header = {

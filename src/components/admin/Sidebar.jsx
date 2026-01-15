@@ -1,4 +1,6 @@
 import { useNavigate, NavLink } from "react-router-dom";
+import logo from "../../assets/logo-desa.png";
+
 
 
 export default function Sidebar() {
@@ -60,9 +62,11 @@ export default function Sidebar() {
   return (
     <aside style={sidebar}>
       <div style={brand}>
+        <img src={logo} alt="Logo Desa" style={logoStyle} />
         <h2 style={brandTitle}>ADMIN DESA</h2>
         <p style={brandSub}>Sumbersari</p>
       </div>
+
 
         <div>
       <nav style={menuWrapper}>
@@ -142,17 +146,30 @@ const logoutIcon = (
 );
 
 const sidebar = {
+  position: "fixed",
+  top: 0,
+  left: 0,
   width: "240px",
-  minHeight: "100vh",
+  height: "100vh",            // penting: bukan minHeight
   background: "linear-gradient(180deg, #ecfdf5, #d1fae5)",
   borderRight: "1px solid #bbf7d0",
   display: "flex",
   flexDirection: "column",
+  overflowY: "auto",          // jika menu panjang
+};
+
+const logoStyle = {
+  width: "42px",        
+  height: "42px",
+  objectFit: "contain", 
+  margin: "2px auto 4px", 
+  display: "block",
 };
 
 const brand = {
-  padding: "20px",
+  padding: "10px 20px 14px",
   borderBottom: "1px solid #bbf7d0",
+  textAlign: "center",
 };
 
 const brandTitle = {
@@ -168,10 +185,11 @@ const brandSub = {
 };
 
 const menuWrapper = {
-  padding: "15px",
+  padding: "12px",
   display: "flex",
   flexDirection: "column",
   gap: "6px",
+  flex: 1,                // dorong logout ke bawah
 };
 
 const menuItem = {
