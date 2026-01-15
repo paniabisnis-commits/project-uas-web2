@@ -20,7 +20,7 @@ export default function KalenderEvent() {
     fetch("http://127.0.0.1:8000/api/events")
       .then((res) => res.json())
       .then((data) => {
-        const rawEvents = data.data || data; // aman untuk paginate & non-paginate
+        const rawEvents = data.data || data; 
         const sorted = sortByDateAsc(rawEvents);
 
         setAllEvents(sorted);
@@ -58,7 +58,7 @@ export default function KalenderEvent() {
 
   const getMonthClass = (dateString) => {
   if (!dateString) return "month-default";
-  const month = new Date(dateString).getMonth() + 1; // 1–12
+  const month = new Date(dateString).getMonth() + 1; 
   return `month-${month}`;
 };
 
@@ -74,16 +74,19 @@ export default function KalenderEvent() {
       </header>
 
       <div className="kalender-filter">
-  <div className="search-wrapper">
-    <input
-      type="text"
-      placeholder="Cari event..."
-      value={search}
-      onChange={(e) => setSearch(e.target.value)}
-      className="event-search"
-    />
-    <Search className="search-icon" size={20} />
-  </div>
+ <div className="search-wrapper">
+  <input
+    type="text"
+    placeholder="Cari event..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    className="event-search"
+  />
+  <span className="search-icon">
+    <Search size={20} />
+  </span>
+</div>
+
 </div>
       <div className="kalender-list">
   {events.length ? (

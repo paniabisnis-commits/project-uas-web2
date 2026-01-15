@@ -21,27 +21,38 @@ export default function Login() {
   const [success, setSuccess] = useState("");
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setError("");
+  e.preventDefault();
+  setError("");
 
-    try {
-      const res = await apiClient.post("/login", { email, password });
-      const { token, user } = res.data;
+  try {
+    // 🔑 1. Ambil CSRF cookie dulu (WAJIB untuk Sanctum SPA)
+    await apiClient.get("/sanctum/csrf-cookie");
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("name", user.name);
-      localStorage.setItem("email", user.email);
-      localStorage.setItem("role", user.role);
+    // 🔑 2. Login
+    const res = await apiClient.post("/login", {
+      email,
+      password,
+    });
 
-      if (user.role === "admin") {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/");
-      }
-    } catch (err) {
-      setError("Email atau password salah");
+    const { user } = res.data;
+
+    // ❌ JANGAN simpan token lagi (Sanctum pakai cookie)
+    localStorage.setItem("name", user.name);
+    localStorage.setItem("email", user.email);
+    localStorage.setItem("role", user.role);
+
+    // 🔀 Redirect berdasarkan role
+    if (user.role === "admin") {
+      navigate("/admin/dashboard");
+    } else {
+      navigate("/");
     }
-  };
+  } catch (err) {
+    console.error(err);
+    setError("Email atau password salah");
+  }
+};
+
 
   /* ================= REGISTER ================= */
   const handleRegister = async (e) => {

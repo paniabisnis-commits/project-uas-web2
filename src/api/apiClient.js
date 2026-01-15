@@ -1,17 +1,21 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://127.0.0.1:8000/api",
+  baseURL: "http://127.0.0.1:8000",
+  withCredentials: true,
   headers: {
     Accept: "application/json",
   },
 });
 
+// 🔑 INTERCEPTOR TOKEN (INI WAJIB)
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 });
 

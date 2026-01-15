@@ -25,6 +25,11 @@ export default function Sidebar() {
       icon: eventIcon,
     },
     {
+      name: "Pengaduan",
+      path: "/admin/pengaduan",
+      icon: pengaduanIcon,
+    },
+    {
       name: "Users",
       path: "/admin/users",
       icon: usersIcon,
@@ -109,6 +114,19 @@ const eventIcon = (
     <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z" />
   </svg>
 );
+
+const pengaduanIcon = (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    style={{ marginTop: "5px" }} 
+  >
+    <path d="M20 2H4c-1.1 0-2 .9-2 2v14l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
+  </svg>
+);
+
 
 const usersIcon = (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">

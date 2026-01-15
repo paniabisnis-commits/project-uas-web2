@@ -20,6 +20,7 @@ import AdminDashboard from "./pages/admin/Dashboard";
 import AdminLayanan from "./pages/admin/Layanan";
 import AdminBerita from "./pages/admin/Berita";
 import AdminEvent from "./pages/admin/Event";
+import AdminPengaduan from "./pages/admin/Pengaduan";
 import AdminUsers from "./pages/admin/Users";
 
 export default function App() {
@@ -58,6 +59,7 @@ export default function App() {
             <Route path="layanan" element={<AdminLayanan />} />
             <Route path="berita" element={<AdminBerita />} />
             <Route path="event" element={<AdminEvent />} />
+            <Route path="pengaduan" element={<AdminPengaduan />} />
             <Route path="users" element={<AdminUsers />} />
           </Route>
         </Route>
