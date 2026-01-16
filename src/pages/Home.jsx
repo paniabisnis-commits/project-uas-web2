@@ -168,9 +168,9 @@ const infografisData = {
   apbdes: {
     title: "APBDes Desa",
     content: [
-      { label: "Pendapatan Desa", value: "Rp 2,1 M" },
-      { label: "Belanja Desa", value: "Rp 1,9 M" },
-      { label: "Dana Desa", value: "Rp 1,2 M" },
+      { label: "Pendapatan Desa", value: "Rp 1,8 M" },
+      { label: "Belanja Desa", value: "Rp 1,2 M" },
+      { label: "Dana Desa", value: "Rp 1,4 M" },
       { label: "Sisa Anggaran", value: "Rp 200 Jt" },
     ],
   },
@@ -233,6 +233,7 @@ const scrollToPengaduan = () => {
     });
   }
 };
+
 
   return (
     <div>
@@ -450,7 +451,24 @@ const scrollToPengaduan = () => {
             style={eventImage}
           />
         ) : (
-          <div style={eventImage}>📅</div>
+          <div style={eventImage}>
+  <svg
+    width="48"
+    height="48"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+    <line x1="16" y1="2" x2="16" y2="6" />
+    <line x1="8" y1="2" x2="8" y2="6" />
+    <line x1="3" y1="10" x2="21" y2="10" />
+  </svg>
+</div>
+
         )}
 
         <small style={newsDate}>
@@ -489,33 +507,101 @@ const scrollToPengaduan = () => {
           <div
             style={infografisCard}
             onClick={() => setActiveInfografis("penduduk")}>
-            <div style={infografisImage}>📊</div>
+            <div style={infografisImage}>
+  <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor">
+    <rect x="3" y="10" width="4" height="10" />
+    <rect x="10" y="6" width="4" height="14" />
+    <rect x="17" y="3" width="4" height="17" />
+  </svg>
+</div>
+
             <h4>Data Penduduk 2025</h4>
           </div>
 
           
           <div style={infografisCard} onClick={() => setActiveInfografis("infrastruktur")}>
-            <div style={infografisImage}>🏗️</div>
+            <div style={infografisImage}>
+  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <rect x="3" y="3" width="7" height="18" />
+    <rect x="14" y="8" width="7" height="13" />
+    <line x1="6" y1="7" x2="7" y2="7" />
+    <line x1="6" y1="11" x2="7" y2="11" />
+    <line x1="6" y1="15" x2="7" y2="15" />
+  </svg>
+</div>
+
             <h4>Data Infrastruktur Desa</h4>
           </div>
 
           <div style={infografisCard} onClick={() => setActiveInfografis("apbdes")}>
-            <div style={infografisImage}>📈</div>
+            <div style={infografisImage}>
+  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <polyline points="3 17 9 11 13 15 21 7" />
+    <polyline points="14 7 21 7 21 14" />
+  </svg>
+</div>
+
             <h4>APBDes Desa</h4>
           </div>
 
           <div style={infografisCard} onClick={() => setActiveInfografis("sosial")}>
-            <div style={infografisImage}>🫂</div>
+            <div style={infografisImage}>
+  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <circle cx="9" cy="7" r="4" />
+    <circle cx="17" cy="7" r="4" />
+    <path d="M2 21v-2a4 4 0 0 1 4-4h6" />
+    <path d="M14 15h2a4 4 0 0 1 4 4v2" />
+  </svg>
+</div>
+
             <h4>Data Sosial & Kesehatan</h4>
           </div>
 
           <div style={infografisCard} onClick={() => setActiveInfografis("produk")}>
-            <div style={infografisImage}>🌾</div>
+            <div style={infografisImage}>
+  <svg
+    width="36"
+    height="36"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+    <polyline points="3.3 7 12 12 20.7 7" />
+    <line x1="12" y1="12" x2="12" y2="21" />
+  </svg>
+</div>
+
+
             <h4>Data Produk Unggulan</h4>
           </div>
 
           <div style={infografisCard} onClick={() => setActiveInfografis("fasilitas")}>
-            <div style={infografisImage}>🏥</div>
+            <div style={infografisImage}>
+  <svg
+    width="36"
+    height="36"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="3" y="3" width="18" height="18" rx="2" />
+    <line x1="7" y1="7" x2="7" y2="7" />
+    <line x1="12" y1="7" x2="12" y2="7" />
+    <line x1="17" y1="7" x2="17" y2="7" />
+    <line x1="7" y1="12" x2="7" y2="12" />
+    <line x1="12" y1="12" x2="12" y2="12" />
+    <line x1="17" y1="12" x2="17" y2="12" />
+  </svg>
+</div>
+
+
             <h4>Fasilitas Umum</h4>
           </div>
         </div>
@@ -569,25 +655,76 @@ const scrollToPengaduan = () => {
 
     <div style={statGrid}>
       <div style={statCard}>
-        <div style={statIcon}>👥</div>
+        <div style={statIcon}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+              <path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zM8 11c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zM8 13c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zM16 13c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"
+                fill="#0f766e"
+              />
+            </svg>
+          </div>
         <CountUpNumber target={3240} />
         <p>Jumlah Penduduk</p>
       </div>
 
       <div style={statCard}>
-        <div style={statIcon}>🏠</div>
+        <div style={statIcon}><svg
+    width="34"
+    height="34"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    {/* Rambut (hairline laki-laki) */}
+    <path
+      d="M6 6.5C6 4 8.7 2 12 2s6 2 6 4.5V7H6V6.5z"
+      fill="#0f766e"
+    />
+
+    {/* Kepala */}
+    <circle cx="12" cy="9" r="4" fill="#0f766e" />
+
+    {/* Leher */}
+    <rect x="10" y="13" width="4" height="2" fill="#0f766e" />
+
+    {/* Badan (bahu lebar + dada V shape) */}
+    <path
+      d="M3 22c0-4.4 3.8-8 9-8s9 3.6 9 8"
+      fill="#0f766e"
+    />
+  </svg>
+          </div>
         <CountUpNumber target={980} />
         <p>Kepala Keluarga</p>
       </div>
 
       <div style={statCard}>
-        <div style={statIcon}>📝</div>
+        <div style={statIcon}><svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M6 2h8l6 6v14a1 1 0 01-1 1H6a1 1 0 01-1-1V3a1 1 0 011-1z"
+      fill="#0f766e"
+    />
+    <path
+      d="M14 2v6h6"
+      fill="#0f766e"
+    />
+    <rect x="8" y="12" width="8" height="2" fill="#ffffff" />
+    <rect x="8" y="16" width="8" height="2" fill="#ffffff" />
+  </svg>
+          </div>
         <CountUpNumber target={7} />
         <p>Layanan Publik</p>
       </div>
 
       <div style={statCard}>
-        <div style={statIcon}>🏫</div>
+        <div style={statIcon}><svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M3 21h18V8l-9-5-9 5v13z"
+      fill="#0f766e"
+    />
+    <rect x="7" y="11" width="3" height="3" fill="#ffffff" />
+    <rect x="14" y="11" width="3" height="3" fill="#ffffff" />
+    <rect x="10" y="16" width="4" height="5" fill="#ffffff" />
+  </svg>
+          </div>
         <CountUpNumber target={18} />
         <p>Fasilitas Umum</p>
       </div>
