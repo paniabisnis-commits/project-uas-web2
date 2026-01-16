@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Berita.css";
 
-const sliderImages = [
-  "/images/desa1.jpg",
-  "/images/desa2.jpg",
-  "/images/desa3.jpg",
-];
+
 
 export default function Berita() {
   const [berita, setBerita] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
-
+  const sliderImages = [
+  "/images/desa1.jpg",
+  "/images/desa2.jpg",
+  "/images/desa3.jpg",
+];
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/berita")
       .then((res) => res.json())

@@ -9,6 +9,7 @@ const sliderImages = [
 ];
 
 export default function Layanan() {
+  const [showHeroText, setShowHeroText] = useState(false);
   const [layanan, setLayanan] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -22,6 +23,11 @@ export default function Layanan() {
       })
       .catch((err) => console.error("ERROR FETCH:", err));
   }, []);
+  useEffect(() => {
+  const timeout = setTimeout(() => setShowHeroText(true), 300);
+  return () => clearTimeout(timeout);
+}, []);
+
   
   useEffect(() => {
     const interval = setInterval(() => {
@@ -49,19 +55,36 @@ const getSlug = (nama) => {
   return (
     <>
     <header
-        className="berita-hero"
-        style={{
-          backgroundImage: `url(${sliderImages[currentSlide]})`,
-        }}
-      >
-        <div className="berita-hero-overlay">
-          <h1>Layanan Publik</h1>
-          <p>Pelayanan terbaik untuk masyarakat Desa Sumbersari</p>
-        </div>
-      </header>
+  className="layanan-hero"
+  style={{
+    backgroundImage: `url(${sliderImages[currentSlide]})`,
+  }}
+>
+  <div className="layanan-hero-overlay">
+    <h1
+      style={{
+        opacity: showHeroText ? 1 : 0,
+        transform: showHeroText ? "translateY(0)" : "translateY(20px)",
+        transition: "all 0.8s ease-out",
+      }}
+    >
+      Layanan Publik
+    </h1>
+
+    <p
+      style={{
+        opacity: showHeroText ? 1 : 0,
+        transform: showHeroText ? "translateY(0)" : "translateY(20px)",
+        transition: "all 1s ease-out",
+        transitionDelay: "0.2s",
+      }}
+    >
+      Pelayanan terbaik untuk masyarakat Desa Sumbersari
+    </p>
+  </div>
+</header>
 
       
-  
       <div className="layanan-page">
         {layanan.length > 0 && (
           <section className="layanan-terbaru">

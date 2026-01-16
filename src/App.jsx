@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
-import Berita from "./pages//berita/Berita";
+import Berita from "./pages/berita/Berita";
 import Pengaduan from "./pages/Pengaduan";
 import Layanan from "./pages/layanan/Layanan";
 import PermohonanSurat from "./pages/layanan/PermohonanSurat";
