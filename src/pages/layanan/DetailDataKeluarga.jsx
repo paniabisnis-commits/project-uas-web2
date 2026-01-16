@@ -31,7 +31,6 @@ export default function DetailDataKeluarga() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showNotif, setShowNotif] = useState(false);
 
-  // SLIDER
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
@@ -39,13 +38,11 @@ export default function DetailDataKeluarga() {
     return () => clearInterval(interval);
   }, []);
 
-  // FADE TITLE
   useEffect(() => {
     const timeout = setTimeout(() => setShowHeroText(true), 300);
     return () => clearTimeout(timeout);
   }, []);
 
-  // TYPEWRITER
   useEffect(() => {
     const interval = setInterval(() => {
       setHeroTextIndex((prev) =>

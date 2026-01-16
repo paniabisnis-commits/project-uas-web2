@@ -24,22 +24,33 @@ export default function BeritaDetail() {
   if (!berita) return <p>Berita tidak ditemukan</p>;
 
   return (
-    <div className="berita-detail">
-      <h1>{berita.title}</h1>
-      <p className="tanggal">
-        {new Date(berita.created_at).toLocaleDateString()}
-      </p>
+  <div className="berita-detail-wrapper">
+    <article className="berita-detail">
+      <header className="berita-detail-header">
+        <h1>{berita.title}</h1>
+        <p className="tanggal">
+          {new Date(berita.created_at).toLocaleDateString("id-ID", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })}
+        </p>
+      </header>
 
       {berita.image && (
-        <img
-          src={`http://127.0.0.1:8000/storage/${berita.image}`}
-          alt={berita.title}
-        />
+        <div className="berita-detail-image">
+          <img
+            src={`http://127.0.0.1:8000/storage/${berita.image}`}
+            alt={berita.title}
+          />
+        </div>
       )}
 
-      <div className="content">
+      <section className="berita-detail-content">
         {berita.content}
-      </div>
-    </div>
-  );
+      </section>
+    </article>
+  </div>
+);
+
 }

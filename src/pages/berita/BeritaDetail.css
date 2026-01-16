@@ -1,28 +1,69 @@
+.berita-detail-wrapper {
+  padding-top: calc(var(--navbar-height) + 30px);
+  padding-bottom: 60px;
+  background: #f9fafb;
+}
+
+/* ARTIKEL UTAMA */
 .berita-detail {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 0 16px;
+  max-width: 820px;
+  margin: auto;
+  background: #ffffff;
+  padding: 36px 32px;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
-.berita-detail h1 {
+/* HEADER */
+.berita-detail-header {
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+}
+
+.berita-detail-header h1 {
   font-size: 28px;
-  margin-bottom: 8px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #064e3b;
+  margin-bottom: 6px;
 }
 
-.berita-detail .tanggal {
+.berita-detail-header .tanggal {
   font-size: 14px;
   color: #6b7280;
-  margin-bottom: 20px;
 }
 
-.berita-detail img {
+/* GAMBAR */
+.berita-detail-image {
+  margin: 24px 0;
+}
+
+.berita-detail-image img {
   width: 100%;
   border-radius: 8px;
-  margin-bottom: 20px;
+  object-fit: cover;
 }
 
-.berita-detail .content {
+/* ISI BERITA */
+.berita-detail-content {
   font-size: 16px;
-  line-height: 1.8;
+  line-height: 1.9;
   color: #374151;
+}
+
+/* JARAK ANTAR PARAGRAF */
+.berita-detail-content p {
+  margin-bottom: 18px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  .berita-detail {
+    padding: 24px 20px;
+  }
+
+  .berita-detail-header h1 {
+    font-size: 22px;
+  }
 }

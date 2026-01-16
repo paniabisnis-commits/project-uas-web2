@@ -5,6 +5,7 @@ import "./Berita.css";
 
 
 export default function Berita() {
+  const [showHeroText, setShowHeroText] = useState(false);
   const [berita, setBerita] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -29,20 +30,44 @@ export default function Berita() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+  const timeout = setTimeout(() => setShowHeroText(true), 300);
+  return () => clearTimeout(timeout);
+}, []);
+
+
   return (
     <>
-      {/* HEADER SLIDER */}
       <header
-        className="berita-hero"
-        style={{
-          backgroundImage: `url(${sliderImages[currentSlide]})`,
-        }}
-      >
-        <div className="berita-hero-overlay">
-          <h1>Berita</h1>
-          <p>Informasi terbaru seputar Desa Sumbersari</p>
-        </div>
-      </header>
+  className="berita-hero"
+  style={{
+    backgroundImage: `url(${sliderImages[currentSlide]})`,
+  }}
+>
+  <div className="berita-hero-overlay">
+    <h1
+      style={{
+        opacity: showHeroText ? 1 : 0,
+        transform: showHeroText ? "translateY(0)" : "translateY(20px)",
+        transition: "all 0.8s ease-out",
+      }}
+    >
+      Berita
+    </h1>
+
+    <p
+      style={{
+        opacity: showHeroText ? 1 : 0,
+        transform: showHeroText ? "translateY(0)" : "translateY(20px)",
+        transition: "all 1s ease-out",
+        transitionDelay: "0.2s",
+      }}
+    >
+      Informasi terbaru seputar Desa Sumbersari
+    </p>
+  </div>
+</header>
+
 
       <section className="berita-page">
         {loading && <p>Memuat berita...</p>}
@@ -80,9 +105,10 @@ export default function Berita() {
             : ""}
         </p>
         {item.slug && (
-  <Link to={`/berita/${item.slug}`} className="btn-detail">
-    Baca Selengkapnya →
-  </Link>
+          <Link to={`/berita/${item.slug}`} className="berita-readmore">
+          Baca Selengkapnya →
+        </Link>
+
 )}
 
       </div>

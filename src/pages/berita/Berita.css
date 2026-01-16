@@ -4,7 +4,6 @@
   margin: auto;
 }
 
-/* HERO */
 .berita-hero {
   padding-top: var(--navbar-height);
   width: 100%;
@@ -18,23 +17,26 @@
 .berita-hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(98, 203, 195, 0.55);
+  background: rgba(15, 118, 110, 0.55);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: #ffffff;
   text-align: center;
+  padding: 0 20px;
 }
 
 .berita-hero-overlay h1 {
-  font-size: 42px;
+  font-size: 38px;
   font-weight: 700;
   margin-bottom: 10px;
 }
 
 .berita-hero-overlay p {
-  font-size: 18px;
+  font-size: 16px;
+  max-width: 720px;
+  line-height: 1.6;
 }
 
 /* GRID */
@@ -103,7 +105,7 @@
 /* READ MORE */
 .berita-readmore {
   margin-top: auto;
-  padding-top: 12px;
+  padding-top: 14px;
   font-size: 14px;
   font-weight: 600;
   color: #0f766e;
@@ -114,4 +116,12 @@
 .berita-readmore:hover {
   color: #115e59;
   text-decoration: underline;
+}
+
+.berita-readmore::before {
+  content: "";
+  display: block;
+  height: 1px;
+  background: #e5e7eb;
+  margin-bottom: 10px;
 }
