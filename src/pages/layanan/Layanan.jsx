@@ -38,11 +38,12 @@ export default function Layanan() {
   }, []);
 
   const slugMap = {
-  "Layanan Administrasi": "layanan-administrasi",
-  "Informasi Publik": "informasi-publik",
-  "Data UMKM Desa": "data-umkm-desa",
-  "Bantuan Sosial": "bantuan-sosial",
+  "Pendaftaran / Perubahan Data Keluarga": "data-keluarga",
+  "Pendaftaran Bantuan Sosial (Bansos)": "bansos",
+  "Informasi Lowongan Kerja & Pelatihan": "lowongan-kerja",
+  "Dashboard APBDes": "apbdes",
 };
+
 
 const getSlug = (nama) => {
   return nama

@@ -6,6 +6,10 @@ import Berita from "./pages/berita/Berita";
 import Pengaduan from "./pages/Pengaduan";
 import Layanan from "./pages/layanan/Layanan";
 import PermohonanSurat from "./pages/layanan/PermohonanSurat";
+import DetailDataKeluarga from "./pages/layanan/DetailDataKeluarga";
+import DetailBansos from "./pages/layanan/DetailBansos";
+import DetailLowongan from "./pages/layanan/DetailLowongan";
+import DetailAPBDes from "./pages/layanan/DetailAPBDes";
 import BeritaDetail from "./pages/berita/BeritaDetail";
 import KalenderEvent from "./pages/KalenderEvent";
 import Kontak from "./pages/Kontak";
@@ -24,8 +28,12 @@ export default function App() {
         <Route path="/berita" element={<Berita />} />
         <Route path="/berita/:slug" element={<BeritaDetail />} />
         <Route path="/layanan" element={<Layanan />} />
-        <Route path="/layanan/permohonan-surat" element={<PermohonanSurat />}
-        />
+        <Route path="/layanan/permohonan-surat" element={<PermohonanSurat />}/>
+        <Route path="/layanan/data-keluarga" element={<DetailDataKeluarga />} />
+        <Route path="/layanan/bansos" element={<DetailBansos />} />
+        <Route path="/layanan/lowongan-kerja" element={<DetailLowongan />} />
+        <Route path="/layanan/apbdes" element={<DetailAPBDes />} />
+
         <Route path="/pengaduan" element={<Pengaduan />} />
         <Route path="/kalender-event" element={<KalenderEvent />} />
         <Route path="/kontak" element={<Kontak />} />

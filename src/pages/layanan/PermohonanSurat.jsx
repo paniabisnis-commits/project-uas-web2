@@ -155,7 +155,7 @@ export default function PermohonanSuratPengantar() {
 
               <tr>
                 <th>Estimasi Waktu</th>
-                <td>± 1 Hari Kerja</td>
+                <td>± 3 Hari Kerja</td>
               </tr>
             </tbody>
           </table>

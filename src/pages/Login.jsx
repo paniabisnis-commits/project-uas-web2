@@ -17,11 +17,33 @@ export default function Login() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   // VISIBILITY
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+
+// REGISTER
+const [showRegisterPassword, setShowRegisterPassword] = useState(false);
+const [showConfirm, setShowConfirm] = useState(false);
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+    /* ================= SWITCH FORM ================= */
+  const resetFields = () => {
+  setEmail("");
+  setPassword("");
+  setName("");
+  setRegEmail("");
+  setRegPassword("");
+  setConfirmPassword("");
+};
+
+const switchToLogin = () => {
+  resetFields();
+  setIsLogin(true);
+};
+
+const switchToRegister = () => {
+  resetFields();
+  setIsLogin(false);
+};
 
   /* ================= LOGIN ================= */
   const handleLogin = async (e) => {
@@ -30,13 +52,12 @@ export default function Login() {
 
   try {
     const res = await apiClient.post("/login", { email, password });
-    const { token, user } = res.data;
+    const { access_token, user } = res.data;
 
-    // Simpan ke localStorage
-    localStorage.setItem("token", res.data.access_token);
-    localStorage.setItem("name", user.name);
-    localStorage.setItem("email", user.email);
-    localStorage.setItem("role", user.role);
+localStorage.setItem("token", access_token);
+localStorage.setItem("name", user.name);
+localStorage.setItem("email", user.email);
+localStorage.setItem("role", user.role);
 
     // 🔥 REDIRECT BERDASARKAN ROLE
     if (user.role === "admin") {
@@ -93,29 +114,32 @@ export default function Login() {
               <label style={label}>Email</label>
               <input
                 type="email"
-                value={email}
+                value={email || ""}
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 style={input}
               />
+
             </div>
 
             <div style={formGroup}>
               <label style={label}>Password</label>
               <div style={inputWrapper}>
                 <input
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  style={passwordInput}
-                />
-                <span
-                  style={eyeIcon}
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? eyeOffSvg : eyeSvg}
-                </span>
+  type={showLoginPassword ? "text" : "password"}
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+  required
+  style={passwordInput}
+/>
+
+<span
+  style={eyeIcon}
+  onClick={() => setShowLoginPassword(!showLoginPassword)}
+>
+  {showLoginPassword ? eyeOffSvg : eyeSvg}
+</span>
+
               </div>
             </div>
 
@@ -123,9 +147,10 @@ export default function Login() {
 
             <p style={switchText}>
               Belum punya akun?{" "}
-              <span style={switchLink} onClick={() => setIsLogin(false)}>
-                Daftar di sini
-              </span>
+              <span style={switchLink} onClick={switchToRegister}>
+  Daftar di sini
+</span>
+
             </p>
           </form>
         ) : (
@@ -160,19 +185,22 @@ export default function Login() {
             <div style={formGroup}>
               <label style={label}>Password</label>
               <div style={inputWrapper}>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  value={regPassword}
+               <input
+                  type={showRegisterPassword ? "text" : "password"}
+                  value={regPassword || ""}
                   onChange={(e) => setRegPassword(e.target.value)}
                   required
                   style={input}
                 />
-                <span
-                  style={eyeIcon}
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? eyeOffSvg : eyeSvg}
-                </span>
+<span
+  style={eyeIcon}
+  onClick={() =>
+    setShowRegisterPassword(!showRegisterPassword)
+  }
+>
+  {showRegisterPassword ? eyeOffSvg : eyeSvg}
+</span>
+
               </div>
             </div>
 
@@ -198,9 +226,10 @@ export default function Login() {
 
             <p style={switchText}>
               Sudah punya akun?{" "}
-              <span style={switchLink} onClick={() => setIsLogin(true)}>
-                Login
-              </span>
+              <span style={switchLink} onClick={switchToLogin}>
+  Login
+</span>
+
             </p>
           </form>
         )}
