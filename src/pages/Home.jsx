@@ -10,7 +10,8 @@ export default function Home() {
   const [showHeroText, setShowHeroText] = useState(false);
   const [heroTextIndex, setHeroTextIndex] = useState(0);
   const heroSubtitleText = "Portal informasi dan layanan publik Pemerintah Desa Sumbersari untuk masyarakat yang transparan, cepat, dan terpercaya.";
-
+  const [layanan, setLayanan] = useState([]);
+  const [isLayananVisible, setIsLayananVisible] = useState(false);
   const [berita, setBerita] = useState([]);
   const navigate = useNavigate();
 
@@ -43,6 +44,26 @@ useEffect(() => {
   return () => clearInterval(interval);
 }, []);
 
+const layananTitleRef = useRef(null);
+
+useEffect(() => {
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        setIsLayananVisible(true);
+        observer.disconnect();
+      }
+    },
+    { threshold: 0.3 }
+  );
+
+  if (layananTitleRef.current) {
+    observer.observe(layananTitleRef.current);
+  }
+
+  return () => observer.disconnect();
+}, []);
+
   const beritaUtama = berita[0];
   const beritaLainnya = berita.slice(1, 4);
   
@@ -62,29 +83,19 @@ useEffect(() => {
   }
 }, [location]);
 
-const [isLayananVisible, setIsLayananVisible] = useState(false);
-
 useEffect(() => {
-  const section = document.getElementById("layanan-publik");
-
-  if (!section) return;
-
-  const observer = new IntersectionObserver(
-    ([entry]) => {
-      if (entry.isIntersecting) {
-        setIsLayananVisible(true);
-        observer.disconnect(); 
-      }
-    },
-    {
-      threshold: 0.2, 
-      rootMargin: "0px 0px -100px 0px", 
-    }
-  );
-
-  observer.observe(section);
-  return () => observer.disconnect();
+  fetch("http://127.0.0.1:8000/api/layanan", {
+    headers: { Accept: "application/json" },
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      setLayanan(res.data || []);
+    })
+    .catch((err) => {
+      console.error("Gagal fetch layanan:", err);
+    });
 }, []);
+
 
 
 const [showTitle, setShowTitle] = useState(false);
@@ -219,10 +230,17 @@ useEffect(() => {
 }, []);
 
 const slugMap = {
-  "Layanan Administrasi": "layanan-administrasi",
-  "Informasi Publik": "informasi-publik",
+  "Permohonan Surat Pengantar Online": "permohonan-surat",
+  "Pendaftaran / Perubahan Data Keluarga": "data-keluarga",
+  "Pendaftaran Bantuan Sosial (Bansos)": "bansos",
 };
 
+const getSlug = (nama) => {
+  return nama
+    .toLowerCase()
+    .replace(/ /g, "-")
+    .replace(/[^\w-]+/g, "");
+};
 
 const scrollToPengaduan = () => {
   const target = document.getElementById("pengaduan");
@@ -288,7 +306,7 @@ const scrollToPengaduan = () => {
 
 </section>
       {/* ================= LAYANAN PUBLIK SECTION ================= */}
-      <section
+<section
   id="layanan-publik"
   style={{
     paddingTop: "calc(var(--navbar-height) + 40px)",
@@ -296,8 +314,7 @@ const scrollToPengaduan = () => {
     padding: "80px 40px 40px",
   }}
 >
-
-        <h2 style={titleWrapper}>
+  <h2 ref={layananTitleRef} style={titleWrapper}>
   {"Layanan Publik".split("").map((char, index) => (
     <span
       key={index}
@@ -308,48 +325,97 @@ const scrollToPengaduan = () => {
     </span>
   ))}
 </h2>
-<p style={{ color: "#6b7280", marginTop: "4px", marginBottom: "24px" }}>
-      Pelayanan terbaik untuk masyarakat Desa Sumbersari
-    </p>
 
-       
+  <p style={{ color: "#6b7280", marginTop: "4px", marginBottom: "24px" }}>
+    Pelayanan terbaik untuk masyarakat Desa Sumbersari
+  </p>
   <div style={grid}>
-        <LayananCard
-          icon="📝"
-          title="Pengaduan Masyarakat"
-          desc="Sampaikan keluhan dan aspirasi Anda secara online dengan cepat dan transparan."
-          delay="0s"
-          onClick={scrollToPengaduan}
-        />
-
-        <LayananCard
-          icon="📄"
-          title="Layanan Administrasi"
-          desc="Pengurusan surat dan administrasi desa secara mudah dan terintegrasi."
-          delay="0.2s"
-          onClick={() =>
-      navigate(`/layanan/${slugMap["Layanan Administrasi"]}`)
-    }
-        />
-
-        <LayananCard
-          icon="📊"
-          title="Informasi Publik"
-          desc="Akses data dan informasi resmi desa secara terbuka dan terpercaya."
-          delay="0.4s"
-          onClick={() =>
-      navigate(`/layanan/${slugMap["Informasi Publik"]}`)
-    }
-        />
-      </div>
-        <div style={{ textAlign: "center", marginTop: "40px" }}>
-          <Link to="/layanan" className="btn-layanan">
-            Lihat Selengkapnya →
-          </Link>
-        </div>
-      </section>
-      
+  {layanan.slice(0, 3).map((l) => (
     
+
+    <div key={l.id} style={layananCard}>
+      {/* Ganti icon menjadi gambar */}
+      <img
+        src={l.gambar ? `http://127.0.0.1:8000/storage/${l.gambar}` : "/images/default-icon.png"}
+        alt={l.nama_layanan}
+        style={{ width: "60px", height: "60px", objectFit: "contain", margin: "0 auto 16px" }}
+      />
+      <h4 style={layananTitle}>{l.nama_layanan}</h4>
+      <p style={layananDesc}>{l.deskripsi}</p>
+      <Link
+  to={`/layanan/${slugMap[l.nama_layanan] || getSlug(l.nama_layanan)}`}
+  style={{
+    marginTop: "auto",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "6px",
+    padding: "6px 12px",
+    fontSize: "13px",
+    fontWeight: 500,
+    borderRadius: "6px",
+    border: "1px solid #195651",
+    color: "#0d615a",
+    textDecoration: "none",
+    background: "transparent",
+    transition: "all 0.25s ease",
+  }}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.background = "#ecfdf5";
+    e.currentTarget.style.transform = "translateY(-1px)";
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.background = "transparent";
+    e.currentTarget.style.transform = "translateY(0)";
+  }}
+>
+  <span>Detail</span>
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="9 18 15 12 9 6" />
+  </svg>
+</Link>
+
+
+    </div>
+  ))}
+</div>
+<div style={{ textAlign: "center", marginTop: "40px" }}>
+  <Link
+    to="/layanan"
+    style={{
+      display: "inline-block",
+      padding: "10px 22px",
+      borderRadius: "8px",
+      border: "1px solid #0f766e",
+      color: "#0f766e",
+      textDecoration: "none",
+      fontWeight: 500,
+      transition: "all 0.3s ease",
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.background = "#0f766e";
+      e.currentTarget.style.color = "#ffffff";
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.background = "transparent";
+      e.currentTarget.style.color = "#0f766e";
+    }}
+  >
+    Lihat Semua Layanan
+  </Link>
+</div>
+
+</section>
+
 
 <section
   id="berita-section"
@@ -817,36 +883,52 @@ const heroSubtitle = {
 
 const grid = {
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-  gap: "28px",
+  gridTemplateColumns: "repeat(3, minmax(280px, 1fr))",
+  gap: "30px",
+  marginTop: "40px",
+  justifyContent: "center",
+  maxWidth: "1000px",
+  marginLeft: "auto",
+  marginRight: "auto",
 };
+
 
 const layananCard = {
   background: "#fff",
   border: "1px solid #e5e7eb",
-  borderRadius: "12px",
-  padding: "32px 24px",
+  borderRadius: "14px",
+  padding: "28px 26px",
   textAlign: "center",
-  minHeight: "260px",
+  minHeight: "300px",
   display: "flex",
   flexDirection: "column",
-  justifyContent: "center",
+  justifyContent: "flex-start",
+  lineHeight: "1.6",
   transition: "all 0.35s ease",
 };
 
-const layananIcon = {
-  fontSize: "42px",
-  marginBottom: "14px",
-};
 
 const layananTitle = {
   fontSize: "18px",
   fontWeight: "bold",
+  marginBottom: "8px",
+  wordBreak: "break-word",
 };
 
 const layananDesc = {
   fontSize: "14px",
   color: "#6b7280",
+  wordWrap: "break-word",
+  overflowWrap: "break-word",
+};
+
+
+
+const layananIcon = {
+  fontSize: "42px",
+  marginBottom: "16px",
+  margin: "0 auto 16px",
+  objectFit: "contain",
 };
 
 const titleWrapper = {
@@ -855,6 +937,15 @@ const titleWrapper = {
   fontSize: "32px",
   fontWeight: "bold",
 };
+
+const getSlug = (nama) => {
+  return nama
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-") // ganti semua selain a-z/0-9 jadi "-"
+    .replace(/^-+|-+$/g, ""); // hapus dash di awal/akhir
+};
+
 
 /* ================= STYLE BERITA ================= */
 
