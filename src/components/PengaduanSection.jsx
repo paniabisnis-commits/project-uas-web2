@@ -2,46 +2,44 @@ import { useState, useEffect } from "react";
 import apiClient from "../api/apiClient";
 
 export default function PengaduanSection() {
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState(() => localStorage.getItem("token"));
 
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
   const [isi, setIsi] = useState("");
 
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const [success, setSuccess] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [pengaduanList, setPengaduanList] = useState([]);
 
-  /* ================= AMBIL USER LOGIN ================= */
+ useEffect(() => {
+  const handleStorage = () => {
+    setToken(localStorage.getItem("token"));
+  };
+
+  window.addEventListener("storage", handleStorage);
+  return () => window.removeEventListener("storage", handleStorage);
+}, []);
+
   useEffect(() => {
-    if (!token) return;
+  if (!token) {
+    console.log("User belum login");
+    return;
+  }
 
-    apiClient
-      .get("/user")
-      .then((res) => {
-        setNama(res.data.name);
-        setEmail(res.data.email);
+  apiClient
+    .get("/user")
+    .then((res) => {
+      setNama(res.data.name);
+      setEmail(res.data.email);
+    })
+    .catch((err) => {
+      console.error("Gagal ambil user:", err.response?.data);
+    });
+}, [token]);
 
-      })
-      .catch((err) => console.error("Gagal ambil user", err));
-  }, [token]);
-  useEffect(() => {
-    console.log("TOKEN:", token);
-
-    if (!token) return;
-
-    apiClient
-      .get("/user")
-      .then((res) => {
-        console.log("USER:", res.data);
-        setNama(res.data.name);
-        setEmail(res.data.email);
-      })
-      .catch((err) => {
-        console.error("401 DETAIL:", err.response?.data);
-      });
-  }, [token]);
 
   const fetchPengaduan = async () => {
     try {
@@ -53,16 +51,19 @@ export default function PengaduanSection() {
   };
 
   useEffect(() => {
-    if (showModal) fetchPengaduan();
-  }, [showModal]);
+  if (showModal && token) {
+    fetchPengaduan();
+  }
+}, [showModal, token]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!token) {
-      alert("Silakan login terlebih dahulu");
-      return;
-    }
+  setErrorMsg("Silakan login terlebih dahulu untuk mengirim pengaduan");
+  return;
+}
 
     setLoading(true);
     setSuccess(false);
@@ -74,9 +75,11 @@ export default function PengaduanSection() {
 
       setSuccess(true);
       setIsi("");
-    } catch (err) {
-      alert("Gagal mengirim pengaduan");
-    } finally {
+      setErrorMsg("");
+    } catch {
+  setErrorMsg("Gagal mengirim pengaduan. Silakan coba lagi.");
+}
+finally {
       setLoading(false);
     }
   };
@@ -99,34 +102,42 @@ export default function PengaduanSection() {
           <div style={formGroup}>
             <label style={labelStyle}>Nama Pengadu</label>
             <input
-              type="text"
-              value={nama}
-              readOnly
-              style={readonlyInput}
-            />
+  type="text"
+  value={nama || ""}
+  readOnly
+  style={readonlyInput}
+/>
+
           </div>
 
           {/* EMAIL */}
           <div style={formGroup}>
             <label style={labelStyle}>Email</label>
             <input
-              type="email"
-              value={email}
-              readOnly
-              style={readonlyInput}
-            />
+  type="email"
+  value={email || ""}
+  readOnly
+  style={readonlyInput}
+/>
+
           </div>
 
           {/* ISI */}
           <div style={formGroup}>
             <label style={labelStyle}>Isi Pengaduan</label>
             <textarea
-              value={isi}
-              onChange={(e) => setIsi(e.target.value)}
-              placeholder="Jelaskan secara rinci pengaduan Anda"
-              style={textareaStyle}
-              required
-            />
+  value={isi || ""}
+  onChange={(e) => setIsi(e.target.value)}
+  placeholder="Jelaskan secara rinci pengaduan Anda"
+  disabled={!token}
+  style={{
+    ...textareaStyle,
+    background: !token ? "#f3f4f6" : "#fff",
+  }}
+  required
+/>
+
+
           </div>
 
           <button style={submitBtn} disabled={loading || !token}>

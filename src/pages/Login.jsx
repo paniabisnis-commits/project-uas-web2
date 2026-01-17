@@ -45,33 +45,33 @@ const switchToRegister = () => {
   setIsLogin(false);
 };
 
-  /* ================= LOGIN ================= */
   const handleLogin = async (e) => {
   e.preventDefault();
   setError("");
 
   try {
     const res = await apiClient.post("/login", { email, password });
-    const { access_token, user } = res.data;
 
-localStorage.setItem("token", access_token);
-localStorage.setItem("name", user.name);
-localStorage.setItem("email", user.email);
-localStorage.setItem("role", user.role);
+    console.log("RESPONSE LOGIN:", res.data); // 🔍 WAJIB
 
-    // 🔥 REDIRECT BERDASARKAN ROLE
+    const { token, user } = res.data; // ⬅️ INI YANG BENAR
+
+    localStorage.setItem("token", token);
+    localStorage.setItem("name", user.name);
+    localStorage.setItem("email", user.email);
+    localStorage.setItem("role", user.role);
+
+    console.log("TOKEN DISIMPAN:", localStorage.getItem("token"));
+
     if (user.role === "admin") {
-      // langsung ke dashboard admin
       window.location.href = "http://127.0.0.1:8000/admin";
     } else {
-      // user biasa
       navigate("/");
     }
-  } catch {
+  } catch (err) {
     setError("Email atau password salah");
   }
 };
-
 
   /* ================= REGISTER ================= */
   const handleRegister = async (e) => {

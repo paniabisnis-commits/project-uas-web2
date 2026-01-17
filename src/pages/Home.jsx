@@ -863,6 +863,7 @@ const newsLayout = {
   gridTemplateColumns: "2fr 1.3fr",
   gap: "30px",
   alignItems: "start",
+  padding: "20px",
 };
 
 const mainNewsCard = {
