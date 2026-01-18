@@ -1,0 +1,719 @@
+.admin-container {
+  margin-left: 240px;    
+  padding: 20px 24px;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+.alert {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+/* ERROR MERAH */
+.alert-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+/* ANIMASI DARI ATAS */
+.slide-down {
+  animation: slideDown 0.4s ease forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -25px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* ALERT SUCCESS */
+.alert-success {
+  background-color: #dcfce7;
+  color: #065f46;
+  border: 1px solid #86efac;
+}
+
+/* FADE OUT HALUS */
+.fade-out {
+  animation:
+    slideDown 0.4s ease forwards,
+    fadeOut 0.6s ease forwards 4.4s;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.alert-confirm {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.alert-confirm-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.alert-icon {
+  font-size: 22px;
+}
+
+.alert-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.alert-text strong {
+  font-size: 15px;
+}
+
+.alert-text small {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* BUTTONS */
+.btn-confirm {
+  background: #22c55e;
+  color: #fff;
+}
+.btn-confirm:hover {
+  background: #16a34a;
+}
+
+.btn-cancel {
+  background: #e5e7eb;
+  color: #374151;
+}
+.btn-cancel:hover {
+  background: #d1d5db;
+}
+
+.admin-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #226550;
+}
+
+.form-card {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.form-card.full-width {
+  width: 100%;
+}
+
+.form-card h4 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #065f46;
+}
+
+/* GRID INPUT */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-card input,
+.form-card textarea {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5f5;
+  font-size: 14px;
+}
+
+.form-card textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+/* CENTER BUTTON DALAM CARD */
+.btn-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.btn-submit {
+  width: 260px;             
+  padding: 12px 0;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 12px;
+  background-color: #047857;
+  color: #ffffff;
+}
+
+.btn-submit:hover {
+  background-color: #059669;
+  transform: translateY(-1px);
+}
+
+/* ===== TABLE ===== */
+.admin-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+}
+
+/* HEADER */
+.admin-table thead {
+  background: #065f46;
+}
+
+.admin-table th {
+  padding: 14px 16px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* BODY */
+.admin-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+  text-align: justify;
+  vertical-align: top;
+}
+
+.admin-table tbody tr:hover {
+  background: #f0fdf4;
+}
+
+.thumb {
+  width: 100%;
+  max-width: 120px;
+  height: 80px;
+  object-fit: cover;  
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+/* GROUP AKSI */
+.action-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* BASE ICON BUTTON */
+.icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* ICON SVG */
+.icon-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* EDIT BUTTON */
+.icon-btn.edit {
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+  background-color: #eff6ff;
+}
+
+.icon-btn.edit:hover {
+  background-color: #dbeafe;
+}
+
+/* DELETE BUTTON */
+.icon-btn.delete {
+  color: #b91c1c;
+  border-color: #fecaca;
+  background-color: #fef2f2;
+}
+
+.icon-btn.delete:hover {
+  background-color: #fee2e2;
+}
+
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-box {
+  background: #ffffff;
+  width: 520px;
+  border-radius: 16px;
+  padding: 26px;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.modal-box h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #065f46;
+}
+
+.modal-box input,
+.modal-box textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5f5;
+  margin-bottom: 14px;
+}
+
+.modal-box textarea {
+  min-height: 90px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+}
+
+.modal-close:hover {
+  color: #dc2626;
+}
+
+.btn-group.right {
+  justify-content: flex-end;
+}
+
+.btn {
+  padding: 9px 18px;
+  font-weight: 600;
+  font-size: 13px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-group {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: #047857;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: #065f46;
+}
+
+.btn-success {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.btn-warning {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.btn-danger {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.btn-secondary {
+  background: #9ca3af;
+  color: #ffffff;
+}
+
+/* PAGES EVENT */
+
+.admin-container admin-event {
+  margin-left: 240px;      /* sama dengan width sidebar */
+  padding: 20px;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+.admin-event .form-card h4 {
+  color: #0f766e;
+}
+
+/* INPUT KHUSUS EVENT */
+.admin-event .form-card input[type="date"] {
+  max-width: 240px;
+}
+
+/* PREVIEW GAMBAR EVENT */
+.admin-event .event-thumb {
+  width: 100%;
+  max-width: 140px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+}
+
+/* TABLE EVENT (SEDIKIT LEBIH FORMAL) */
+.admin-event .admin-table th {
+  background: #064e3b;
+}
+
+.admin-event .admin-table td {
+  line-height: 1.6;
+}
+
+/* JUDUL EVENT BOLD */
+.admin-event .event-title {
+  font-weight: 600;
+  color: #064e3b;
+}
+
+/* TANGGAL EVENT */
+.admin-event .event-date {
+  font-size: 13px;
+  color: #475569;
+  white-space: nowrap;
+}
+
+/* MODAL EVENT */
+.admin-event .modal-box {
+  width: 560px;
+}
+
+/* GROUP BUTTON DI MODAL EVENT */
+.admin-event .btn-group {
+  margin-top: 22px;
+}
+
+/* ICON BUTTON EVENT (PAKAI STYLE LAYANAN) */
+.admin-event .icon-btn.edit {
+  background-color: #ecfeff;
+  border-color: #67e8f9;
+  color: #0f766e;
+}
+
+.admin-event .icon-btn.edit:hover {
+  background-color: #cffafe;
+}
+
+.admin-event .icon-btn.delete {
+  background-color: #fff1f2;
+  border-color: #fecdd3;
+  color: #be123c;
+}
+
+.admin-event .icon-btn.delete:hover {
+  background-color: #ffe4e6;
+}
+
+/* FORM TAMBAH BERITA VERTICAL */
+.form-add-berita {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Field Judul & Isi Berita */
+.form-add-berita .field-judul,
+.form-add-berita textarea {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5f5;
+  resize: vertical;
+}
+
+/* Field Judul Berita teks mepet atas */
+.form-add-berita .field-judul {
+  padding-top: 12px; /* bisa dipertahankan */
+}
+
+/* Field Gambar sejajar lebar dengan field judul */
+.form-add-berita .field-gambar {
+  width: 100%;
+  border-radius: 10px;
+  padding: 6px 10px;
+  border: 1px solid #cbd5f5;
+}
+
+/* Preview gambar */
+.form-add-berita .thumb-preview {
+  width: 100%;
+  max-width: 200px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  margin-top: 4px;
+}
+
+/* Tombol Tambah Berita full width di bawah textarea */
+.form-add-berita .btn-full {
+  width: 100%;
+  padding: 12px 0;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 12px;
+  background-color: #047857;
+  color: #ffffff;
+}
+
+.form-add-berita .btn-full:hover {
+  background-color: #059669;
+  transform: translateY(-1px);
+}
+
+.thumb-preview {
+  width: 100%;
+  max-width: 200px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  margin-top: 8px;
+}
+
+/* MODAL EDIT BERITA */
+.admin-container .modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.admin-container .modal-box {
+  background: #fff;
+  width: 520px;
+  border-radius: 16px;
+  padding: 26px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-container .modal-box h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #065f46;
+}
+
+.admin-container .modal-box input,
+.admin-container .modal-box textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5f5;
+  font-size: 14px;
+}
+
+.admin-container .modal-box textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.admin-container .modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #6b7280;
+}
+
+.admin-container .modal-close:hover {
+  color: #dc2626;
+}
+
+.admin-container .btn-group.right {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.admin-container .btn {
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.admin-container .btn-secondary {
+  background-color: #9ca3af;
+  color: #fff;
+}
+
+.admin-container .btn-success {
+  background-color: #16a34a;
+  color: #fff;
+}
+
+.admin-container .btn-secondary:hover {
+  background-color: #6b7280;
+}
+
+.admin-container .btn-success:hover {
+  background-color: #15803d;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 14px 16px;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 14px;
+}
+/* Status badge */
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: capitalize;
+}
+.status-badge.baru {
+  background-color: #2563eb; /* biru */
+}
+.status-badge.diproses {
+  background-color: #f59e0b; /* oranye */
+}
+.status-badge.selesai {
+  background-color: #16a34a; /* hijau */
+}
+
+/* Action group */
+.action-group {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.status-select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  cursor: pointer;
+}
+
+/* Icon button */
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.icon-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+/* Delete button */
+.icon-btn.delete {
+  color: #b91c1c;
+  border-color: #fecaca;
+  background-color: #fef2f2;
+}
+.icon-btn.delete:hover {
+  background-color: #fee2e2;
+}
+
+.loading-text {
+  color: #0f766e;
+  font-weight: 600;
+  text-align: center;
+  padding: 20px;
+}
+.error-text {
+  color: #b91c1c;
+  font-weight: 600;
+  text-align: center;
+  padding: 20px;
+}

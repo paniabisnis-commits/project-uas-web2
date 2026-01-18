@@ -904,3 +904,41 @@ html {
 #layanan-publik {
   scroll-margin-top: var(--navbar-height);
 }
+
+.admin-page {
+  padding: 30px;
+}
+
+.admin-form {
+  display: grid;
+  gap: 12px;
+  max-width: 500px;
+  margin-bottom: 30px;
+}
+
+.admin-form input,
+.admin-form textarea {
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+.admin-form button {
+  background: #0f766e;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}

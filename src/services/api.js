@@ -1,7 +1,11 @@
 import axios from "axios";
 
-const api = axios.create({
-  baseURL: "http://127.0.0.1:8000/api",
+const apiClient = axios.create({
+  baseURL: "http://127.0.0.1:8000",
+  withCredentials: true, // 🔑 WAJIB untuk Sanctum
+  headers: {
+    Accept: "application/json",
+  },
 });
 
 api.interceptors.request.use((config) => {
@@ -14,4 +18,5 @@ api.interceptors.request.use((config) => {
 
 export const getBeritaDetail = (slug) =>
   fetch(`${API_URL}/berita/${slug}`).then(res => res.json());
-export default api;
+
+export default apiClient;

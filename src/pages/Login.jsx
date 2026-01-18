@@ -6,11 +6,9 @@ export default function Login() {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
 
-  // LOGIN
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // REGISTER
   const [name, setName] = useState("");
   const [regEmail, setRegEmail] = useState("");
   const [regPassword, setRegPassword] = useState("");
@@ -22,7 +20,6 @@ export default function Login() {
 // REGISTER
 const [showRegisterPassword, setShowRegisterPassword] = useState(false);
 const [showConfirm, setShowConfirm] = useState(false);
-
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
     /* ================= SWITCH FORM ================= */
@@ -46,32 +43,36 @@ const switchToRegister = () => {
 };
 
   const handleLogin = async (e) => {
-  e.preventDefault();
-  setError("");
+    e.preventDefault();
+    setError("");
+    try {
+      const res = await apiClient.post("/login", {
+        email,
+        password,
+      });
 
-  try {
-    const res = await apiClient.post("/login", { email, password });
+      const { user, token } = res.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("name", user.name);
+      localStorage.setItem("email", user.email);
+      localStorage.setItem("role", user.role);
 
-    console.log("RESPONSE LOGIN:", res.data); // 🔍 WAJIB
+      // 🔀 Redirect berdasarkan role
+      if (user.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/");
+      }
+    } catch (err) {
+      console.error(err);
 
-    const { token, user } = res.data; // ⬅️ INI YANG BENAR
-
-    localStorage.setItem("token", token);
-    localStorage.setItem("name", user.name);
-    localStorage.setItem("email", user.email);
-    localStorage.setItem("role", user.role);
-
-    console.log("TOKEN DISIMPAN:", localStorage.getItem("token"));
-
-    if (user.role === "admin") {
-      window.location.href = "http://127.0.0.1:8000/admin";
-    } else {
-      navigate("/");
+      if (err.response?.status === 401) {
+        setError("Email atau password salah");
+      } else {
+        setError("Login gagal. Periksa server.");
+      }
     }
-  } catch (err) {
-    setError("Email atau password salah");
-  }
-};
+  };
 
   /* ================= REGISTER ================= */
   const handleRegister = async (e) => {
@@ -98,147 +99,6 @@ const switchToRegister = () => {
       setError("Registrasi gagal. Email mungkin sudah digunakan.");
     }
   };
-
-  return (
-    <div style={pageWrapper}>
-      <div style={card}>
-        <h2 style={title}>{isLogin ? "Login" : "Registrasi Akun"}</h2>
-
-        {error && <p style={errorText}>{error}</p>}
-        {success && <p style={successText}>{success}</p>}
-
-        {isLogin ? (
-          /* ================= LOGIN ================= */
-          <form onSubmit={handleLogin}>
-            <div style={formGroup}>
-              <label style={label}>Email</label>
-              <input
-                type="email"
-                value={email || ""}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                style={input}
-              />
-
-            </div>
-
-            <div style={formGroup}>
-              <label style={label}>Password</label>
-              <div style={inputWrapper}>
-                <input
-  type={showLoginPassword ? "text" : "password"}
-  value={password}
-  onChange={(e) => setPassword(e.target.value)}
-  required
-  style={passwordInput}
-/>
-
-<span
-  style={eyeIcon}
-  onClick={() => setShowLoginPassword(!showLoginPassword)}
->
-  {showLoginPassword ? eyeOffSvg : eyeSvg}
-</span>
-
-              </div>
-            </div>
-
-            <button style={btnPrimary}>Login</button>
-
-            <p style={switchText}>
-              Belum punya akun?{" "}
-              <span style={switchLink} onClick={switchToRegister}>
-  Daftar di sini
-</span>
-
-            </p>
-          </form>
-        ) : (
-          /* ================= REGISTER ================= */
-          <form onSubmit={handleRegister}>
-            <div style={formGroup}>
-              <label style={label}>Nama Lengkap</label>
-              <div style={inputWrapper}>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  style={input}
-                />
-              </div>
-            </div>
-
-            <div style={formGroup}>
-              <label style={label}>Email</label>
-              <div style={inputWrapper}>
-                <input
-                  type="email"
-                  value={regEmail}
-                  onChange={(e) => setRegEmail(e.target.value)}
-                  required
-                  style={input}
-                />
-              </div>
-            </div>
-
-            <div style={formGroup}>
-              <label style={label}>Password</label>
-              <div style={inputWrapper}>
-               <input
-                  type={showRegisterPassword ? "text" : "password"}
-                  value={regPassword || ""}
-                  onChange={(e) => setRegPassword(e.target.value)}
-                  required
-                  style={input}
-                />
-<span
-  style={eyeIcon}
-  onClick={() =>
-    setShowRegisterPassword(!showRegisterPassword)
-  }
->
-  {showRegisterPassword ? eyeOffSvg : eyeSvg}
-</span>
-
-              </div>
-            </div>
-
-            <div style={formGroup}>
-              <label style={label}>Konfirmasi Password</label>
-              <div style={inputWrapper}>
-                <input
-                  type={showConfirm ? "text" : "password"}
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                  style={input}
-                />
-                <span
-                  style={eyeIcon}
-                  onClick={() => setShowConfirm(!showConfirm)}
-                >
-                  {showConfirm ? eyeOffSvg : eyeSvg}
-                </span>
-              </div>
-            </div>
-            <button style={btnPrimary}>Daftar</button>
-
-            <p style={switchText}>
-              Sudah punya akun?{" "}
-              <span style={switchLink} onClick={switchToLogin}>
-  Login
-</span>
-
-            </p>
-          </form>
-        )}
-      </div>
-    </div>
-  );
-}
-
-/* ================= SVG ICON ================= */
 
 const eyeSvg = (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -363,3 +223,140 @@ const switchLink = {
 
 const errorText = { color: "#b91c1c" };
 const successText = { color: "#047857" };
+
+  return (
+    <div style={pageWrapper}>
+      <div style={card}>
+        <h2 style={title}>{isLogin ? "Login" : "Registrasi Akun"}</h2>
+
+        {error && <p style={errorText}>{error}</p>}
+        {success && <p style={successText}>{success}</p>}
+
+        {isLogin ? (
+          <form onSubmit={handleLogin}>
+            <div style={formGroup}>
+              <label style={label}>Email</label>
+              <input
+                type="email"
+                value={email || ""}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                style={input}
+              />
+
+            </div>
+
+            <div style={formGroup}>
+              <label style={label}>Password</label>
+              <div style={inputWrapper}>
+                <input
+  type={showLoginPassword ? "text" : "password"}
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+  required
+  style={passwordInput}
+/>
+
+<span
+  style={eyeIcon}
+  onClick={() => setShowLoginPassword(!showLoginPassword)}
+>
+  {showLoginPassword ? eyeOffSvg : eyeSvg}
+</span>
+
+              </div>
+            </div>
+
+            <button style={btnPrimary}>Login</button>
+
+            <p style={switchText}>
+              Belum punya akun?{" "}
+              <span style={switchLink} onClick={switchToRegister}>
+  Daftar di sini
+</span>
+
+            </p>
+          </form>
+        ) : (
+          <form onSubmit={handleRegister}>
+            <div style={formGroup}>
+              <label style={label}>Nama Lengkap</label>
+              <div style={inputWrapper}>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  style={input}
+                />
+              </div>
+            </div>
+
+            <div style={formGroup}>
+              <label style={label}>Email</label>
+              <div style={inputWrapper}>
+                <input
+                  type="email"
+                  value={regEmail}
+                  onChange={(e) => setRegEmail(e.target.value)}
+                  required
+                  style={input}
+                />
+              </div>
+            </div>
+
+            <div style={formGroup}>
+              <label style={label}>Password</label>
+              <div style={inputWrapper}>
+               <input
+                  type={showRegisterPassword ? "text" : "password"}
+                  value={regPassword || ""}
+                  onChange={(e) => setRegPassword(e.target.value)}
+                  required
+                  style={input}
+                />
+<span
+  style={eyeIcon}
+  onClick={() =>
+    setShowRegisterPassword(!showRegisterPassword)
+  }
+>
+  {showRegisterPassword ? eyeOffSvg : eyeSvg}
+</span>
+
+              </div>
+            </div>
+
+            <div style={formGroup}>
+              <label style={label}>Konfirmasi Password</label>
+              <div style={inputWrapper}>
+                <input
+                  type={showConfirm ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  style={input}
+                />
+                <span
+                  style={eyeIcon}
+                  onClick={() => setShowConfirm(!showConfirm)}
+                >
+                  {showConfirm ? eyeOffSvg : eyeSvg}
+                </span>
+              </div>
+            </div>
+            <button style={btnPrimary}>Daftar</button>
+
+            <p style={switchText}>
+              Sudah punya akun?{" "}
+              <span style={switchLink} onClick={switchToLogin}>
+  Login
+</span>
+
+            </p>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
