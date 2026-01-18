@@ -85,7 +85,7 @@ finally {
   };
 
   return (
-    <section style={pageWrapper}>
+    <section className="pengaduan-section" style={pageWrapper}>
       <div style={formCard}>
         <h2 style={formTitle}>Pengaduan Masyarakat</h2>
         <p style={{ color: "#6b7280", marginBottom: "40px" }}>
@@ -136,10 +136,12 @@ finally {
   }}
   required
 />
-
-
           </div>
-
+        {errorMsg && (
+  <div style={errorBox}>
+    ❌ {errorMsg}
+  </div>
+)}
           <button style={submitBtn} disabled={loading || !token}>
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -325,4 +327,13 @@ const modalItem = {
   borderBottom: "1px solid #ddd",
   paddingBottom: "8px",
   marginBottom: "10px",
+};
+
+const errorBox = {
+  marginTop: "12px",
+  padding: "10px",
+  background: "#fee2e2",
+  color: "#991b1b",
+  borderRadius: "6px",
+  fontSize: "14px",
 };

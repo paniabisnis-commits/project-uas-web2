@@ -16,10 +16,6 @@ body {
   overflow-y: auto;
 }
 
-:root {
-  --navbar-height: 64px;
-}
-
 .navbar {
   position: fixed;
   top: 0;
@@ -320,6 +316,51 @@ body {
   cursor: pointer;
 }
 
+/* ================= DARK MODE SECTION TERANG ================= */
+
+.dark .light-section {
+  background: #020617;
+}
+
+body.dark .light-section .card,
+body.dark .light-section section,
+body.dark .light-section .event-card,
+body.dark .light-section .layanan-card {
+  background: #111827;
+  border-color: #1e293b;
+}
+
+
+/* Judul */
+.dark .light-section h1,
+.dark .light-section h2,
+.dark .light-section h3,
+.dark .light-section h4 {
+  color: #f8fafc;
+}
+
+/* Text */
+.dark .light-section p,
+.dark .light-section span,
+.dark .light-section small,
+.dark .light-section li {
+  color: #cbd5f5;
+}
+
+body.dark a {
+  color: #60a5fa;
+}
+
+body.dark a:hover {
+  color: #93c5fd;
+}
+
+body.dark svg {
+  color: #cbd5f5;
+  fill: currentColor;
+}
+
+
 body.dark {
   background: #0f172a;
   color: #e5e7eb;
@@ -330,6 +371,7 @@ body.dark .modal,
 body.dark .dropdown {
   background: #020617;
   color: #e5e7eb;
+  border: 1px solid #1e293b;
 }
 
 body.dark .nav-link {
@@ -450,6 +492,16 @@ body.dark .dropdown-item:hover {
   color: #f8fafc;
 }
 
+body.dark .btn-outline {
+  border-color: #60a5fa;
+  color: #60a5fa;
+}
+
+body.dark .btn-outline:hover {
+  background: #60a5fa;
+  color: #020617;
+}
+
 body.dark .modal {
   background: #020617;
   color: #e5e7eb;
@@ -486,6 +538,171 @@ body.dark .avatar-tooltip {
   color: #e5e7eb;
   border: 1px solid #1e293b;
 }
+
+body.dark .layanan-soft {
+  background-color: #f3f4f6;
+  border: 1px solid #e5e7eb;
+}
+
+body.dark .layanan-soft h4 {
+  color: #111827;
+}
+
+body.dark .layanan-soft p {
+  color: #ffffff;
+}
+
+/* Text lainnya */
+body.dark .layanan-soft span,
+body.dark .layanan-soft small,
+body.dark .layanan-soft li {
+  color: #1f2937;
+}
+
+/* Button */
+body.dark .layanan-soft a {
+  color: #0f766e;
+  border-color: #0f766e;
+}
+
+body.dark .layanan-soft a:hover {
+  background-color: #0f766e;
+  color: #ffffff;
+}
+
+/* Icon */
+body.dark .layanan-soft svg {
+  color: #0f766e;
+}
+
+/* Image */
+body.dark .layanan-soft img {
+  filter: none;
+}
+
+body.dark #berita-section h1,
+body.dark #berita-section h2,
+body.dark #berita-section h3,
+body.dark #berita-section h4 {
+  color: #111827;
+}
+
+body.dark #berita-section p,
+body.dark #berita-section span,
+body.dark #berita-section small,
+body.dark #berita-section li {
+  color: #374151;
+}
+
+body.dark #berita-section div[style] {
+  background: #ffffff;
+  border-color: #e5e7eb;
+}
+
+.section-wrapper {
+  padding: 70px 20px;
+}
+
+.event-infografis-section {
+  background: #ffffff;
+}
+
+body.dark .event-infografis-section {
+  background: #020617;
+}
+
+body.dark .event-infografis-section h1,
+body.dark .event-infografis-section h3,
+body.dark .event-infografis-section h4,
+body.dark .event-infografis-section p:not(.section-subtitle),
+body.dark .event-infografis-section span,
+body.dark .event-infografis-section small,
+body.dark .event-infografis-section li,
+body.dark .event-infografis-section strong {
+  color: #111827;
+}
+
+body.dark #event-infografis-section [style*="background: #fff"],
+body.dark #event-infografis-section [style*="background:#fff"] {
+  background: #f1f5f9;
+  border-color: #e5e7eb;
+}
+
+
+body.dark #event-infografis-section svg {
+  color: #111827;
+  stroke: #111827;
+  fill: none;
+}
+
+.event-infografis-section .section-heading {
+  color: #111827;
+}
+
+.section-subtitle {
+  color: #6b7280;
+}
+
+body.dark .event-infografis-section .section-heading {
+  color: #ffffff;
+}
+
+body.dark .event-infografis-section .section-subtitle {
+  color: #e5e7eb;
+}
+
+body.dark .statistik-section [style*="background: #f0fdfa"] {
+  background: #f1f5f9;
+}
+
+body.dark .statistik-section [style*="background: #ffffff"] {
+  background: #f1f5f9;
+  border-color: #e5e7eb;
+}
+
+body.dark .statistik-section h2,
+body.dark .statistik-section p,
+body.dark .statistik-section span,
+body.dark .statistik-section strong {
+  color: #111827;
+}
+
+body.dark .pengaduan-section {
+  background: #020617;
+}
+
+/* CARD & MODAL */
+body.dark .pengaduan-section [style*="background: #fff"] {
+  background: #f1f5f9;
+  border-color: #e5e7eb;
+}
+
+/* INPUT READONLY & TEXTAREA DISABLED */
+body.dark .pengaduan-section input,
+body.dark .pengaduan-section textarea {
+  color: #111827;
+}
+
+/* SEMUA TEKS JADI HITAM */
+body.dark .pengaduan-section h2,
+body.dark .pengaduan-section h4,
+body.dark .pengaduan-section p,
+body.dark .pengaduan-section label,
+body.dark .pengaduan-section span,
+body.dark .pengaduan-section strong {
+  color: #111827;
+}
+
+/* WARNING TETAP MERAH */
+body.dark .pengaduan-section [style*="color: #b91c1c"] {
+  color: #b91c1c;
+}
+
+/* MODAL OVERLAY TETAP */
+body.dark .pengaduan-section [style*="rgba(0,0,0"] {
+  background: rgba(0,0,0,0.5);
+}
+
 
 #root {
   width: 100%;

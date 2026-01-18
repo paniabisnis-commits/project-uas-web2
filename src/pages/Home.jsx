@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import PengaduanSection from "../components/PengaduanSection";
 import CountUpNumber from "../components/CountUpNumber";
+import "../App.css";
 
 export default function Home() {
   
@@ -120,7 +121,7 @@ useEffect(() => {
 const [isEventVisible, setIsEventVisible] = useState(false);
 
 useEffect(() => {
-  const section = document.getElementById("event-infografis");
+  const section = document.getElementById("event-infografis-section");
   if (!section) return;
 
   const observer = new IntersectionObserver(
@@ -235,12 +236,6 @@ const slugMap = {
   "Pendaftaran Bantuan Sosial (Bansos)": "bansos",
 };
 
-const getSlug = (nama) => {
-  return nama
-    .toLowerCase()
-    .replace(/ /g, "-")
-    .replace(/[^\w-]+/g, "");
-};
 
 const scrollToPengaduan = () => {
   const target = document.getElementById("pengaduan");
@@ -307,7 +302,7 @@ const scrollToPengaduan = () => {
 </section>
       {/* ================= LAYANAN PUBLIK SECTION ================= */}
 <section
-  id="layanan-publik"
+  id="layanan-publik" 
   style={{
     paddingTop: "calc(var(--navbar-height) + 40px)",
     paddingBottom: "40px",
@@ -333,7 +328,7 @@ const scrollToPengaduan = () => {
   {layanan.slice(0, 3).map((l) => (
     
 
-    <div key={l.id} style={layananCard}>
+    <div key={l.id} style={layananCard} className="layanan-soft">
       {/* Ganti icon menjadi gambar */}
       <img
         src={l.gambar ? `http://127.0.0.1:8000/storage/${l.gambar}` : "/images/default-icon.png"}
@@ -341,7 +336,7 @@ const scrollToPengaduan = () => {
         style={{ width: "60px", height: "60px", objectFit: "contain", margin: "0 auto 16px" }}
       />
       <h4 style={layananTitle}>{l.nama_layanan}</h4>
-      <p style={layananDesc}>{l.deskripsi}</p>
+      <p style={layananDesc} className="layanan-soft">{l.deskripsi}</p>
       <Link
   to={`/layanan/${slugMap[l.nama_layanan] || getSlug(l.nama_layanan)}`}
   style={{
@@ -383,8 +378,6 @@ const scrollToPengaduan = () => {
     <polyline points="9 18 15 12 9 6" />
   </svg>
 </Link>
-
-
     </div>
   ))}
 </div>
@@ -413,13 +406,12 @@ const scrollToPengaduan = () => {
     Lihat Semua Layanan
   </Link>
 </div>
-
 </section>
 
 
 <section
-  id="berita-section"
-  style={{ padding: "60px 20px", background: "#f1f5f9" }}
+  id="berita-section" className="light-section"
+  style={{ padding: "60px 20px", background: "#ffffff" }}
 >
   <div style={{ width: "100%", maxWidth: "1440px", margin: "0 auto" }}>
     <h2
@@ -433,8 +425,6 @@ const scrollToPengaduan = () => {
 >
   Berita
 </h2>
-
-
     <p style={{ color: "#6b7280", marginBottom: "30px" }}>
       Update informasi seputar Desa Sumbersari
     </p>
@@ -488,21 +478,26 @@ const scrollToPengaduan = () => {
 
 {/* ================= EVENT & INFOGRAFIS SECTION ================= */}
 <section
-  id="event-infografis"
-  style={{ padding: "70px 20px", background: "#ffffff" }}>
+  id="event-infografis-section" className="section-wrapper event-infografis-section"
+  style={{ padding: "70px 20px" }}>
   <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
     <div style={eventInfoLayout}>
 
       {/* ===== EVENT PUBLIK ===== */}
-      <div id="event-infografis">
-  <h2 className={`slide-title ${isEventVisible ? "show" : ""}`}>
-    Event Publik
-  </h2>
+<div>
 
-  <p style={{ color: "#6b7280", marginBottom: "20px" }}>
-    Kegiatan dan agenda desa terbaru
-  </p>
+  {/* HEADER */}
+  <div style={{ marginBottom: "28px" }}>
+    <h2 className={`slide-title section-heading ${isEventVisible ? "show" : ""}`}>
+      Event Publik
+    </h2>
 
+    <p className="section-subtitle">
+      Kegiatan dan agenda desa terbaru
+    </p>
+  </div>
+
+  {/* KONTEN */}
   {loadingEvent ? (
     <p style={{ color: "#9ca3af" }}>Memuat event...</p>
   ) : events.length === 0 ? (
@@ -510,32 +505,35 @@ const scrollToPengaduan = () => {
   ) : (
     events.slice(0, 1).map((event) => (
       <div key={event.id} style={eventCard}>
-        {event.image ? (
-          <img
-            src={`http://127.0.0.1:8000/storage/${event.image}`}
-            alt={event.title}
-            style={eventImage}
-          />
-        ) : (
-          <div style={eventImage}>
-  <svg
-    width="48"
-    height="48"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-    <line x1="16" y1="2" x2="16" y2="6" />
-    <line x1="8" y1="2" x2="8" y2="6" />
-    <line x1="3" y1="10" x2="21" y2="10" />
-  </svg>
-</div>
-
-        )}
+        <div
+          style={{
+            height: "160px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "#0f766e",
+            borderRadius: "8px",
+            marginBottom: "12px",
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="64"
+            height="64"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#fcfcfc"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+        </div>
+        
 
         <small style={newsDate}>
           {event.event_date
@@ -554,21 +552,24 @@ const scrollToPengaduan = () => {
 
   <div style={{ marginTop: "20px", textAlign: "center" }}>
     <Link to="/kalender-event" className="btn-outline">
-      Lihat Kalender Event →
+      Lihat Kalender Event
     </Link>
   </div>
+
 </div>
 
 
       {/* ===== INFOGRAFIS ===== */}
       <div>
-        <h2 className={`slide-title ${isEventVisible ? "show" : ""}`}>
-  Infografis</h2>
+        <div style={{ marginBottom: "28px" }}>
+        <h2 className={`slide-title section-heading ${isEventVisible ? "show" : ""}`}>
+  Infografis
+</h2>
 
-        <p style={{ color: "#6b7280", marginBottom: "20px" }}>
-          Data dan statistik Desa Sumbersari
-        </p>
-
+        <p className="section-subtitle">
+  Infografis Seputar Desa Sumbersari
+</p>
+  </div>
         <div style={infografisList}>
           <div
             style={infografisCard}
@@ -666,8 +667,6 @@ const scrollToPengaduan = () => {
     <line x1="17" y1="12" x2="17" y2="12" />
   </svg>
 </div>
-
-
             <h4>Fasilitas Umum</h4>
           </div>
         </div>
@@ -706,12 +705,13 @@ const scrollToPengaduan = () => {
         ))}
       </ul>
     </div>
-  </div>
+    </div>
+ 
 )}
 
 
 {/* ================= STATISTIK DESA SECTION ================= */}
-<section style={{ padding: "60px 20px", background: "#ffffff" }}>
+<section className="light-section statistik-section">
   <div style={{ maxWidth: "1400px", margin: "0 auto", textAlign: "center" }}>
     <div style={statWrapper}>
     <h2>Statistik Desa Sumbersari</h2>
@@ -892,7 +892,6 @@ const grid = {
   marginRight: "auto",
 };
 
-
 const layananCard = {
   background: "#fff",
   border: "1px solid #e5e7eb",
@@ -922,8 +921,6 @@ const layananDesc = {
   overflowWrap: "break-word",
 };
 
-
-
 const layananIcon = {
   fontSize: "42px",
   marginBottom: "16px",
@@ -945,8 +942,6 @@ const getSlug = (nama) => {
     .replace(/[^a-z0-9]+/g, "-") // ganti semua selain a-z/0-9 jadi "-"
     .replace(/^-+|-+$/g, ""); // hapus dash di awal/akhir
 };
-
-
 /* ================= STYLE BERITA ================= */
 
 const newsLayout = {
@@ -1036,7 +1031,6 @@ const sideNewsExcerpt = {
   overflow: "hidden",
 };
 
-
 const eventInfoLayout = {
   display: "grid",
   gridTemplateColumns: "1fr 1fr",
@@ -1050,19 +1044,6 @@ const eventCard = {
   borderRadius: "10px",
   border: "1px solid #e5e7eb",
   lineHeight: "1.6", 
-};
-
-const eventImage = {
-  width: "100%",
-  height: "180px",
-  background: "#0f766e",
-  color: "#fff",
-  fontSize: "40px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  borderRadius: "6px",
-  marginBottom: "12px",
 };
 
 const infografisList = {
@@ -1137,7 +1118,6 @@ const modalItem = {
 const statWrapper = {
   background: "#f0fdfa", 
   padding: "50px 30px",
-  borderRadius: "12px",
 };
 
 const statGrid = {

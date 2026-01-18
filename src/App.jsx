@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
@@ -18,8 +19,10 @@ import Footer from "./components/Footer";
 import "./App.css";
 
 export default function App() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
   return (
     <BrowserRouter>
+    <div className={isDarkMode ? "dark" : ""}>
       <Navbar />
 
       <Routes>
@@ -41,6 +44,7 @@ export default function App() {
       </Routes>
 
       <Footer />
+      </div>
     </BrowserRouter>
 
     
