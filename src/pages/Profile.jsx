@@ -1,15 +1,60 @@
+import { useState, useEffect } from "react";
 import "./Profile.css";
 import logoDesa from "/images/logo-desa.png"; 
 
 export default function ProfileDesa() {
+  const [showHeroText, setShowHeroText] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+    const sliderImages = [
+    "/images/desa1.jpg",
+    "/images/desa2.jpg",
+    "/images/desa3.jpg",
+  ];
+  useEffect(() => {
+      const interval = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
+      }, 4000);
+  
+      return () => clearInterval(interval);
+    }, []);
+  
+    useEffect(() => {
+    const timeout = setTimeout(() => setShowHeroText(true), 300);
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
     <div className="profile-container">
       {/* ================= HERO ================= */}
-      <section className="profile-hero">
-        <img src={logoDesa} alt="Logo Desa Sumbersari" />
-        <h1>Desa Sumbersari</h1>
-        <p>Profil Resmi Pemerintahan Desa Sumbersari</p>
-      </section>
+      
+      <header
+  className="profile-hero"
+  style={{
+    backgroundImage: `url(${sliderImages[currentSlide]})`,
+  }}
+>
+  <div className="profile-hero-overlay">
+    <h1
+      style={{
+        opacity: showHeroText ? 1 : 0,
+        transform: showHeroText ? "translateY(0)" : "translateY(20px)",
+        transition: "all 0.8s ease-out",
+      }}
+    >
+      Profil Desa
+    </h1>
+    <p
+      style={{
+        opacity: showHeroText ? 1 : 0,
+        transform: showHeroText ? "translateY(0)" : "translateY(20px)",
+        transition: "all 1s ease-out",
+        transitionDelay: "0.2s",
+      }}
+    >
+      Selamat datang di Desa Sumbersari, tempat di mana kearifan lokal bertemu dengan semangat kemajuan.
+    </p>
+  </div>
+</header>
 
       {/* ================= SEJARAH ================= */}
       <section className="profile-section">

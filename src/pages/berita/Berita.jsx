@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Berita.css";
 
-
-
 export default function Berita() {
   const [showHeroText, setShowHeroText] = useState(false);
   const [berita, setBerita] = useState([]);

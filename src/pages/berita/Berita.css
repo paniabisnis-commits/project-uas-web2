@@ -5,13 +5,12 @@
 }
 
 .berita-hero {
-  padding-top: var(--navbar-height);
-  width: 100%;
-  height: 320px;
+  height: 300px;
   background-size: cover;
   background-position: center;
   position: relative;
-  transition: background-image 1s ease-in-out;
+  z-index: 1;
+  min-height: calc(300px + var(--navbar-height));
 }
 
 .berita-hero-overlay {
