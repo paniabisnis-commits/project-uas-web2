@@ -9,7 +9,7 @@ export default function BeritaDetail() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/berita/slug/${slug}`)
+    axios.get(`https://backendpemerintah.24tia6.com/api/berita/slug/${slug}`)
       .then(res => {
         setBerita(res.data.data);
         setLoading(false);
@@ -40,7 +40,7 @@ export default function BeritaDetail() {
       {berita.image && (
         <div className="berita-detail-image">
           <img
-            src={`http://127.0.0.1:8000/storage/${berita.image}`}
+            src={`https://backendpemerintah.24tia6.com/storage/${berita.image}`}
             alt={berita.title}
           />
         </div>

@@ -25,7 +25,7 @@ export default function KalenderEvent() {
 
   /* ================= FETCH ================= */
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/events")
+    fetch("https://backendpemerintah.24tia6.com/api/events")
       .then((res) => res.json())
       .then((data) => {
         const rawEvents = data.data || data;
@@ -129,7 +129,7 @@ export default function KalenderEvent() {
               >
                 {ev.image && (
                   <img
-                    src={`http://127.0.0.1:8000/storage/${ev.image}`}
+                    src={`https://backendpemerintah.24tia6.com/storage/${ev.image}`}
                     alt={ev.title}
                     className="event-image"
                   />

@@ -88,7 +88,7 @@ export default function AdminBerita() {
       title: b.title,
       content: b.content,
       image: null,
-      imagePreview: b.image ? `http://127.0.0.1:8000/storage/${b.image}` : null,
+      imagePreview: b.image ? `https://backendpemerintah.24tia6.com/storage/${b.image}` : null,
     });
     setShowModal(true);
   };
@@ -222,7 +222,7 @@ const confirmDelete = async () => {
           {berita.map((b, i) => (
             <tr key={b.id}>
               <td>{i + 1}</td>
-              <td>{b.image ? <img src={`http://127.0.0.1:8000/storage/${b.image}`} className="thumb" /> : "–"}</td>
+              <td>{b.image ? <img src={`https://backendpemerintah.24tia6.com/storage/${b.image}`} className="thumb" /> : "–"}</td>
               <td>{b.title}</td>
               <td>{truncateContent(b.content, 80)}</td>
               <td className="aksi">

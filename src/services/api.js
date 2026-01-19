@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://127.0.0.1:8000",
+  baseURL: "https://backendpemerintah.24tia6.com",
   withCredentials: true, // 🔑 WAJIB untuk Sanctum
   headers: {
     Accept: "application/json",

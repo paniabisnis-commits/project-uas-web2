@@ -205,7 +205,7 @@ const cancelDelete = () => {
               <td>{i + 1}</td>
               <td>
                 <img
-                  src={`http://127.0.0.1:8000/storage/${l.gambar}`}
+                  src={`https://backendpemerintah.24tia6.com/storage/${l.gambar}`}
                   className="thumb"
                 />
               </td>

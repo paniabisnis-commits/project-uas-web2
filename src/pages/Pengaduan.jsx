@@ -10,7 +10,7 @@ export default function Pengaduan() {
   const submit = async (e) => {
     e.preventDefault();
 
-    await fetch("http://127.0.0.1:8000/api/pengaduan", {
+    await fetch("https://backendpemerintah.24tia6.com/api/pengaduan", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

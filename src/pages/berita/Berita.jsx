@@ -13,7 +13,7 @@ export default function Berita() {
   "/images/desa3.jpg",
 ];
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/berita")
+    fetch("https://backendpemerintah.24tia6.com/api/berita")
       .then((res) => res.json())
       .then((data) => setBerita(data.data))
       .catch((err) => console.error("ERROR FETCH:", err))
@@ -80,7 +80,7 @@ export default function Berita() {
             src={
               item.image.startsWith("http")
                 ? item.image
-                : `http://127.0.0.1:8000/storage/${item.image}`
+                : `https://backendpemerintah.24tia6.com/storage/${item.image}`
             }
             alt={item.title}
           />

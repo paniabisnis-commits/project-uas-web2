@@ -17,7 +17,7 @@ export default function Home() {
   const navigate = useNavigate();
 
 useEffect(() => {
-  fetch("http://127.0.0.1:8000/api/berita", {
+  fetch("https://backendpemerintah.24tia6.com/api/berita", {
     headers: { Accept: "application/json" },
   })
     .then((res) => res.json())
@@ -85,7 +85,7 @@ useEffect(() => {
 }, [location]);
 
 useEffect(() => {
-  fetch("http://127.0.0.1:8000/api/layanan", {
+  fetch("https://backendpemerintah.24tia6.com/api/layanan", {
     headers: { Accept: "application/json" },
   })
     .then((res) => res.json())
@@ -142,7 +142,7 @@ const [events, setEvents] = useState([]);
 const [loadingEvent, setLoadingEvent] = useState(true);
 
 useEffect(() => {
-  fetch("http://127.0.0.1:8000/api/events", {
+  fetch("https://backendpemerintah.24tia6.com/api/events", {
     headers: { Accept: "application/json" },
   })
     .then((res) => res.json())
@@ -331,7 +331,7 @@ const scrollToPengaduan = () => {
     <div key={l.id} style={layananCard} className="layanan-soft">
       {/* Ganti icon menjadi gambar */}
       <img
-        src={l.gambar ? `http://127.0.0.1:8000/storage/${l.gambar}` : "/images/default-icon.png"}
+        src={l.gambar ? `https://backendpemerintah.24tia6.com/storage/${l.gambar}` : "/images/default-icon.png"}
         alt={l.nama_layanan}
         style={{ width: "60px", height: "60px", objectFit: "contain", margin: "0 auto 16px" }}
       />
@@ -432,7 +432,7 @@ const scrollToPengaduan = () => {
         {beritaUtama && (
           <div style={mainNewsCard}>
             <img
-  src={`http://127.0.0.1:8000/storage/${beritaUtama.image}`}
+  src={`https://backendpemerintah.24tia6.com/storage/${beritaUtama.image}`}
   alt={beritaUtama.title}
   style={mainNewsImage}
 />
@@ -450,7 +450,7 @@ const scrollToPengaduan = () => {
           {beritaLainnya.map((item) => (
             <div key={item.id} style={sideNewsCard}>
               <img
-                src={`http://127.0.0.1:8000/storage/${item.image}`}
+                src={`https://backendpemerintah.24tia6.com/storage/${item.image}`}
                 alt={item.title}
                 style={sideNewsImage}
               />

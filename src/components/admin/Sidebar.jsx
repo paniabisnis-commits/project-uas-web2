@@ -147,7 +147,6 @@ const sidebar = {
   position: "fixed",
   top: 0,
   left: 0,
-  width: "240px",
   height: "100vh",            
   background: "linear-gradient(180deg, #ecfdf5, #d1fae5)",
   borderRight: "1px solid #bbf7d0",
@@ -183,10 +182,6 @@ const brandSub = {
 
 const menuWrapper = {
   padding: "15px",
-  display: "flex",
-  flexDirection: "column",
-  gap: "6px",
-  padding: "12px",
   display: "flex",
   flexDirection: "column",
   gap: "6px",

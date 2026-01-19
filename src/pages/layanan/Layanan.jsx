@@ -14,7 +14,7 @@ export default function Layanan() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/layanan")
+    fetch("https://backendpemerintah.24tia6.com/api/layanan")
       .then((res) => res.json())
       .then((data) => {
         console.log("DATA API:", data.data);
@@ -51,6 +51,11 @@ const getSlug = (nama) => {
     .replace(/ /g, "-")
     .replace(/[^\w-]+/g, "");
 };
+
+{layanan.slice(1).map((l) => {
+  console.log("NAMA DARI API:", JSON.stringify(l.nama_layanan));
+  return null;
+})}
 
 
   return (
@@ -94,7 +99,7 @@ const getSlug = (nama) => {
             <div className="layanan-terbaru-card">
               <div className="layanan-terbaru-image">
                 <img
-                  src={`http://127.0.0.1:8000/storage/${layanan[0].gambar}`}
+                  src={`https://backendpemerintah.24tia6.com/storage/${layanan[0].gambar}`}
                   alt={layanan[0].nama_layanan}
                 />
               </div>
@@ -120,7 +125,7 @@ const getSlug = (nama) => {
         <div key={l.id} className="layanan-item"> 
           <div className="layanan-image">
             <img
-              src={`http://127.0.0.1:8000/storage/${l.gambar}`}
+              src={`https://backendpemerintah.24tia6.com/storage/${l.gambar}`}
               alt={l.nama_layanan}
             />
           </div>
@@ -131,7 +136,7 @@ const getSlug = (nama) => {
           </div>
 
           <Link
-  to={`/layanan/${slugMap[l.nama_layanan]}`}
+  to={`/layanan/${slugMap[l.nama_layanan] || getSlug(l.nama_layanan)}`}
   className="layanan-btn"
 >
   Detail Layanan
